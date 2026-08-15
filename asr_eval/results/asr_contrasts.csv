@@ -1,0 +1,4 @@
+contrast,baseline,comparison,note,whisper_baseline_wer,whisper_comparison_wer,whisper_delta,vosk_baseline_wer,vosk_comparison_wer,vosk_delta
+Accent,own_accent,non_native,"same 8 sentences, different speaker",0.0769,0.2637,0.1868,0.3736,0.6374,0.2638
+Noise,own_accent,noisy,"same speaker, 5 sentences re-recorded with noise",0.0702,0.1404,0.0702,0.3158,0.5439,0.2281
+Vocabulary,own_accent,technical,"same speaker and conditions, domain terms",0.0769,0.3778,0.3009,0.3736,0.7778,0.4042

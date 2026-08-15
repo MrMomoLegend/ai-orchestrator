@@ -1,0 +1,6 @@
+group,n_clips,whisper_wer,whisper_sub,whisper_del,whisper_ins,whisper_mean_s,vosk_wer,vosk_sub,vosk_del,vosk_ins,vosk_mean_s
+own_accent,8,0.0769,5,1,1,2.07,0.3736,25,4,5,3.57
+non_native,8,0.2637,15,1,8,1.98,0.6374,36,0,22,5.53
+noisy,5,0.1404,8,0,0,1.67,0.5439,26,3,2,6.21
+technical,4,0.3778,14,1,2,1.71,0.7778,20,0,15,4.72
+ALL,25,0.1972,42,3,11,1.9,0.5563,107,7,44,4.91
