@@ -10,8 +10,10 @@ Docs at:    http://127.0.0.1:8000/docs
 """
 
 import os
+import re
 import time
 import tempfile
+import uuid
 from typing import Any, Dict, List, Optional
 
 import chromadb
@@ -122,6 +124,68 @@ async def save_upload(upload: UploadFile) -> str:
 
 
 # --------------------------------------------------------------------------
+# Document ingestion (FR3)
+#
+# The same chunk-and-embed logic as ingest.py, exposed over HTTP so a user
+# can add documents from the interface instead of running a script. This is
+# what makes the usability claim in Section 3.2 testable: a non-expert can
+# load their own material without touching a terminal.
+# --------------------------------------------------------------------------
+TEXT_EXTS = {".txt", ".md", ".markdown"}
+CHUNK_SIZE = 500
+CHUNK_OVERLAP = 50
+
+
+def extract_text(path: str, filename: str) -> str:
+    ext = os.path.splitext(filename)[1].lower()
+
+    if ext in TEXT_EXTS:
+        with open(path, "r", encoding="utf-8", errors="replace") as f:
+            return f.read()
+
+    if ext == ".pdf":
+        try:
+            from pypdf import PdfReader
+        except ImportError:
+            raise HTTPException(
+                500, "PDF support needs pypdf. Run: pip install pypdf"
+            )
+        pages = [(p.extract_text() or "") for p in PdfReader(path).pages]
+        text = "\n\n".join(pages).strip()
+        if not text:
+            raise HTTPException(
+                422,
+                "No text found in that PDF. It is probably a scan of images "
+                "rather than a text document.",
+            )
+        return text
+
+    raise HTTPException(
+        415, f"Cannot read '{ext}' files. Supported: .txt, .md, .pdf"
+    )
+
+
+def chunk_text(text: str) -> List[str]:
+    """
+    Fixed-size character chunking with overlap.
+
+    DAY 4 (Fri 14 Aug): replace with RecursiveCharacterTextSplitter and keep
+    this version behind a flag so Section 5.4 can measure the difference.
+    This is the strategy that produced the mid-clause split documented in
+    the preliminary report.
+    """
+    text = re.sub(r"\s+", " ", text).strip()
+    if not text:
+        return []
+    step = CHUNK_SIZE - CHUNK_OVERLAP
+    return [
+        text[i : i + CHUNK_SIZE]
+        for i in range(0, len(text), step)
+        if text[i : i + CHUNK_SIZE].strip()
+    ]
+
+
+# --------------------------------------------------------------------------
 # Core orchestration — one function, used by every entry point
 #
 # Both the text endpoint and the voice endpoint call this. That is the whole
@@ -197,6 +261,45 @@ def ask(query: Query):
     if not query.question.strip():
         raise HTTPException(400, "Question is empty.")
     return answer_question(query.question, query.use_rag)
+
+
+@app.post("/upload")
+async def upload(document: UploadFile = File(...)):
+    """Add a document to the corpus. FR3."""
+    filename = document.filename or "untitled"
+    path = await save_upload(document)
+    try:
+        text = extract_text(path, filename)
+    finally:
+        os.remove(path)
+
+    chunks = chunk_text(text)
+    if not chunks:
+        raise HTTPException(422, "That document appears to be empty.")
+
+    batch = uuid.uuid4().hex[:8]
+    collection.add(
+        documents=chunks,
+        metadatas=[{"source": filename} for _ in chunks],
+        ids=[f"{batch}-{i}" for i in range(len(chunks))],
+    )
+    return {
+        "filename": filename,
+        "characters": len(text),
+        "chunks_added": len(chunks),
+        "chunks_in_corpus": collection.count(),
+    }
+
+
+@app.get("/documents")
+def documents():
+    """What is currently in the corpus, so the UI can say so."""
+    try:
+        got = collection.get(include=["metadatas"])
+        names = sorted({m.get("source", "unknown") for m in got["metadatas"]})
+    except Exception:
+        names = []
+    return {"documents": names, "chunks_in_corpus": collection.count()}
 
 
 @app.post("/transcribe")
