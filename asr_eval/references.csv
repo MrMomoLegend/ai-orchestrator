@@ -1,0 +1,26 @@
+clip_id,filename,group,speaker,condition,reference
+own_01,own_01.wav,own_accent,S1,quiet,What does the module description say about the weighting of the final report
+own_02,own_02.wav,own_accent,S1,quiet,Summarise the main differences between supervised and unsupervised learning
+own_03,own_03.wav,own_accent,S1,quiet,According to my notes what are the three components of the orchestration system
+own_04,own_04.wav,own_accent,S1,quiet,When is the draft project report due and how much is it worth
+own_05,own_05.wav,own_accent,S1,quiet,Explain how a vector database stores and searches text embeddings
+own_06,own_06.wav,own_accent,S1,quiet,What did the lecture say about the limitations of large language models
+own_07,own_07.wav,own_accent,S1,quiet,Find the section that discusses privacy and local deployment
+own_08,own_08.wav,own_accent,S1,quiet,How many hours of work does the project schedule recommend in total
+nonnative_01,nonnative_01.wav,non_native,S2,quiet,What does the module description say about the weighting of the final report
+nonnative_02,nonnative_02.wav,non_native,S2,quiet,Summarise the main differences between supervised and unsupervised learning
+nonnative_03,nonnative_03.wav,non_native,S2,quiet,According to my notes what are the three components of the orchestration system
+nonnative_04,nonnative_04.wav,non_native,S2,quiet,When is the draft project report due and how much is it worth
+nonnative_05,nonnative_05.wav,non_native,S2,quiet,Explain how a vector database stores and searches text embeddings
+nonnative_06,nonnative_06.wav,non_native,S2,quiet,What did the lecture say about the limitations of large language models
+nonnative_07,nonnative_07.wav,non_native,S2,quiet,Find the section that discusses privacy and local deployment
+nonnative_08,nonnative_08.wav,non_native,S2,quiet,How many hours of work does the project schedule recommend in total
+noise_01,noise_01.wav,noisy,S1,noisy,What does the module description say about the weighting of the final report
+noise_03,noise_03.wav,noisy,S1,noisy,According to my notes what are the three components of the orchestration system
+noise_05,noise_05.wav,noisy,S1,noisy,Explain how a vector database stores and searches text embeddings
+noise_07,noise_07.wav,noisy,S1,noisy,Find the section that discusses privacy and local deployment
+noise_08,noise_08.wav,noisy,S1,noisy,How many hours of work does the project schedule recommend in total
+tech_09,tech_09.wav,technical,S1,quiet,How does ChromaDB compare with FAISS for retrieval augmented generation
+tech_10,tech_10.wav,technical,S1,quiet,What is the word error rate of Whisper compared with Vosk
+tech_11,tech_11.wav,technical,S1,quiet,Does the system use the all MiniLM L six v two sentence embedding model
+tech_12,tech_12.wav,technical,S1,quiet,Explain how FastAPI orchestrates Ollama and the sentence transformer embeddings
