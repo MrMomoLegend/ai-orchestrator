@@ -1,69 +1,100 @@
+"""
+ingest.py — build the vector store from a folder of documents.
+
+Creates TWO collections from the same source files:
+
+    documents_sentence   sentence-aware chunking   (the shipped default)
+    documents_fixed      fixed-size chunking       (the prototype's strategy)
+
+Both are needed for the chunking ablation in Section 5.4. Building them from
+one pass over the same files guarantees the only difference between them is
+the chunking.
+
+Both collections use COSINE distance, set explicitly. This matters: Chroma
+defaults to squared L2, and a threshold value tuned against L2 distances is
+not comparable to one tuned against cosine distances. The distance you see
+in the API response is the distance the threshold in main.py compares
+against, and it is cosine in the range 0-2.
+
+Usage
+-----
+    python ingest.py                  # ingest ./docs
+    python ingest.py --docs mydocs    # ingest a different folder
+    python ingest.py --reset          # wipe and rebuild from scratch
+"""
+
+import argparse
 import os
+import sys
+import uuid
+from pathlib import Path
+
 import chromadb
 from chromadb.utils import embedding_functions
 
-# Folder containing your .txt documents
-DOCS_FOLDER = "documents"
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from main import CHUNKERS, COLLECTIONS, DB_FOLDER, EMBED_MODEL, extract_text  # noqa: E402
 
-# Where ChromaDB saves its data on disk (persists between runs)
-DB_FOLDER = "chroma_db"
-
-# The embedding model (downloaded automatically the first time)
-embedding_fn = embedding_functions.SentenceTransformerEmbeddingFunction(
-    model_name="all-MiniLM-L6-v2"
-)
-
-# Connect to a persistent ChromaDB stored in DB_FOLDER
-client = chromadb.PersistentClient(path=DB_FOLDER)
-
-# Create (or reset) a collection to hold our document chunks
-# Delete any existing collection so re-running gives a clean state
-try:
-    client.delete_collection("documents")
-except Exception:
-    pass
-collection = client.create_collection(
-    name="documents",
-    embedding_function=embedding_fn,
-)
+SUPPORTED = {".txt", ".md", ".markdown", ".pdf"}
 
 
-def chunk_text(text, chunk_size=500, overlap=50):
-    # Split text into overlapping chunks of roughly chunk_size characters.
-    # Overlap keeps sentences from being cut awkwardly between chunks.
-    chunks = []
-    start = 0
-    while start < len(text):
-        end = start + chunk_size
-        chunks.append(text[start:end])
-        start = end - overlap
-    return chunks
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--docs", default="docs", help="folder of source documents")
+    ap.add_argument("--reset", action="store_true", help="delete collections first")
+    args = ap.parse_args()
 
+    docs_dir = Path(args.docs)
+    if not docs_dir.is_dir():
+        sys.exit(f"ERROR: '{docs_dir}' is not a folder. Put your source documents there.")
 
-# Read every .txt file, chunk it, and collect everything
-all_chunks = []
-all_ids = []
-all_sources = []
+    files = sorted(p for p in docs_dir.iterdir() if p.suffix.lower() in SUPPORTED)
+    if not files:
+        sys.exit(f"ERROR: no .txt, .md or .pdf files found in '{docs_dir}'.")
 
-for filename in os.listdir(DOCS_FOLDER):
-    if not filename.endswith(".txt"):
-        continue
-    path = os.path.join(DOCS_FOLDER, filename)
-    with open(path, "r", encoding="utf-8") as f:
-        text = f.read()
-    chunks = chunk_text(text)
-    for i, chunk in enumerate(chunks):
-        all_chunks.append(chunk)
-        all_ids.append(f"{filename}-{i}")
-        all_sources.append(filename)
-
-if not all_chunks:
-    print("No .txt files found in the 'documents' folder. Add some and re-run.")
-else:
-    # Store everything in ChromaDB
-    collection.add(
-        documents=all_chunks,
-        ids=all_ids,
-        metadatas=[{"source": s} for s in all_sources],
+    embedding_fn = embedding_functions.SentenceTransformerEmbeddingFunction(
+        model_name=EMBED_MODEL
     )
-    print(f"Ingested {len(all_chunks)} chunks from {len(set(all_sources))} file(s).")
+    client = chromadb.PersistentClient(path=DB_FOLDER)
+
+    print(f"Ingesting {len(files)} file(s) from {docs_dir}/\n")
+
+    for key, name in COLLECTIONS.items():
+        if args.reset:
+            try:
+                client.delete_collection(name)
+                print(f"[{key}] deleted existing collection")
+            except Exception:
+                pass
+
+        collection = client.get_or_create_collection(
+            name=name,
+            embedding_function=embedding_fn,
+            metadata={"hnsw:space": "cosine"},   # <- not the default; see docstring
+        )
+
+        chunker = CHUNKERS[key]
+        total = 0
+        for path in files:
+            text = extract_text(str(path), path.name)
+            chunks = chunker(text)
+            if not chunks:
+                print(f"  [{key}] {path.name}: no text extracted, skipped")
+                continue
+            batch = uuid.uuid4().hex[:8]
+            collection.add(
+                documents=chunks,
+                metadatas=[{"source": path.name} for _ in chunks],
+                ids=[f"{batch}-{i}" for i in range(len(chunks))],
+            )
+            total += len(chunks)
+            print(f"  [{key}] {path.name}: {len(chunks)} chunks")
+
+        print(f"[{key}] collection '{name}' now holds {collection.count()} chunks\n")
+
+    print("Done. Both collections built with cosine distance.")
+    print("Sanity check:  curl http://127.0.0.1:8000/health")
+
+
+if __name__ == "__main__":
+    main()

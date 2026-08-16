@@ -2,8 +2,14 @@
 main.py — Locally-Deployed AI Orchestration System
 FastAPI orchestration backend.
 
-Day 2 (Wed 12 Aug): adds Whisper speech-to-text alongside the existing
-text + RAG path. Everything still runs locally with no external API calls.
+Day 4 (Fri 14 Aug): the two limitations identified in the preliminary
+report are fixed, and both are switchable per request so the ablations in
+Sections 5.3 and 5.4 measure one code path rather than two forks.
+
+  1. Refusal now triggers on retrieval confidence, before the LLM is called,
+     rather than relying on the model to notice the context is insufficient.
+  2. Chunking is sentence-aware. The old fixed-size strategy is retained as
+     a second collection so the difference can be measured.
 
 Run with:   uvicorn main:app --reload
 Docs at:    http://127.0.0.1:8000/docs
@@ -29,26 +35,36 @@ from pydantic import BaseModel
 MODEL_NAME = os.getenv("LLM_MODEL", "llama3.1:8b")
 EMBED_MODEL = "all-MiniLM-L6-v2"
 DB_FOLDER = "chroma_db"
-COLLECTION = "documents"
 TOP_K = 3
 
-# base.en is the starting point. Move to small.en only if Section 5.6 shows
-# word error rate demands it AND Section 5.8 shows latency still permits it.
 WHISPER_SIZE = os.getenv("WHISPER_SIZE", "base.en")
-
-# beam_size is kept identical here and in evaluate_asr.py on purpose: the
-# measured word error rate must describe the system that actually ships.
 WHISPER_BEAM = 5
 
+# Two collections, same documents, different chunking. Section 5.4 compares
+# them. "sentence" is the shipped default; "fixed" is the prototype's
+# behaviour, kept so the improvement can be measured rather than asserted.
+COLLECTIONS = {"sentence": "documents_sentence", "fixed": "documents_fixed"}
+DEFAULT_COLLECTION = os.getenv("COLLECTION", "sentence")
+
+# Retrieval-confidence threshold.
+#
+# Distances are COSINE (set explicitly in ingest.py), so the range is 0-2:
+# 0 is identical, 1 is orthogonal. If the nearest chunk is further than this,
+# no chunk is relevant enough to answer from and the system refuses without
+# calling the LLM at all. Tune with:  python eval/exp_rag.py --sweep
+DISTANCE_THRESHOLD = float(os.getenv("DISTANCE_THRESHOLD", "0.6"))
+USE_THRESHOLD = os.getenv("USE_THRESHOLD", "1") not in ("0", "false", "False")
+
 REFUSAL = "The provided documents do not contain this information."
+
+CHUNK_SIZE = 500
+CHUNK_OVERLAP = 50
 
 # --------------------------------------------------------------------------
 # App
 # --------------------------------------------------------------------------
 app = FastAPI(title="AI Orchestrator — Local RAG + Speech")
 
-# CORS. Without this the React dev server cannot talk to this backend at all,
-# and the browser error does not say so clearly. Vite serves on 5173.
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
@@ -68,18 +84,27 @@ embedding_fn = embedding_functions.SentenceTransformerEmbeddingFunction(
     model_name=EMBED_MODEL
 )
 chroma_client = chromadb.PersistentClient(path=DB_FOLDER)
-collection = chroma_client.get_collection(
-    name=COLLECTION, embedding_function=embedding_fn
-)
+
+
+def get_collection(key: str = None):
+    """Fetch one of the two chunking collections by key."""
+    key = key or DEFAULT_COLLECTION
+    name = COLLECTIONS.get(key)
+    if name is None:
+        raise HTTPException(400, f"Unknown collection '{key}'. Use: {list(COLLECTIONS)}")
+    try:
+        return chroma_client.get_collection(name=name, embedding_function=embedding_fn)
+    except Exception:
+        # Created on demand so a fresh clone works before ingest.py is run.
+        return chroma_client.get_or_create_collection(
+            name=name,
+            embedding_function=embedding_fn,
+            metadata={"hnsw:space": "cosine"},
+        )
+
 
 # --------------------------------------------------------------------------
 # Whisper — loaded lazily
-#
-# Loading the model at import time would add ~10-20s to every server start,
-# including every hot reload while developing. Loading on first use means the
-# text-only path never pays for the speech model at all. The first spoken
-# question is slower than the rest; that cold-start cost is reported
-# separately in Section 5.8.
 # --------------------------------------------------------------------------
 _whisper_model = None
 
@@ -91,17 +116,12 @@ def get_whisper():
 
         print(f"[whisper] loading {WHISPER_SIZE} (first use only)...")
         t0 = time.time()
-        # int8 quantisation: roughly 2x faster on CPU with negligible WER cost,
-        # which matters on a 16 GB laptop with no GPU headroom.
-        _whisper_model = WhisperModel(
-            WHISPER_SIZE, device="cpu", compute_type="int8"
-        )
+        _whisper_model = WhisperModel(WHISPER_SIZE, device="cpu", compute_type="int8")
         print(f"[whisper] loaded in {time.time() - t0:.1f}s")
     return _whisper_model
 
 
 def transcribe_path(path: str) -> Dict[str, Any]:
-    """Transcribe an audio file that already exists on disk."""
     t0 = time.time()
     segments, info = get_whisper().transcribe(
         path, beam_size=WHISPER_BEAM, language="en"
@@ -115,7 +135,6 @@ def transcribe_path(path: str) -> Dict[str, Any]:
 
 
 async def save_upload(upload: UploadFile) -> str:
-    """Write an uploaded file to a temp path and return that path."""
     suffix = os.path.splitext(upload.filename or "")[1] or ".wav"
     fd, path = tempfile.mkstemp(suffix=suffix)
     with os.fdopen(fd, "wb") as f:
@@ -124,16 +143,121 @@ async def save_upload(upload: UploadFile) -> str:
 
 
 # --------------------------------------------------------------------------
-# Document ingestion (FR3)
-#
-# The same chunk-and-embed logic as ingest.py, exposed over HTTP so a user
-# can add documents from the interface instead of running a script. This is
-# what makes the usability claim in Section 3.2 testable: a non-expert can
-# load their own material without touching a terminal.
+# Chunking — the Section 5.4 ablation
+# --------------------------------------------------------------------------
+def chunk_fixed(text: str) -> List[str]:
+    """
+    The prototype's strategy: fixed-size character windows with overlap.
+
+    This is what split a sentence mid-clause at
+    ", while the written examination contributes 20%."
+    Retained so Section 5.4 has a real baseline rather than a remembered one.
+    """
+    text = re.sub(r"\s+", " ", text).strip()
+    if not text:
+        return []
+    step = CHUNK_SIZE - CHUNK_OVERLAP
+    return [
+        c for c in (text[i : i + CHUNK_SIZE] for i in range(0, len(text), step))
+        if c.strip()
+    ]
+
+
+def chunk_sentence(text: str) -> List[str]:
+    """
+    Sentence-aware splitting. Prefers to break at a paragraph boundary, then
+    a line break, then a sentence end, and only falls back to a word boundary
+    when a single sentence exceeds the chunk size.
+
+    Uses LangChain's RecursiveCharacterTextSplitter when available, since
+    that is the implementation the report cites. The pure-Python fallback
+    below follows the same separator hierarchy so the system still runs
+    without the dependency.
+    """
+    text = text.strip()
+    if not text:
+        return []
+
+    try:
+        from langchain_text_splitters import RecursiveCharacterTextSplitter
+    except ImportError:
+        try:
+            from langchain.text_splitter import RecursiveCharacterTextSplitter
+        except ImportError:
+            RecursiveCharacterTextSplitter = None
+
+    if RecursiveCharacterTextSplitter is not None:
+        splitter = RecursiveCharacterTextSplitter(
+            chunk_size=CHUNK_SIZE,
+            chunk_overlap=CHUNK_OVERLAP,
+            separators=["\n\n", "\n", ". ", " ", ""],
+        )
+        return [c for c in splitter.split_text(text) if c.strip()]
+
+    if not _FALLBACK_WARNED:
+        print("[chunking] langchain-text-splitters not installed; using the "
+              "built-in fallback. It follows the same separator hierarchy but "
+              "does NOT add overlap. Install it before running the Section 5.4 "
+              "ablation:  pip install langchain-text-splitters")
+        globals()["_FALLBACK_WARNED"] = True
+    return _recursive_split(text, ["\n\n", "\n", ". ", " "])
+
+
+_FALLBACK_WARNED = False
+
+
+def _split_keeping_punctuation(text: str, sep: str) -> List[str]:
+    """
+    Split on a separator, leaving sentence-ending punctuation attached to the
+    sentence it belongs to. Splitting naively on ". " throws the full stop
+    away, which is precisely the kind of mid-clause damage this chunker
+    exists to avoid.
+    """
+    parts = text.split(sep)
+    if len(parts) == 1:
+        return parts
+    tail = sep.rstrip()          # "." from ". ", "" from "\n\n" and " "
+    return [p + tail if i < len(parts) - 1 else p for i, p in enumerate(parts)]
+
+
+def _recursive_split(text: str, seps: List[str]) -> List[str]:
+    """Fallback with the same separator hierarchy as LangChain's splitter."""
+    text = text.strip()
+    if len(text) <= CHUNK_SIZE:
+        return [text] if text else []
+    if not seps:
+        return [text[i : i + CHUNK_SIZE] for i in range(0, len(text), CHUNK_SIZE)]
+
+    sep, rest = seps[0], seps[1:]
+    pieces = [p for p in _split_keeping_punctuation(text, sep) if p.strip()]
+    if len(pieces) <= 1:
+        return _recursive_split(text, rest)
+
+    chunks, buf = [], ""
+    for piece in pieces:
+        candidate = f"{buf} {piece}".strip() if buf else piece
+        if len(candidate) <= CHUNK_SIZE:
+            buf = candidate
+            continue
+        if buf:
+            chunks.append(buf)
+            buf = ""
+        if len(piece) > CHUNK_SIZE:
+            chunks.extend(_recursive_split(piece, rest))
+        else:
+            buf = piece
+    if buf:
+        chunks.append(buf)
+    return [c.strip() for c in chunks if c.strip()]
+
+
+CHUNKERS = {"sentence": chunk_sentence, "fixed": chunk_fixed}
+
+
+# --------------------------------------------------------------------------
+# Document text extraction
 # --------------------------------------------------------------------------
 TEXT_EXTS = {".txt", ".md", ".markdown"}
-CHUNK_SIZE = 500
-CHUNK_OVERLAP = 50
 
 
 def extract_text(path: str, filename: str) -> str:
@@ -147,9 +271,7 @@ def extract_text(path: str, filename: str) -> str:
         try:
             from pypdf import PdfReader
         except ImportError:
-            raise HTTPException(
-                500, "PDF support needs pypdf. Run: pip install pypdf"
-            )
+            raise HTTPException(500, "PDF support needs pypdf. Run: pip install pypdf")
         pages = [(p.extract_text() or "") for p in PdfReader(path).pages]
         text = "\n\n".join(pages).strip()
         if not text:
@@ -160,56 +282,97 @@ def extract_text(path: str, filename: str) -> str:
             )
         return text
 
-    raise HTTPException(
-        415, f"Cannot read '{ext}' files. Supported: .txt, .md, .pdf"
+    raise HTTPException(415, f"Cannot read '{ext}' files. Supported: .txt, .md, .pdf")
+
+
+# --------------------------------------------------------------------------
+# Core orchestration
+# --------------------------------------------------------------------------
+def looks_like_refusal(answer: str) -> bool:
+    """
+    Did the language model decline to answer?
+
+    Needed for scoring the threshold-off condition in Section 5.3, where
+    refusal is the model's judgement rather than an explicit control-flow
+    branch and therefore has to be detected from the text.
+    """
+    a = (answer or "").lower()
+    return any(
+        p in a
+        for p in (
+            "do not contain",
+            "does not contain",
+            "doesn't contain",
+            "not in the context",
+            "no information",
+            "cannot answer",
+            "can't answer",
+            "unable to answer",
+            "not provided in the context",
+            "insufficient",
+        )
     )
 
 
-def chunk_text(text: str) -> List[str]:
+def answer_question(
+    question: str,
+    use_rag: bool = True,
+    top_k: int = None,
+    use_threshold: bool = None,
+    threshold: float = None,
+    collection: str = None,
+) -> Dict[str, Any]:
     """
-    Fixed-size character chunking with overlap.
-
-    DAY 4 (Fri 14 Aug): replace with RecursiveCharacterTextSplitter and keep
-    this version behind a flag so Section 5.4 can measure the difference.
-    This is the strategy that produced the mid-clause split documented in
-    the preliminary report.
+    One function, every entry point. Text and voice share it, and every
+    experiment in Chapter 5 exercises it with different parameters rather
+    than a different implementation.
     """
-    text = re.sub(r"\s+", " ", text).strip()
-    if not text:
-        return []
-    step = CHUNK_SIZE - CHUNK_OVERLAP
-    return [
-        text[i : i + CHUNK_SIZE]
-        for i in range(0, len(text), step)
-        if text[i : i + CHUNK_SIZE].strip()
-    ]
-
-
-# --------------------------------------------------------------------------
-# Core orchestration — one function, used by every entry point
-#
-# Both the text endpoint and the voice endpoint call this. That is the whole
-# point of the design: speech is a front door onto an unchanged pipeline, not
-# a second pipeline. It also means Section 5.2's RAG comparison measures the
-# same code path a user actually exercises.
-# --------------------------------------------------------------------------
-def answer_question(question: str, use_rag: bool = True) -> Dict[str, Any]:
     t0 = time.time()
+    top_k = TOP_K if top_k is None else top_k
+    use_threshold = USE_THRESHOLD if use_threshold is None else use_threshold
+    threshold = DISTANCE_THRESHOLD if threshold is None else threshold
+
     retrieved: List[str] = []
     sources: List[str] = []
     distances: List[float] = []
+    retrieve_s = 0.0
 
-    if use_rag:
-        results = collection.query(query_texts=[question], n_results=TOP_K)
+    if not use_rag:
+        prompt = question
+    else:
+        tr = time.time()
+        coll = get_collection(collection)
+        results = coll.query(query_texts=[question], n_results=top_k)
+        retrieve_s = round(time.time() - tr, 3)
+
         retrieved = results["documents"][0]
         sources = [m.get("source", "unknown") for m in results["metadatas"][0]]
         distances = [round(float(d), 4) for d in results["distances"][0]]
 
-        # DAY 4 (Fri 14 Aug): the retrieval-confidence threshold goes here.
-        # Refuse before calling the LLM when distances[0] exceeds the tuned
-        # threshold, so that refusal becomes a property of retrieval rather
-        # than of the prompt. Keep this behaviour behind a flag so the
-        # ablation in Section 5.3 can run both ways.
+        # ---- THE FIX (Section 4.5) -----------------------------------
+        # Refusal is now a property of retrieval, not of the prompt. If the
+        # nearest chunk is further away than the threshold, nothing in the
+        # corpus is relevant and the language model is never consulted. The
+        # preliminary report identified prompt-driven refusal as fragile
+        # precisely because retrieval can return weakly-related chunks and
+        # the model may then answer from them.
+        if use_threshold and (not distances or distances[0] > threshold):
+            return {
+                "question": question,
+                "use_rag": True,
+                "answer": REFUSAL,
+                "refused": True,
+                "refusal_reason": "retrieval_distance",
+                "sources": [],
+                "retrieved_chunks": retrieved,
+                "distances": distances,
+                "top_k": top_k,
+                "threshold": threshold,
+                "collection": collection or DEFAULT_COLLECTION,
+                "retrieve_s": retrieve_s,
+                "generate_s": 0.0,
+                "total_s": round(time.time() - t0, 3),
+            }
 
         context = "\n\n".join(retrieved)
         prompt = (
@@ -217,21 +380,29 @@ def answer_question(question: str, use_rag: bool = True) -> Dict[str, Any]:
             f"is not in the context, say '{REFUSAL}'"
             f"\n\nContext:\n{context}\n\nQuestion: {question}"
         )
-    else:
-        prompt = question
 
+    tg = time.time()
     response = ollama.chat(
         model=MODEL_NAME, messages=[{"role": "user", "content": prompt}]
     )
+    answer = response["message"]["content"]
+    refused = use_rag and looks_like_refusal(answer)
 
     return {
         "question": question,
         "use_rag": use_rag,
-        "answer": response["message"]["content"],
+        "answer": answer,
+        "refused": refused,
+        "refusal_reason": "model_judgement" if refused else None,
         "sources": sources,
         "retrieved_chunks": retrieved,
         "distances": distances,
-        "generate_s": round(time.time() - t0, 2),
+        "top_k": top_k,
+        "threshold": threshold if use_threshold else None,
+        "collection": (collection or DEFAULT_COLLECTION) if use_rag else None,
+        "retrieve_s": retrieve_s,
+        "generate_s": round(time.time() - tg, 3),
+        "total_s": round(time.time() - t0, 3),
     }
 
 
@@ -241,31 +412,57 @@ def answer_question(question: str, use_rag: bool = True) -> Dict[str, Any]:
 class Query(BaseModel):
     question: str
     use_rag: bool = True
+    # Experiment overrides. Absent in normal use; set by the Chapter 5 scripts.
+    top_k: Optional[int] = None
+    use_threshold: Optional[bool] = None
+    threshold: Optional[float] = None
+    collection: Optional[str] = None
 
 
 @app.get("/health")
 def health():
-    """Cheap check that the backend, the corpus, and Ollama are all alive."""
+    counts = {}
+    for key in COLLECTIONS:
+        try:
+            counts[key] = get_collection(key).count()
+        except Exception:
+            counts[key] = 0
     return {
         "status": "ok",
         "llm": MODEL_NAME,
         "whisper": WHISPER_SIZE,
         "whisper_loaded": _whisper_model is not None,
-        "chunks_in_corpus": collection.count(),
+        "default_collection": DEFAULT_COLLECTION,
+        "threshold_enabled": USE_THRESHOLD,
+        "distance_threshold": DISTANCE_THRESHOLD,
+        "top_k": TOP_K,
+        "chunks_in_corpus": counts.get(DEFAULT_COLLECTION, 0),
+        "collections": counts,
     }
 
 
 @app.post("/ask")
 def ask(query: Query):
-    """Text question in, grounded answer out. Unchanged from the prototype."""
     if not query.question.strip():
         raise HTTPException(400, "Question is empty.")
-    return answer_question(query.question, query.use_rag)
+    return answer_question(
+        query.question,
+        use_rag=query.use_rag,
+        top_k=query.top_k,
+        use_threshold=query.use_threshold,
+        threshold=query.threshold,
+        collection=query.collection,
+    )
 
 
 @app.post("/upload")
 async def upload(document: UploadFile = File(...)):
-    """Add a document to the corpus. FR3."""
+    """
+    Add a document to the corpus (FR3).
+
+    Ingests into BOTH collections so the chunking ablation stays valid for
+    anything uploaded through the interface, not just the seed corpus.
+    """
     filename = document.filename or "untitled"
     path = await save_upload(document)
     try:
@@ -273,38 +470,43 @@ async def upload(document: UploadFile = File(...)):
     finally:
         os.remove(path)
 
-    chunks = chunk_text(text)
-    if not chunks:
+    batch = uuid.uuid4().hex[:8]
+    added = {}
+    for key, chunker in CHUNKERS.items():
+        chunks = chunker(text)
+        if not chunks:
+            continue
+        get_collection(key).add(
+            documents=chunks,
+            metadatas=[{"source": filename} for _ in chunks],
+            ids=[f"{batch}-{key}-{i}" for i in range(len(chunks))],
+        )
+        added[key] = len(chunks)
+
+    if not added:
         raise HTTPException(422, "That document appears to be empty.")
 
-    batch = uuid.uuid4().hex[:8]
-    collection.add(
-        documents=chunks,
-        metadatas=[{"source": filename} for _ in chunks],
-        ids=[f"{batch}-{i}" for i in range(len(chunks))],
-    )
     return {
         "filename": filename,
         "characters": len(text),
-        "chunks_added": len(chunks),
-        "chunks_in_corpus": collection.count(),
+        "chunks_added": added.get(DEFAULT_COLLECTION, 0),
+        "chunks_added_by_strategy": added,
+        "chunks_in_corpus": get_collection().count(),
     }
 
 
 @app.get("/documents")
 def documents():
-    """What is currently in the corpus, so the UI can say so."""
     try:
-        got = collection.get(include=["metadatas"])
+        got = get_collection().get(include=["metadatas"])
         names = sorted({m.get("source", "unknown") for m in got["metadatas"]})
     except Exception:
         names = []
-    return {"documents": names, "chunks_in_corpus": collection.count()}
+    return {"documents": names, "chunks_in_corpus": get_collection().count()}
 
 
 @app.post("/transcribe")
 async def transcribe(audio: UploadFile = File(...)):
-    """Audio in, transcript out. Speech only — no retrieval, no generation."""
     path = await save_upload(audio)
     try:
         return transcribe_path(path)
@@ -313,18 +515,15 @@ async def transcribe(audio: UploadFile = File(...)):
 
 
 @app.post("/ask/audio")
-async def ask_audio(
-    audio: UploadFile = File(...),
-    use_rag: bool = Form(True),
-):
+async def ask_audio(audio: UploadFile = File(...), use_rag: bool = Form(True)):
     """
     Spoken question in, grounded answer out.
 
-    The transcript is returned alongside the answer. This is a deliberate
-    transparency feature, not debug output: when the assistant answers a
-    question the user did not ask, they can see immediately that the fault
-    was transcription rather than retrieval. A voice interface that hides
-    what it heard gives the user no way to tell those two failures apart.
+    The transcript is returned alongside the answer. This is a transparency
+    feature, not debug output: it is what lets the user tell a transcription
+    failure apart from a retrieval failure — a distinction that matters most
+    on technical vocabulary, where Section 5.6 measured the highest word
+    error rate.
     """
     path = await save_upload(audio)
     try:
@@ -335,7 +534,7 @@ async def ask_audio(
     if not asr["transcript"]:
         raise HTTPException(422, "No speech detected in the audio.")
 
-    result = answer_question(asr["transcript"], use_rag)
+    result = answer_question(asr["transcript"], use_rag=use_rag)
     result["transcript"] = asr["transcript"]
     result["audio_duration_s"] = asr["duration_s"]
     result["transcribe_s"] = asr["transcribe_s"]
