@@ -1,0 +1,31 @@
+qid,category,expected,question,nearest_distance
+A01,answerable,answer,What is the difference between an intrinsic and an extrinsic evaluation of a language model?,0.3176
+A02,answerable,answer,How does the Markov assumption simplify the task of language modelling?,0.3033
+A03,answerable,answer,What is the difference between word types and word tokens in a corpus?,0.2416
+A04,answerable,answer,What is the Naive Bayes assumption and how does it affect probability calculations?,0.3847
+A05,answerable,answer,In a confusion matrix how are precision and recall calculated?,0.31
+A06,answerable,answer,How does TF-IDF weighting identify words that are uniquely informative to a document?,0.2788
+A07,answerable,answer,What are stopwords and why are they removed during text preprocessing?,0.3629
+A08,answerable,answer,Describe the parallelogram model used in word embeddings to solve analogies.,0.2643
+A09,answerable,answer,What is perplexity and how does it relate to a language's branching factor?,0.2973
+A10,answerable,answer,What is the purpose of smoothing in n-gram models?,0.325
+A11,answerable,answer,What is the difference between stemming and lemmatization?,0.1792
+A12,answerable,answer,Why is cosine similarity preferred over the raw dot product for comparing word embeddings?,0.2821
+B01,out_of_corpus,refuse,What is the capital of Brazil?,0.6208
+B02,out_of_corpus,refuse,Who won the 2018 FIFA World Cup?,0.6328
+B03,out_of_corpus,refuse,What is the boiling point of water in Fahrenheit?,0.7144
+B04,out_of_corpus,refuse,How tall is Mount Kilimanjaro?,0.7434
+B05,out_of_corpus,refuse,What year was the Eiffel Tower completed?,0.6761
+B06,out_of_corpus,refuse,What is the currency of Japan?,0.5915
+B07,out_of_corpus,refuse,Who wrote the novel Wuthering Heights?,0.6593
+B08,out_of_corpus,refuse,What is the chemical symbol for tungsten?,0.7068
+B09,out_of_corpus,refuse,How many time zones does Russia have?,0.6543
+B10,out_of_corpus,refuse,What is the population of Singapore?,0.7008
+B11,out_of_corpus,refuse,Who is the chief executive of OpenAI?,0.76
+B12,out_of_corpus,refuse,What is the world record for the men's 100 metre sprint?,0.7033
+C01,related_unanswerable,refuse,Who first described the CKY algorithm and in what year?,0.4712
+C02,related_unanswerable,refuse,How many parameters does GPT-4 have?,0.6964
+C03,related_unanswerable,refuse,What perplexity did the trigram model achieve on the test corpus?,0.3598
+C04,related_unanswerable,refuse,In which year did Chomsky publish his hierarchy of grammars?,0.3936
+C05,related_unanswerable,refuse,Which Python library should I use to implement a CKY parser?,0.4668
+C06,related_unanswerable,refuse,What learning rate should I use when training a deep learning language model?,0.4919
