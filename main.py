@@ -328,9 +328,13 @@ def answer_question(
     than a different implementation.
     """
     t0 = time.time()
-    top_k = TOP_K if top_k is None else top_k
+    # Treat 0 and "" as "not supplied". top_k=0 retrieves nothing and
+    # threshold=0 refuses everything, so a client that sends placeholder
+    # zeroes would silently get a broken result rather than an error.
+    top_k = TOP_K if not top_k else top_k
     use_threshold = USE_THRESHOLD if use_threshold is None else use_threshold
     threshold = DISTANCE_THRESHOLD if threshold is None else threshold
+    collection = collection or None
 
     retrieved: List[str] = []
     sources: List[str] = []
@@ -413,10 +417,23 @@ class Query(BaseModel):
     question: str
     use_rag: bool = True
     # Experiment overrides. Absent in normal use; set by the Chapter 5 scripts.
+    # Leave them out entirely and the configured defaults apply.
     top_k: Optional[int] = None
     use_threshold: Optional[bool] = None
     threshold: Optional[float] = None
     collection: Optional[str] = None
+
+    # Without this, Swagger's "Try it out" pre-fills every optional field with
+    # a placeholder — collection: "string", top_k: 0, threshold: 0 — which is
+    # rejected as an unknown collection and looks like a bug in the endpoint.
+    model_config = {
+        "json_schema_extra": {
+            "example": {
+                "question": "What is perplexity?",
+                "use_rag": True,
+            }
+        }
+    }
 
 
 @app.get("/health")
