@@ -1,0 +1,31 @@
+qid,category,expected,question,notes
+A01,answerable,answer,What is the difference between an intrinsic and an extrinsic evaluation of a language model?,Covered: perplexity vs downstream task performance
+A02,answerable,answer,How does the Markov assumption simplify the task of language modelling?,Covered: probability depends on fixed local context
+A03,answerable,answer,What is the difference between word types and word tokens in a corpus?,Covered: running words vs distinct vocabulary
+A04,answerable,answer,What is the Naive Bayes assumption and how does it affect probability calculations?,Covered: conditional independence permits multiplying word probabilities
+A05,answerable,answer,In a confusion matrix how are precision and recall calculated?,Covered: TP/(TP+FP) and TP/(TP+FN)
+A06,answerable,answer,How does TF-IDF weighting identify words that are uniquely informative to a document?,Covered: term frequency boosted by inverse document frequency
+A07,answerable,answer,What are stopwords and why are they removed during text preprocessing?,Covered: common low-semantic-weight words
+A08,answerable,answer,Describe the parallelogram model used in word embeddings to solve analogies.,Covered: vector arithmetic king - man + woman
+A09,answerable,answer,What is perplexity and how does it relate to a language's branching factor?,Covered: weighted average branching factor
+A10,answerable,answer,What is the purpose of smoothing in n-gram models?,Covered: sparse data problem and zero counts
+A11,answerable,answer,What is the difference between stemming and lemmatization?,Covered: heuristic suffix stripping vs morphological analysis
+A12,answerable,answer,Why is cosine similarity preferred over the raw dot product for comparing word embeddings?,Covered: independent of vector length and word frequency
+B01,out_of_corpus,refuse,What is the capital of Brazil?,General knowledge control
+B02,out_of_corpus,refuse,Who won the 2018 FIFA World Cup?,
+B03,out_of_corpus,refuse,What is the boiling point of water in Fahrenheit?,
+B04,out_of_corpus,refuse,How tall is Mount Kilimanjaro?,
+B05,out_of_corpus,refuse,What year was the Eiffel Tower completed?,
+B06,out_of_corpus,refuse,What is the currency of Japan?,
+B07,out_of_corpus,refuse,Who wrote the novel Wuthering Heights?,
+B08,out_of_corpus,refuse,What is the chemical symbol for tungsten?,
+B09,out_of_corpus,refuse,How many time zones does Russia have?,
+B10,out_of_corpus,refuse,What is the population of Singapore?,
+B11,out_of_corpus,refuse,Who is the chief executive of OpenAI?,Deliberately topic-adjacent — ChatGPT is discussed but this fact is not
+B12,out_of_corpus,refuse,What is the world record for the men's 100 metre sprint?,
+C01,related_unanswerable,refuse,Who first described the CKY algorithm and in what year?,CKY is taught; VERIFY the notes never name Cocke Kasami or Younger
+C02,related_unanswerable,refuse,How many parameters does GPT-4 have?,LLMs are discussed; VERIFY no parameter count appears
+C03,related_unanswerable,refuse,What perplexity did the trigram model achieve on the test corpus?,Perplexity is taught; VERIFY no worked numeric result is given
+C04,related_unanswerable,refuse,In which year did Chomsky publish his hierarchy of grammars?,Hierarchy is taught; VERIFY no publication year appears
+C05,related_unanswerable,refuse,Which Python library should I use to implement a CKY parser?,Parsing is taught; VERIFY no library is recommended
+C06,related_unanswerable,refuse,What learning rate should I use when training a deep learning language model?,Deep learning is discussed; VERIFY no specific value appears
