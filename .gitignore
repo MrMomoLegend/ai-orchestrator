@@ -21,7 +21,7 @@ env/
 ENV/
 
 # --- Node / frontend -------------------------------------------------------
-node_modules/
+node_modules
 dist/
 build/
 .vite/
@@ -51,7 +51,9 @@ asr_eval/models/
 # --- Report build ----------------------------------------------------------
 # The built .docx and .pdf ARE tracked: they are the assessed deliverable and
 # the submitted artefact should be in the history. Only the scratch is ignored.
-report/node_modules/
+# No trailing slash: this path has existed as a broken symlink, and a
+# slashed rule matches directories only, which made `git add -A` fail.
+report/node_modules
 report/*.tmp
 report/pg-*.jpg
 report/~$*
@@ -80,3 +82,14 @@ desktop.ini
 .env.*
 *.key
 *.pem
+
+# --- Course reading-list PDFs ----------------------------------------------
+# Third-party copyright: published textbook extracts supplied through CM3060.
+# Used locally under fair dealing; not redistributable. Purged from history.
+# See docs/README.md for what belongs in that folder.
+docs/*.pdf
+
+# Agent skills (npx skills) - local tooling, not project source
+.claude/
+.agents/
+skills-lock.json

@@ -122,19 +122,51 @@ def ask(question, **kwargs):
             time.sleep(3)
 
 
-def is_refusal(result):
-    """
-    Did the system decline to answer?
+CONTINUATIONS = ("however", "but ", "although", "according to", "based on",
+                 "that said", "nevertheless", "it appears", "it is mentioned",
+                 "it can be inferred", "from the context")
 
-    Two ways this can happen, and the distinction is the whole point of
-    Section 5.3. An explicit refusal from the retrieval threshold is a
-    control-flow branch and is reported by the API. A refusal from the
-    language model's own judgement has to be read out of the text.
+
+def classify(result):
     """
-    if result.get("refused"):
-        return True
-    answer = (result.get("answer") or "").lower()
-    return any(m in answer for m in REFUSAL_MARKERS)
+    Return 'refused', 'hedged', or 'answered'.
+
+    A plain boolean is not enough. The model frequently produces a refusal
+    sentence and then answers anyway:
+
+        "The provided documents do not contain this information. However,
+         according to the context, the perplexity of the trigram model is
+         given as 109."
+
+    Scoring that as a refusal is wrong in the direction that flatters the
+    system — the number leaked. It is also the more dangerous failure in
+    practice, because the disclaimer reads as caution while the content is
+    unsupported. Reporting it as a third outcome is both more honest and
+    more interesting than folding it into either bucket.
+    """
+    if result.get("refusal_reason") == "retrieval_distance":
+        return "refused"
+
+    answer = (result.get("answer") or "").strip()
+    if not answer:
+        return "refused"
+
+    low = answer.lower()
+    marker = next((m for m in REFUSAL_MARKERS if m in low), None)
+    if marker is None:
+        return "answered"
+
+    # A refusal marker is present. Does substantive content follow it?
+    tail = answer[low.index(marker):]
+    rest = tail.split(".", 1)[1].strip() if "." in tail else ""
+    if len(rest) > 100 or any(c in rest.lower()[:80] for c in CONTINUATIONS):
+        return "hedged"
+    return "refused"
+
+
+def is_refusal(result):
+    """Kept for the scripts that only need the binary. Hedged is not a refusal."""
+    return classify(result) == "refused"
 
 
 def save(name, rows, index=False):

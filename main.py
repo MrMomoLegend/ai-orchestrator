@@ -35,10 +35,39 @@ from pydantic import BaseModel
 MODEL_NAME = os.getenv("LLM_MODEL", "llama3.1:8b")
 EMBED_MODEL = "all-MiniLM-L6-v2"
 DB_FOLDER = "chroma_db"
-TOP_K = 3
+
+# k=10 is the shipped default. Section 5.5 swept k = 1, 3, 5, 10 over the
+# 30-question set: raising k from 3 to 10 took correct answers from 8/15 to
+# 14/15 and false refusals from 5/15 to 1/15, with hallucination at zero at
+# every value tested, for roughly one second of additional median latency.
+# k=3 was inherited from the prototype without evidence; this value has it.
+TOP_K = int(os.getenv("TOP_K", "10"))
 
 WHISPER_SIZE = os.getenv("WHISPER_SIZE", "base.en")
 WHISPER_BEAM = 5
+
+# Decoding is deterministic by default.
+#
+# Ollama's default temperature is 0.8. Every ablation in Chapter 5 is a
+# comparison between two configurations, and under stochastic decoding it is
+# also a comparison between two samples — which makes a small effect and a
+# large one indistinguishable from a single run each.
+#
+# This was not a hypothetical. The threshold and chunking experiments each
+# contain a condition with identical parameters (RAG on, threshold on,
+# sentence collection, default k), so the same configuration was measured
+# twice. At k=3 those two runs reported 8/15 and 6/15 false refusals; at
+# k=10 they reported 0/15 and 1/15, and disagreed on one of the three
+# related-but-unanswerable questions. A two-of-fifteen discrepancy between
+# replicates is the same magnitude as most of the effects being reported.
+#
+# Fixing temperature at 0 with an explicit seed makes each condition a
+# single reproducible point, so a difference between conditions is
+# attributable to the parameter that changed. It also means an examiner who
+# clones the repository and runs the experiments gets the numbers in the
+# report rather than numbers near them.
+LLM_TEMPERATURE = float(os.getenv("LLM_TEMPERATURE", "0"))
+LLM_SEED = int(os.getenv("LLM_SEED", "42"))
 
 # Two collections, same documents, different chunking. Section 5.4 compares
 # them. "sentence" is the shipped default; "fixed" is the prototype's
@@ -52,7 +81,7 @@ DEFAULT_COLLECTION = os.getenv("COLLECTION", "sentence")
 # 0 is identical, 1 is orthogonal. If the nearest chunk is further than this,
 # no chunk is relevant enough to answer from and the system refuses without
 # calling the LLM at all. Tune with:  python eval/exp_rag.py --sweep
-DISTANCE_THRESHOLD = float(os.getenv("DISTANCE_THRESHOLD", "0.6"))
+DISTANCE_THRESHOLD = float(os.getenv("DISTANCE_THRESHOLD", "0.53"))
 USE_THRESHOLD = os.getenv("USE_THRESHOLD", "1") not in ("0", "false", "False")
 
 REFUSAL = "The provided documents do not contain this information."
@@ -387,7 +416,9 @@ def answer_question(
 
     tg = time.time()
     response = ollama.chat(
-        model=MODEL_NAME, messages=[{"role": "user", "content": prompt}]
+        model=MODEL_NAME,
+        messages=[{"role": "user", "content": prompt}],
+        options={"temperature": LLM_TEMPERATURE, "seed": LLM_SEED},
     )
     answer = response["message"]["content"]
     refused = use_rag and looks_like_refusal(answer)
@@ -449,6 +480,8 @@ def health():
         "llm": MODEL_NAME,
         "whisper": WHISPER_SIZE,
         "whisper_loaded": _whisper_model is not None,
+        "temperature": LLM_TEMPERATURE,
+        "seed": LLM_SEED,
         "default_collection": DEFAULT_COLLECTION,
         "threshold_enabled": USE_THRESHOLD,
         "distance_threshold": DISTANCE_THRESHOLD,

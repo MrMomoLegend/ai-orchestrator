@@ -1,0 +1,3 @@
+condition,n,hallucination_rate_all,hallucination_out_of_corpus,hallucination_related,clean_refusals,hedged_on_unanswerable,answered_when_it_should,false_refusals,hedged_on_answerable,threshold_refusals,model_refusals,mean_s,median_s
+Threshold off,30,0.0,0.0,0.0,15/15,0,9/15,4/15,2,0,21,3.46,1.82
+Threshold on,30,0.0,0.0,0.0,15/15,0,7/15,8/15,0,13,10,1.56,1.29

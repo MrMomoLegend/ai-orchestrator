@@ -1,0 +1,253 @@
+question,k_requested,n_chunks,context_chars,retrieve_s,generate_s,total_s,wall_s,elapsed_since_start_s,error,model,block,phase,cold_start_reliable,resident
+What is stemming in text normalisation?,1,1,464,0.173,6.776,6.948,6.953,9.1,,llama3.1:8b,0,cold,True,llama3.1:8b
+What is lemmatization?,1,1,466,0.013,1.082,1.095,1.113,10.2,,llama3.1:8b,0,warmup,,llama3.1:8b
+Explain the Markov assumption.,1,1,453,0.011,0.955,0.967,0.987,11.2,,llama3.1:8b,0,warmup,,llama3.1:8b
+What is stemming in text normalisation?,1,1,464,0.014,0.391,0.405,0.407,11.7,,llama3.1:8b,1,steady,,llama3.1:8b
+What is lemmatization?,1,1,466,0.012,1.06,1.072,1.087,12.8,,llama3.1:8b,1,steady,,llama3.1:8b
+Explain the Markov assumption.,1,1,453,0.008,1.006,1.015,1.036,13.8,,llama3.1:8b,1,steady,,llama3.1:8b
+How does TF-IDF weight terms?,1,1,458,0.013,0.458,0.471,0.496,14.3,,llama3.1:8b,1,steady,,llama3.1:8b
+What is cosine similarity used for?,1,1,475,0.012,0.544,0.557,0.559,14.9,,llama3.1:8b,1,steady,,llama3.1:8b
+What is perplexity?,1,1,117,0.01,0.393,0.404,0.419,15.3,,llama3.1:8b,1,steady,,llama3.1:8b
+What is add-one smoothing?,1,1,486,0.01,0.422,0.432,0.447,15.8,,llama3.1:8b,1,steady,,llama3.1:8b
+What are stopwords?,1,1,442,0.01,0.614,0.624,0.642,16.4,,llama3.1:8b,1,steady,,llama3.1:8b
+What is the difference between types and tokens?,1,1,467,0.012,1.314,1.326,1.328,17.7,,llama3.1:8b,1,steady,,llama3.1:8b
+Explain the parallelogram model for analogies.,1,1,435,0.013,1.01,1.023,1.025,18.8,,llama3.1:8b,1,steady,,llama3.1:8b
+What assumption makes Naive Bayes naive?,1,1,462,0.012,0.468,0.48,0.483,19.2,,llama3.1:8b,1,steady,,llama3.1:8b
+Define precision and recall.,1,1,422,0.011,0.66,0.671,0.673,19.9,,llama3.1:8b,1,steady,,llama3.1:8b
+What is a confusion matrix?,1,1,431,0.011,0.9,0.911,0.914,20.8,,llama3.1:8b,1,steady,,llama3.1:8b
+What is overfitting?,1,1,489,0.013,0.423,0.436,0.458,21.3,,llama3.1:8b,1,steady,,llama3.1:8b
+Explain cross-validation.,1,1,489,0.01,1.391,1.401,1.404,22.7,,llama3.1:8b,1,steady,,llama3.1:8b
+What are the three categories of machine learning?,1,1,486,0.012,0.417,0.429,0.442,23.1,,llama3.1:8b,1,steady,,llama3.1:8b
+What is a context-free grammar?,1,1,453,0.01,0.699,0.71,0.712,23.8,,llama3.1:8b,1,steady,,llama3.1:8b
+What is the CKY algorithm?,1,1,498,0.011,0.461,0.472,0.498,24.3,,llama3.1:8b,1,steady,,llama3.1:8b
+What is a text corpus?,1,1,432,0.011,0.434,0.445,0.448,24.8,,llama3.1:8b,1,steady,,llama3.1:8b
+Why are natural languages harder to parse than formal languages?,1,1,327,0.012,0.436,0.448,0.451,25.2,,llama3.1:8b,1,steady,,llama3.1:8b
+What is stemming in text normalisation?,1,1,464,0.008,0.695,0.702,0.705,56.0,,llama3.1:8b,2,steady,,llama3.1:8b
+What is lemmatization?,1,1,466,0.009,1.016,1.026,1.051,57.0,,llama3.1:8b,2,steady,,llama3.1:8b
+Explain the Markov assumption.,1,1,453,0.007,0.979,0.986,0.988,58.0,,llama3.1:8b,2,steady,,llama3.1:8b
+How does TF-IDF weight terms?,1,1,458,0.008,0.385,0.393,0.417,58.4,,llama3.1:8b,2,steady,,llama3.1:8b
+What is cosine similarity used for?,1,1,475,0.01,0.512,0.521,0.524,59.0,,llama3.1:8b,2,steady,,llama3.1:8b
+What is perplexity?,1,1,117,0.01,0.366,0.376,0.39,59.3,,llama3.1:8b,2,steady,,llama3.1:8b
+What is add-one smoothing?,1,1,486,0.007,0.38,0.387,0.415,59.8,,llama3.1:8b,2,steady,,llama3.1:8b
+What are stopwords?,1,1,442,0.008,0.571,0.579,0.581,60.3,,llama3.1:8b,2,steady,,llama3.1:8b
+What is the difference between types and tokens?,1,1,467,0.009,1.109,1.118,1.12,61.5,,llama3.1:8b,2,steady,,llama3.1:8b
+Explain the parallelogram model for analogies.,1,1,435,0.009,0.958,0.967,0.969,62.4,,llama3.1:8b,2,steady,,llama3.1:8b
+What assumption makes Naive Bayes naive?,1,1,462,0.009,0.389,0.399,0.401,62.8,,llama3.1:8b,2,steady,,llama3.1:8b
+Define precision and recall.,1,1,422,0.007,0.634,0.641,0.666,63.5,,llama3.1:8b,2,steady,,llama3.1:8b
+What is a confusion matrix?,1,1,431,0.008,0.856,0.864,0.879,64.4,,llama3.1:8b,2,steady,,llama3.1:8b
+What is overfitting?,1,1,489,0.014,0.434,0.448,0.45,64.8,,llama3.1:8b,2,steady,,llama3.1:8b
+Explain cross-validation.,1,1,489,0.01,1.417,1.427,1.446,66.3,,llama3.1:8b,2,steady,,llama3.1:8b
+What are the three categories of machine learning?,1,1,486,0.008,0.391,0.399,0.414,66.7,,llama3.1:8b,2,steady,,llama3.1:8b
+What is a context-free grammar?,1,1,453,0.011,0.666,0.677,0.697,67.4,,llama3.1:8b,2,steady,,llama3.1:8b
+What is the CKY algorithm?,1,1,498,0.008,0.416,0.424,0.447,67.8,,llama3.1:8b,2,steady,,llama3.1:8b
+What is a text corpus?,1,1,432,0.009,0.401,0.41,0.412,68.2,,llama3.1:8b,2,steady,,llama3.1:8b
+Why are natural languages harder to parse than formal languages?,1,1,327,0.01,0.4,0.41,0.429,68.7,,llama3.1:8b,2,steady,,llama3.1:8b
+What is stemming in text normalisation?,1,1,464,0.01,0.605,0.615,0.639,100.6,,llama3.1:8b,3,steady,,llama3.1:8b
+What is lemmatization?,1,1,466,0.015,1.652,1.667,1.691,102.3,,llama3.1:8b,3,steady,,llama3.1:8b
+Explain the Markov assumption.,1,1,453,0.012,1.745,1.757,1.785,104.1,,llama3.1:8b,3,steady,,llama3.1:8b
+How does TF-IDF weight terms?,1,1,458,0.011,0.538,0.549,0.566,104.6,,llama3.1:8b,3,steady,,llama3.1:8b
+What is cosine similarity used for?,1,1,475,0.012,0.798,0.809,0.837,105.5,,llama3.1:8b,3,steady,,llama3.1:8b
+What is perplexity?,1,1,117,0.014,0.577,0.591,0.608,106.1,,llama3.1:8b,3,steady,,llama3.1:8b
+What is add-one smoothing?,1,1,486,0.013,0.611,0.625,0.628,106.7,,llama3.1:8b,3,steady,,llama3.1:8b
+What are stopwords?,1,1,442,0.013,0.961,0.975,0.989,107.7,,llama3.1:8b,3,steady,,llama3.1:8b
+What is the difference between types and tokens?,1,1,467,0.015,2.035,2.049,2.066,109.8,,llama3.1:8b,3,steady,,llama3.1:8b
+Explain the parallelogram model for analogies.,1,1,435,0.014,1.736,1.75,1.771,111.5,,llama3.1:8b,3,steady,,llama3.1:8b
+What assumption makes Naive Bayes naive?,1,1,462,0.016,0.613,0.629,0.65,112.2,,llama3.1:8b,3,steady,,llama3.1:8b
+Define precision and recall.,1,1,422,0.011,1.104,1.115,1.142,113.3,,llama3.1:8b,3,steady,,llama3.1:8b
+What is a confusion matrix?,1,1,431,0.014,1.571,1.586,1.589,114.9,,llama3.1:8b,3,steady,,llama3.1:8b
+What is overfitting?,1,1,489,0.013,0.658,0.671,0.698,115.6,,llama3.1:8b,3,steady,,llama3.1:8b
+Explain cross-validation.,1,1,489,0.013,2.619,2.632,2.66,118.3,,llama3.1:8b,3,steady,,llama3.1:8b
+What are the three categories of machine learning?,1,1,486,0.016,0.608,0.624,0.641,118.9,,llama3.1:8b,3,steady,,llama3.1:8b
+What is a context-free grammar?,1,1,453,0.015,1.17,1.185,1.198,120.1,,llama3.1:8b,3,steady,,llama3.1:8b
+What is the CKY algorithm?,1,1,498,0.015,0.656,0.671,0.686,120.8,,llama3.1:8b,3,steady,,llama3.1:8b
+What is a text corpus?,1,1,432,0.013,0.848,0.861,0.878,121.7,,llama3.1:8b,3,steady,,llama3.1:8b
+Why are natural languages harder to parse than formal languages?,1,1,327,0.031,1.139,1.17,1.197,122.9,,llama3.1:8b,3,steady,,llama3.1:8b
+What is stemming in text normalisation?,3,3,1438,0.032,10.765,10.798,10.805,136.6,,llama3.1:8b,0,cold,False,llama3.1:8b
+What is lemmatization?,3,3,1372,0.012,1.824,1.836,1.854,138.5,,llama3.1:8b,0,warmup,,llama3.1:8b
+Explain the Markov assumption.,3,3,1410,0.013,2.434,2.447,2.471,141.1,,llama3.1:8b,0,warmup,,llama3.1:8b
+What is stemming in text normalisation?,3,3,1438,0.011,1.201,1.213,1.231,142.4,,llama3.1:8b,1,steady,,llama3.1:8b
+What is lemmatization?,3,3,1372,0.017,1.79,1.807,1.823,144.2,,llama3.1:8b,1,steady,,llama3.1:8b
+Explain the Markov assumption.,3,3,1410,0.014,2.14,2.154,2.17,146.4,,llama3.1:8b,1,steady,,llama3.1:8b
+How does TF-IDF weight terms?,3,3,1374,0.019,1.174,1.193,1.207,147.6,,llama3.1:8b,1,steady,,llama3.1:8b
+What is cosine similarity used for?,3,3,1425,0.014,3.542,3.557,3.584,151.2,,llama3.1:8b,1,steady,,llama3.1:8b
+What is perplexity?,3,3,935,0.016,3.964,3.979,3.983,155.2,,llama3.1:8b,1,steady,,llama3.1:8b
+What is add-one smoothing?,3,3,1417,0.019,2.335,2.354,2.374,157.5,,llama3.1:8b,1,steady,,llama3.1:8b
+What are stopwords?,3,3,1440,0.022,1.462,1.485,1.489,159.0,,llama3.1:8b,1,steady,,llama3.1:8b
+What is the difference between types and tokens?,3,3,1211,0.022,3.19,3.212,3.234,162.3,,llama3.1:8b,1,steady,,llama3.1:8b
+Explain the parallelogram model for analogies.,3,3,1305,0.023,2.309,2.331,2.355,164.6,,llama3.1:8b,1,steady,,llama3.1:8b
+What assumption makes Naive Bayes naive?,3,3,1416,0.024,1.285,1.309,1.315,165.9,,llama3.1:8b,1,steady,,llama3.1:8b
+Define precision and recall.,3,3,1302,0.027,2.509,2.537,2.557,168.5,,llama3.1:8b,1,steady,,llama3.1:8b
+What is a confusion matrix?,3,3,1285,0.022,2.113,2.135,2.153,170.7,,llama3.1:8b,1,steady,,llama3.1:8b
+What is overfitting?,3,3,1456,0.019,1.147,1.167,1.196,171.9,,llama3.1:8b,1,steady,,llama3.1:8b
+Explain cross-validation.,3,3,1409,0.017,2.937,2.954,2.959,174.8,,llama3.1:8b,1,steady,,llama3.1:8b
+What are the three categories of machine learning?,3,3,1418,0.04,1.178,1.218,1.238,176.0,,llama3.1:8b,1,steady,,llama3.1:8b
+What is a context-free grammar?,3,3,1349,0.021,1.731,1.751,1.78,177.8,,llama3.1:8b,1,steady,,llama3.1:8b
+What is the CKY algorithm?,3,3,1434,0.022,1.234,1.256,1.261,179.1,,llama3.1:8b,1,steady,,llama3.1:8b
+What is a text corpus?,3,3,1003,0.024,1.08,1.104,1.119,180.2,,llama3.1:8b,1,steady,,llama3.1:8b
+Why are natural languages harder to parse than formal languages?,3,3,1228,0.023,1.118,1.141,1.165,181.4,,llama3.1:8b,1,steady,,llama3.1:8b
+What is stemming in text normalisation?,3,3,1438,0.02,1.616,1.635,1.661,213.1,,llama3.1:8b,2,steady,,llama3.1:8b
+What is lemmatization?,3,3,1372,0.026,2.145,2.171,2.177,215.3,,llama3.1:8b,2,steady,,llama3.1:8b
+Explain the Markov assumption.,3,3,1410,0.022,2.485,2.507,2.534,217.8,,llama3.1:8b,2,steady,,llama3.1:8b
+How does TF-IDF weight terms?,3,3,1374,0.02,0.946,0.966,0.994,218.8,,llama3.1:8b,2,steady,,llama3.1:8b
+What is cosine similarity used for?,3,3,1425,0.025,3.59,3.615,3.643,222.5,,llama3.1:8b,2,steady,,llama3.1:8b
+What is perplexity?,3,3,935,0.019,3.009,3.028,3.059,225.5,,llama3.1:8b,2,steady,,llama3.1:8b
+What is add-one smoothing?,3,3,1417,0.023,2.141,2.164,2.17,227.7,,llama3.1:8b,2,steady,,llama3.1:8b
+What are stopwords?,3,3,1440,0.023,1.284,1.307,1.327,229.0,,llama3.1:8b,2,steady,,llama3.1:8b
+What is the difference between types and tokens?,3,3,1211,0.025,2.984,3.009,3.035,232.1,,llama3.1:8b,2,steady,,llama3.1:8b
+Explain the parallelogram model for analogies.,3,3,1305,0.024,0.903,0.927,0.952,233.0,,llama3.1:8b,2,steady,,llama3.1:8b
+What assumption makes Naive Bayes naive?,3,3,1416,0.021,0.95,0.971,0.987,234.0,,llama3.1:8b,2,steady,,llama3.1:8b
+Define precision and recall.,3,3,1302,0.019,2.272,2.291,2.317,236.3,,llama3.1:8b,2,steady,,llama3.1:8b
+What is a confusion matrix?,3,3,1285,0.02,1.881,1.901,1.929,238.3,,llama3.1:8b,2,steady,,llama3.1:8b
+What is overfitting?,3,3,1456,0.026,1.002,1.028,1.034,239.3,,llama3.1:8b,2,steady,,llama3.1:8b
+Explain cross-validation.,3,3,1409,0.025,3.045,3.07,3.094,242.4,,llama3.1:8b,2,steady,,llama3.1:8b
+What are the three categories of machine learning?,3,3,1418,0.022,0.928,0.95,0.974,243.4,,llama3.1:8b,2,steady,,llama3.1:8b
+What is a context-free grammar?,3,3,1349,0.024,1.538,1.562,1.592,244.9,,llama3.1:8b,2,steady,,llama3.1:8b
+What is the CKY algorithm?,3,3,1434,0.028,1.016,1.044,1.052,246.0,,llama3.1:8b,2,steady,,llama3.1:8b
+What is a text corpus?,3,3,1003,0.024,1.033,1.057,1.064,247.1,,llama3.1:8b,2,steady,,llama3.1:8b
+Why are natural languages harder to parse than formal languages?,3,3,1228,0.023,1.004,1.027,1.056,248.1,,llama3.1:8b,2,steady,,llama3.1:8b
+What is stemming in text normalisation?,3,3,1438,0.02,1.785,1.805,1.825,280.0,,llama3.1:8b,3,steady,,llama3.1:8b
+What is lemmatization?,3,3,1372,0.025,2.112,2.138,2.168,282.2,,llama3.1:8b,3,steady,,llama3.1:8b
+Explain the Markov assumption.,3,3,1410,0.022,2.456,2.477,2.502,284.7,,llama3.1:8b,3,steady,,llama3.1:8b
+How does TF-IDF weight terms?,3,3,1374,0.022,0.911,0.933,0.954,285.7,,llama3.1:8b,3,steady,,llama3.1:8b
+What is cosine similarity used for?,3,3,1425,0.025,3.55,3.575,3.581,289.2,,llama3.1:8b,3,steady,,llama3.1:8b
+What is perplexity?,3,3,935,0.025,3.048,3.072,3.095,292.3,,llama3.1:8b,3,steady,,llama3.1:8b
+What is add-one smoothing?,3,3,1417,0.031,2.163,2.194,2.201,294.5,,llama3.1:8b,3,steady,,llama3.1:8b
+What are stopwords?,3,3,1440,0.021,1.294,1.314,1.322,295.9,,llama3.1:8b,3,steady,,llama3.1:8b
+What is the difference between types and tokens?,3,3,1211,0.024,3.007,3.031,3.048,298.9,,llama3.1:8b,3,steady,,llama3.1:8b
+Explain the parallelogram model for analogies.,3,3,1305,0.023,0.928,0.952,0.977,299.9,,llama3.1:8b,3,steady,,llama3.1:8b
+What assumption makes Naive Bayes naive?,3,3,1416,0.025,0.925,0.95,0.955,300.8,,llama3.1:8b,3,steady,,llama3.1:8b
+Define precision and recall.,3,3,1302,0.025,2.293,2.318,2.339,303.2,,llama3.1:8b,3,steady,,llama3.1:8b
+What is a confusion matrix?,3,3,1285,0.025,2.01,2.035,2.062,305.2,,llama3.1:8b,3,steady,,llama3.1:8b
+What is overfitting?,3,3,1456,0.028,1.113,1.141,1.161,306.4,,llama3.1:8b,3,steady,,llama3.1:8b
+Explain cross-validation.,3,3,1409,0.02,3.023,3.043,3.068,309.5,,llama3.1:8b,3,steady,,llama3.1:8b
+What are the three categories of machine learning?,3,3,1418,0.025,0.873,0.898,0.918,310.4,,llama3.1:8b,3,steady,,llama3.1:8b
+What is a context-free grammar?,3,3,1349,0.02,1.534,1.554,1.585,312.0,,llama3.1:8b,3,steady,,llama3.1:8b
+What is the CKY algorithm?,3,3,1434,0.02,0.929,0.95,0.977,313.0,,llama3.1:8b,3,steady,,llama3.1:8b
+What is a text corpus?,3,3,1003,0.022,0.903,0.925,0.949,313.9,,llama3.1:8b,3,steady,,llama3.1:8b
+Why are natural languages harder to parse than formal languages?,3,3,1228,0.025,0.979,1.004,1.025,314.9,,llama3.1:8b,3,steady,,llama3.1:8b
+What is stemming in text normalisation?,5,5,2334,0.024,12.717,12.741,12.759,330.1,,llama3.1:8b,0,cold,False,llama3.1:8b
+What is lemmatization?,5,5,2270,0.021,2.705,2.726,2.732,333.0,,llama3.1:8b,0,warmup,,llama3.1:8b
+Explain the Markov assumption.,5,5,1980,0.026,3.528,3.554,3.583,336.7,,llama3.1:8b,0,warmup,,llama3.1:8b
+What is stemming in text normalisation?,5,5,2334,0.021,2.092,2.114,2.136,339.0,,llama3.1:8b,1,steady,,llama3.1:8b
+What is lemmatization?,5,5,2270,0.024,3.177,3.201,3.228,342.2,,llama3.1:8b,1,steady,,llama3.1:8b
+Explain the Markov assumption.,5,5,1980,0.023,4.485,4.508,4.526,346.7,,llama3.1:8b,1,steady,,llama3.1:8b
+How does TF-IDF weight terms?,5,5,2316,0.024,5.564,5.588,5.593,352.3,,llama3.1:8b,1,steady,,llama3.1:8b
+What is cosine similarity used for?,5,5,2364,0.028,6.111,6.139,6.161,358.5,,llama3.1:8b,1,steady,,llama3.1:8b
+What is perplexity?,5,5,1881,0.028,2.619,2.646,2.672,361.1,,llama3.1:8b,1,steady,,llama3.1:8b
+What is add-one smoothing?,5,5,2065,0.023,4.561,4.584,4.606,365.8,,llama3.1:8b,1,steady,,llama3.1:8b
+What are stopwords?,5,5,2320,0.025,3.949,3.974,4.003,369.8,,llama3.1:8b,1,steady,,llama3.1:8b
+What is the difference between types and tokens?,5,5,2120,0.023,22.5,22.523,22.549,392.3,,llama3.1:8b,1,steady,,llama3.1:8b
+Explain the parallelogram model for analogies.,5,5,2234,0.027,2.611,2.638,2.644,394.9,,llama3.1:8b,1,steady,,llama3.1:8b
+What assumption makes Naive Bayes naive?,5,5,2383,0.03,1.7,1.73,1.758,396.7,,llama3.1:8b,1,steady,,llama3.1:8b
+Define precision and recall.,5,5,2183,0.027,1.997,2.025,2.055,398.8,,llama3.1:8b,1,steady,,llama3.1:8b
+What is a confusion matrix?,5,5,2131,0.022,2.441,2.463,2.491,401.3,,llama3.1:8b,1,steady,,llama3.1:8b
+What is overfitting?,5,5,1883,0.024,1.339,1.363,1.387,402.6,,llama3.1:8b,1,steady,,llama3.1:8b
+Explain cross-validation.,5,5,2261,0.03,3.674,3.703,3.735,406.4,,llama3.1:8b,1,steady,,llama3.1:8b
+What are the three categories of machine learning?,5,5,2345,0.022,1.46,1.481,1.507,407.9,,llama3.1:8b,1,steady,,llama3.1:8b
+What is a context-free grammar?,5,5,2316,0.022,2.135,2.157,2.182,410.1,,llama3.1:8b,1,steady,,llama3.1:8b
+What is the CKY algorithm?,5,5,2412,0.022,4.113,4.136,4.161,414.2,,llama3.1:8b,1,steady,,llama3.1:8b
+What is a text corpus?,5,5,1965,0.026,1.427,1.453,1.474,415.7,,llama3.1:8b,1,steady,,llama3.1:8b
+Why are natural languages harder to parse than formal languages?,5,5,2162,0.027,1.445,1.472,1.496,417.2,,llama3.1:8b,1,steady,,llama3.1:8b
+What is stemming in text normalisation?,5,5,2334,0.028,1.908,1.937,1.963,449.3,,llama3.1:8b,2,steady,,llama3.1:8b
+What is lemmatization?,5,5,2270,0.039,2.247,2.287,2.311,451.6,,llama3.1:8b,2,steady,,llama3.1:8b
+Explain the Markov assumption.,5,5,1980,0.021,3.028,3.049,3.076,454.6,,llama3.1:8b,2,steady,,llama3.1:8b
+How does TF-IDF weight terms?,5,5,2316,0.024,3.502,3.525,3.547,458.2,,llama3.1:8b,2,steady,,llama3.1:8b
+What is cosine similarity used for?,5,5,2364,0.028,3.826,3.854,3.861,462.1,,llama3.1:8b,2,steady,,llama3.1:8b
+What is perplexity?,5,5,1881,0.022,1.787,1.81,1.832,463.9,,llama3.1:8b,2,steady,,llama3.1:8b
+What is add-one smoothing?,5,5,2065,0.028,2.778,2.806,2.825,466.7,,llama3.1:8b,2,steady,,llama3.1:8b
+What are stopwords?,5,5,2320,0.022,2.418,2.44,2.465,469.2,,llama3.1:8b,2,steady,,llama3.1:8b
+What is the difference between types and tokens?,5,5,2120,0.027,5.205,5.232,5.261,474.4,,llama3.1:8b,2,steady,,llama3.1:8b
+Explain the parallelogram model for analogies.,5,5,2234,0.025,2.273,2.298,2.304,476.7,,llama3.1:8b,2,steady,,llama3.1:8b
+What assumption makes Naive Bayes naive?,5,5,2383,0.024,0.952,0.976,1.002,477.7,,llama3.1:8b,2,steady,,llama3.1:8b
+Define precision and recall.,5,5,2183,0.021,1.526,1.547,1.573,479.3,,llama3.1:8b,2,steady,,llama3.1:8b
+What is a confusion matrix?,5,5,2131,0.023,1.969,1.992,1.999,481.3,,llama3.1:8b,2,steady,,llama3.1:8b
+What is overfitting?,5,5,1883,0.031,1.13,1.161,1.167,482.5,,llama3.1:8b,2,steady,,llama3.1:8b
+Explain cross-validation.,5,5,2261,0.027,3.761,3.788,3.795,486.3,,llama3.1:8b,2,steady,,llama3.1:8b
+What are the three categories of machine learning?,5,5,2345,0.024,0.934,0.959,0.981,487.3,,llama3.1:8b,2,steady,,llama3.1:8b
+What is a context-free grammar?,5,5,2316,0.02,1.623,1.644,1.673,488.9,,llama3.1:8b,2,steady,,llama3.1:8b
+What is the CKY algorithm?,5,5,2412,0.028,3.483,3.511,3.531,492.5,,llama3.1:8b,2,steady,,llama3.1:8b
+What is a text corpus?,5,5,1965,0.027,1.085,1.112,1.118,493.6,,llama3.1:8b,2,steady,,llama3.1:8b
+Why are natural languages harder to parse than formal languages?,5,5,2162,0.028,1.139,1.167,1.191,494.8,,llama3.1:8b,2,steady,,llama3.1:8b
+What is stemming in text normalisation?,5,5,2334,0.024,1.694,1.718,1.746,526.6,,llama3.1:8b,3,steady,,llama3.1:8b
+What is lemmatization?,5,5,2270,0.027,2.195,2.222,2.245,528.9,,llama3.1:8b,3,steady,,llama3.1:8b
+Explain the Markov assumption.,5,5,1980,0.024,2.981,3.004,3.033,531.9,,llama3.1:8b,3,steady,,llama3.1:8b
+How does TF-IDF weight terms?,5,5,2316,0.023,3.362,3.385,3.412,535.3,,llama3.1:8b,3,steady,,llama3.1:8b
+What is cosine similarity used for?,5,5,2364,0.034,3.836,3.87,3.876,539.2,,llama3.1:8b,3,steady,,llama3.1:8b
+What is perplexity?,5,5,1881,0.023,1.689,1.712,1.718,540.9,,llama3.1:8b,3,steady,,llama3.1:8b
+What is add-one smoothing?,5,5,2065,0.023,2.715,2.739,2.769,543.7,,llama3.1:8b,3,steady,,llama3.1:8b
+What are stopwords?,5,5,2320,0.027,2.425,2.452,2.481,546.2,,llama3.1:8b,3,steady,,llama3.1:8b
+What is the difference between types and tokens?,5,5,2120,0.028,5.245,5.273,5.28,551.4,,llama3.1:8b,3,steady,,llama3.1:8b
+Explain the parallelogram model for analogies.,5,5,2234,0.022,2.1,2.122,2.147,553.6,,llama3.1:8b,3,steady,,llama3.1:8b
+What assumption makes Naive Bayes naive?,5,5,2383,0.021,0.934,0.955,0.982,554.6,,llama3.1:8b,3,steady,,llama3.1:8b
+Define precision and recall.,5,5,2183,0.057,1.458,1.515,1.538,556.1,,llama3.1:8b,3,steady,,llama3.1:8b
+What is a confusion matrix?,5,5,2131,0.024,1.948,1.972,1.994,558.1,,llama3.1:8b,3,steady,,llama3.1:8b
+What is overfitting?,5,5,1883,0.023,1.148,1.171,1.2,559.3,,llama3.1:8b,3,steady,,llama3.1:8b
+Explain cross-validation.,5,5,2261,0.019,3.641,3.66,3.686,563.0,,llama3.1:8b,3,steady,,llama3.1:8b
+What are the three categories of machine learning?,5,5,2345,0.028,0.921,0.949,0.972,564.0,,llama3.1:8b,3,steady,,llama3.1:8b
+What is a context-free grammar?,5,5,2316,0.023,1.496,1.519,1.546,565.5,,llama3.1:8b,3,steady,,llama3.1:8b
+What is the CKY algorithm?,5,5,2412,0.025,3.466,3.492,3.512,569.0,,llama3.1:8b,3,steady,,llama3.1:8b
+What is a text corpus?,5,5,1965,0.024,1.068,1.092,1.12,570.1,,llama3.1:8b,3,steady,,llama3.1:8b
+Why are natural languages harder to parse than formal languages?,5,5,2162,0.023,1.068,1.091,1.118,571.3,,llama3.1:8b,3,steady,,llama3.1:8b
+What is stemming in text normalisation?,10,10,4646,0.026,13.272,13.298,13.319,587.0,,llama3.1:8b,0,cold,False,llama3.1:8b
+What is lemmatization?,10,10,4366,0.025,4.319,4.344,4.35,591.5,,llama3.1:8b,0,warmup,,llama3.1:8b
+Explain the Markov assumption.,10,10,3904,0.024,4.043,4.068,4.089,595.7,,llama3.1:8b,0,warmup,,llama3.1:8b
+What is stemming in text normalisation?,10,10,4646,0.02,1.679,1.698,1.724,597.6,,llama3.1:8b,1,steady,,llama3.1:8b
+What is lemmatization?,10,10,4366,0.02,3.281,3.301,3.306,600.9,,llama3.1:8b,1,steady,,llama3.1:8b
+Explain the Markov assumption.,10,10,3904,0.025,2.903,2.929,2.935,603.8,,llama3.1:8b,1,steady,,llama3.1:8b
+How does TF-IDF weight terms?,10,10,4690,0.024,5.125,5.149,5.155,609.0,,llama3.1:8b,1,steady,,llama3.1:8b
+What is cosine similarity used for?,10,10,4278,0.03,5.223,5.253,5.259,614.2,,llama3.1:8b,1,steady,,llama3.1:8b
+What is perplexity?,10,10,4220,0.028,3.694,3.722,3.753,618.0,,llama3.1:8b,1,steady,,llama3.1:8b
+What is add-one smoothing?,10,10,3603,0.024,5.051,5.075,5.08,623.1,,llama3.1:8b,1,steady,,llama3.1:8b
+What are stopwords?,10,10,4601,0.025,4.893,4.918,4.946,628.0,,llama3.1:8b,1,steady,,llama3.1:8b
+What is the difference between types and tokens?,10,10,3803,0.026,9.817,9.843,9.866,637.9,,llama3.1:8b,1,steady,,llama3.1:8b
+Explain the parallelogram model for analogies.,10,10,3820,0.031,9.703,9.734,9.74,647.6,,llama3.1:8b,1,steady,,llama3.1:8b
+What assumption makes Naive Bayes naive?,10,10,4714,0.024,2.476,2.5,2.521,650.2,,llama3.1:8b,1,steady,,llama3.1:8b
+Define precision and recall.,10,10,4392,0.022,4.749,4.77,4.777,654.9,,llama3.1:8b,1,steady,,llama3.1:8b
+What is a confusion matrix?,10,10,4510,0.026,4.033,4.058,4.087,659.0,,llama3.1:8b,1,steady,,llama3.1:8b
+What is overfitting?,10,10,3450,0.026,2.01,2.036,2.059,661.1,,llama3.1:8b,1,steady,,llama3.1:8b
+Explain cross-validation.,10,10,4494,0.023,8.136,8.158,8.174,669.3,,llama3.1:8b,1,steady,,llama3.1:8b
+What are the three categories of machine learning?,10,10,4313,0.026,5.543,5.569,5.589,674.8,,llama3.1:8b,1,steady,,llama3.1:8b
+What is a context-free grammar?,10,10,4536,0.027,4.383,4.41,4.429,679.3,,llama3.1:8b,1,steady,,llama3.1:8b
+What is the CKY algorithm?,10,10,4709,0.023,5.799,5.822,5.852,685.1,,llama3.1:8b,1,steady,,llama3.1:8b
+What is a text corpus?,10,10,3678,0.031,3.205,3.236,3.258,688.4,,llama3.1:8b,1,steady,,llama3.1:8b
+Why are natural languages harder to parse than formal languages?,10,10,4204,0.028,4.725,4.754,4.776,693.2,,llama3.1:8b,1,steady,,llama3.1:8b
+What is stemming in text normalisation?,10,10,4646,0.025,2.175,2.201,2.222,725.5,,llama3.1:8b,2,steady,,llama3.1:8b
+What is lemmatization?,10,10,4366,0.031,3.482,3.513,3.536,729.0,,llama3.1:8b,2,steady,,llama3.1:8b
+Explain the Markov assumption.,10,10,3904,0.024,3.072,3.096,3.105,732.1,,llama3.1:8b,2,steady,,llama3.1:8b
+How does TF-IDF weight terms?,10,10,4690,0.032,5.951,5.983,6.011,738.1,,llama3.1:8b,2,steady,,llama3.1:8b
+What is cosine similarity used for?,10,10,4278,0.024,4.258,4.282,4.301,742.4,,llama3.1:8b,2,steady,,llama3.1:8b
+What is perplexity?,10,10,4220,0.028,2.648,2.676,2.698,745.1,,llama3.1:8b,2,steady,,llama3.1:8b
+What is add-one smoothing?,10,10,3603,0.026,2.789,2.815,2.822,748.0,,llama3.1:8b,2,steady,,llama3.1:8b
+What are stopwords?,10,10,4601,0.026,2.574,2.6,2.621,750.6,,llama3.1:8b,2,steady,,llama3.1:8b
+What is the difference between types and tokens?,10,10,3803,0.027,5.892,5.919,5.945,756.5,,llama3.1:8b,2,steady,,llama3.1:8b
+Explain the parallelogram model for analogies.,10,10,3820,0.025,7.124,7.15,7.155,763.7,,llama3.1:8b,2,steady,,llama3.1:8b
+What assumption makes Naive Bayes naive?,10,10,4714,0.024,1.192,1.216,1.241,764.9,,llama3.1:8b,2,steady,,llama3.1:8b
+Define precision and recall.,10,10,4392,0.021,3.448,3.469,3.474,768.4,,llama3.1:8b,2,steady,,llama3.1:8b
+What is a confusion matrix?,10,10,4510,0.027,2.831,2.858,2.864,771.3,,llama3.1:8b,2,steady,,llama3.1:8b
+What is overfitting?,10,10,3450,0.026,1.192,1.218,1.236,772.5,,llama3.1:8b,2,steady,,llama3.1:8b
+Explain cross-validation.,10,10,4494,0.025,7.323,7.348,7.354,779.9,,llama3.1:8b,2,steady,,llama3.1:8b
+What are the three categories of machine learning?,10,10,4313,0.027,4.571,4.597,4.619,784.5,,llama3.1:8b,2,steady,,llama3.1:8b
+What is a context-free grammar?,10,10,4536,0.021,3.381,3.401,3.426,787.9,,llama3.1:8b,2,steady,,llama3.1:8b
+What is the CKY algorithm?,10,10,4709,0.023,4.413,4.436,4.467,792.4,,llama3.1:8b,2,steady,,llama3.1:8b
+What is a text corpus?,10,10,3678,0.023,2.202,2.224,2.246,794.6,,llama3.1:8b,2,steady,,llama3.1:8b
+Why are natural languages harder to parse than formal languages?,10,10,4204,0.031,3.61,3.641,3.649,798.3,,llama3.1:8b,2,steady,,llama3.1:8b
+What is stemming in text normalisation?,10,10,4646,0.021,1.789,1.809,1.828,830.2,,llama3.1:8b,3,steady,,llama3.1:8b
+What is lemmatization?,10,10,4366,0.024,3.353,3.377,3.383,833.6,,llama3.1:8b,3,steady,,llama3.1:8b
+Explain the Markov assumption.,10,10,3904,0.019,2.919,2.939,2.97,836.5,,llama3.1:8b,3,steady,,llama3.1:8b
+How does TF-IDF weight terms?,10,10,4690,0.025,5.929,5.954,5.97,842.5,,llama3.1:8b,3,steady,,llama3.1:8b
+What is cosine similarity used for?,10,10,4278,0.023,4.231,4.254,4.273,846.8,,llama3.1:8b,3,steady,,llama3.1:8b
+What is perplexity?,10,10,4220,0.022,2.651,2.672,2.703,849.5,,llama3.1:8b,3,steady,,llama3.1:8b
+What is add-one smoothing?,10,10,3603,0.022,2.765,2.788,2.815,852.3,,llama3.1:8b,3,steady,,llama3.1:8b
+What are stopwords?,10,10,4601,0.026,2.54,2.566,2.585,854.9,,llama3.1:8b,3,steady,,llama3.1:8b
+What is the difference between types and tokens?,10,10,3803,0.024,5.71,5.734,5.761,860.6,,llama3.1:8b,3,steady,,llama3.1:8b
+Explain the parallelogram model for analogies.,10,10,3820,0.027,7.058,7.085,7.091,867.7,,llama3.1:8b,3,steady,,llama3.1:8b
+What assumption makes Naive Bayes naive?,10,10,4714,0.023,1.139,1.162,1.187,868.9,,llama3.1:8b,3,steady,,llama3.1:8b
+Define precision and recall.,10,10,4392,0.022,3.456,3.478,3.501,872.4,,llama3.1:8b,3,steady,,llama3.1:8b
+What is a confusion matrix?,10,10,4510,0.022,2.789,2.811,2.834,875.3,,llama3.1:8b,3,steady,,llama3.1:8b
+What is overfitting?,10,10,3450,0.021,1.2,1.221,1.249,876.5,,llama3.1:8b,3,steady,,llama3.1:8b
+Explain cross-validation.,10,10,4494,0.025,7.172,7.197,7.222,883.7,,llama3.1:8b,3,steady,,llama3.1:8b
+What are the three categories of machine learning?,10,10,4313,0.022,4.503,4.525,4.543,888.3,,llama3.1:8b,3,steady,,llama3.1:8b
+What is a context-free grammar?,10,10,4536,0.022,3.193,3.215,3.247,891.5,,llama3.1:8b,3,steady,,llama3.1:8b
+What is the CKY algorithm?,10,10,4709,0.02,4.362,4.382,4.412,895.9,,llama3.1:8b,3,steady,,llama3.1:8b
+What is a text corpus?,10,10,3678,0.02,2.186,2.206,2.212,898.1,,llama3.1:8b,3,steady,,llama3.1:8b
+Why are natural languages harder to parse than formal languages?,10,10,4204,0.026,3.562,3.588,3.613,901.8,,llama3.1:8b,3,steady,,llama3.1:8b

@@ -1,0 +1,5 @@
+condition,n,hallucination_rate,clean_refusals,hedged_on_unanswerable,answered_on_unanswerable,false_refusals_on_answerable,hedged_on_answerable,answered_when_it_should,threshold_refusals,model_refusals,mean_s
+k=1,30,0.0,15/15,0,0,8/15,0,7/15,13,10,5.92
+k=3,30,0.0,15/15,0,0,5/15,1,9/15,13,8,5.53
+k=5,30,0.0,15/15,0,0,5/15,1,9/15,13,8,10.15
+k=10,30,0.0,15/15,0,0,4/15,0,11/15,13,6,20.51

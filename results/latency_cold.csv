@@ -1,0 +1,5 @@
+model,k_requested,total_s,cold_start_reliable,resident
+llama3.1:8b,1,12.09,True,llama3.1:8b
+llama3.1:8b,3,11.795,True,llama3.1:8b
+llama3.1:8b,5,12.046,True,llama3.1:8b
+llama3.1:8b,10,13.108,True,llama3.1:8b

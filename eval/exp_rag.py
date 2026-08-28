@@ -20,7 +20,7 @@ from pathlib import Path
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from common import RESULTS, ask, check_backend, is_refusal, progress, save
+from common import RESULTS, ask, check_backend, classify, progress, save
 
 QUESTIONS = Path(__file__).resolve().parent / "questions_rag.csv"
 
@@ -168,7 +168,8 @@ def run_condition(df, label, overrides):
     rows = []
     for i, q in enumerate(df.itertuples(), 1):
         r = ask(q.question, **overrides)
-        refused = is_refusal(r)
+        outcome = classify(r)          # refused | hedged | answered
+        refused = outcome == "refused"
         rows.append({
             "qid": q.qid,
             "category": q.category,
@@ -176,12 +177,15 @@ def run_condition(df, label, overrides):
             "question": q.question,
             "condition": label,
             "answer": (r.get("answer") or "").replace("\n", " ").strip(),
+            "outcome": outcome,
             "refused": refused,
             "refusal_reason": r.get("refusal_reason"),
             "nearest_distance": (r.get("distances") or [None])[0],
             "sources": "; ".join(r.get("sources") or []),
             "total_s": r.get("total_s"),
-            # Correct behaviour: refuse when it should, answer when it should.
+            # Correct behaviour: refuse cleanly when it should, answer when it
+            # should. A hedged answer to an unanswerable question is NOT correct
+            # behaviour — the content leaked regardless of the disclaimer.
             "behaved_correctly": refused == (q.expected == "refuse"),
             # For answerable questions the answer's factual correctness still
             # needs a human. Filled in by hand — see the Day 4 guide.
@@ -198,13 +202,24 @@ def summarise(rows):
     for label, sub in df.groupby("condition", sort=False):
         unans = sub[sub.expected == "refuse"]
         ans = sub[sub.expected == "answer"]
+
+        # A hedged answer to an unanswerable question is a hallucination: the
+        # unsupported content reached the user, and the disclaimer in front of
+        # it arguably makes it worse by reading as caution.
+        leaked = unans[unans.outcome != "refused"]
+
         out.append({
             "condition": label,
             "n": len(sub),
-            "hallucination_rate": round(1 - unans["refused"].mean(), 4) if len(unans) else None,
-            "refusals_on_unanswerable": f"{int(unans['refused'].sum())}/{len(unans)}",
-            "false_refusals_on_answerable": f"{int(ans['refused'].sum())}/{len(ans)}",
-            "answered_when_it_should": f"{int((~ans['refused']).sum())}/{len(ans)}",
+            "hallucination_rate": round(len(leaked) / len(unans), 4) if len(unans) else None,
+            "clean_refusals": f"{int((unans.outcome == 'refused').sum())}/{len(unans)}",
+            "hedged_on_unanswerable": int((unans.outcome == "hedged").sum()),
+            "answered_on_unanswerable": int((unans.outcome == "answered").sum()),
+            "false_refusals_on_answerable": f"{int((ans.outcome == 'refused').sum())}/{len(ans)}",
+            "hedged_on_answerable": int((ans.outcome == "hedged").sum()),
+            "answered_when_it_should": f"{int((ans.outcome == 'answered').sum())}/{len(ans)}",
+            "threshold_refusals": int((sub.refusal_reason == "retrieval_distance").sum()),
+            "model_refusals": int((sub.refusal_reason == "model_judgement").sum()),
             "mean_s": round(sub["total_s"].dropna().mean(), 2) if sub["total_s"].notna().any() else None,
         })
     return pd.DataFrame(out)

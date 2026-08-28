@@ -1,0 +1,5 @@
+model,k,n_steady,blocks,cold_start_s,steady_median_s,steady_mean_s,steady_p95_s,steady_sd_s,block_medians,drift_ratio,stable,mean_context_chars,retrieve_median_s,generate_median_s,meets_nfr,pct_under_nfr
+llama3.1:8b,1,60,3,6.95,0.66,0.82,1.75,0.47,0.52 / 0.55 / 0.92,1.77,True,437,0.011,0.64,True,100.0
+llama3.1:8b,3,60,3,10.8,1.69,1.87,3.56,0.87,1.78 / 1.6 / 1.68,1.11,True,1331,0.022,1.67,True,100.0
+llama3.1:8b,5,60,3,12.74,2.25,2.88,5.29,2.88,2.64 / 2.14 / 2.05,1.29,True,2196,0.024,2.22,True,98.3
+llama3.1:8b,10,60,3,13.3,3.55,4.08,7.39,1.97,4.76 / 3.43 / 3.3,1.44,True,4246,0.024,3.52,True,100.0
