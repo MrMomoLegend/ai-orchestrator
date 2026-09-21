@@ -1,5 +1,0 @@
-condition,n,hallucination_rate_all,hallucination_out_of_corpus,hallucination_related,clean_refusals,hedged_on_unanswerable,answered_when_it_should,false_refusals,hedged_on_answerable,threshold_refusals,model_refusals,mean_s,median_s
-k=1,30,0.0,0.0,0.0,15/15,0,7/15,8/15,0,13,10,5.92,5.86
-k=3,30,0.0,0.0,0.0,15/15,0,9/15,5/15,1,13,8,5.53,3.33
-k=5,30,0.0,0.0,0.0,15/15,0,9/15,5/15,1,13,8,10.15,10.68
-k=10,30,0.0,0.0,0.0,15/15,0,11/15,4/15,0,13,6,20.51,23.24
