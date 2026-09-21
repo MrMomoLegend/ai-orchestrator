@@ -1,0 +1,4 @@
+subset,n,exact_match,f1,refusal_rate,hedged_rate,answered_rate,refused_by_retrieval,refused_by_model
+overall,500,55.4,65.49,50.4,3.6,46.0,106,146
+answerable,250,28.4,48.58,18.4,3.2,78.4,26,20
+unanswerable,250,82.4,82.4,82.4,4.0,13.6,80,126

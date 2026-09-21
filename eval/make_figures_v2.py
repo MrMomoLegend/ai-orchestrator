@@ -51,19 +51,33 @@ def fig_rag():
     df = read("rescored_rag_summary.csv")
     if df is None:
         return
-    fig, ax = plt.subplots(figsize=(7, 4.3))
+    resp = read("rag_rag_responses.csv")
+    fig, ax = plt.subplots(figsize=(7.6, 4.3))
     x = np.arange(len(df))
-    w = 0.38
+    w = 0.27
     hall = df["hallucination_out_of_corpus"] * 100
-    corr = [frac(v) for v in df["answered_when_it_should"]]
-    b1 = ax.bar(x - w / 2, hall, w, label="Hallucination rate\n(unanswerable, n=15)", color=AMBER)
-    b2 = ax.bar(x + w / 2, corr, w, label="Answered correctly\n(answerable, n=15)", color=NAVY)
-    ax.bar_label(b1, fmt="%.0f%%", padding=3, fontsize=9)
-    ax.bar_label(b2, fmt="%.0f%%", padding=3, fontsize=9)
+    # Coverage and correctness are different quantities. The previous version
+    # plotted "answered_when_it_should" under the label "Answered correctly",
+    # which reported coverage as though it were accuracy.
+    cover = [frac(v) for v in df["answered_when_it_should"]]
+    # Correctness is scored over the responses each configuration actually
+    # produced, not over all 15 answerable questions — a refused question
+    # yields no answer to judge. The denominators therefore differ between
+    # conditions, and the caption must say so.
+    acc = []
+    for cond in df["condition"]:
+        sub = resp[(resp.condition == cond)
+                   & resp.answer_correct.isin([0, 1, "0", "1", 0.0, 1.0])]
+        acc.append(100 * sub.answer_correct.astype(float).mean() if len(sub) else 0.0)
+    b1 = ax.bar(x - w, hall, w, label="Hallucination rate\n(unanswerable, n=15)", color=AMBER)
+    b2 = ax.bar(x, cover, w, label="Answered\n(answerable, n=15)", color=GREY)
+    b3 = ax.bar(x + w, acc, w, label="Factually correct\n(of responses given)", color=NAVY)
+    for b in (b1, b2, b3):
+        ax.bar_label(b, fmt="%.0f%%", padding=3, fontsize=9)
     ax.set_xticks(x)
     ax.set_xticklabels(df["condition"])
-    ax.set_ylim(0, 118)
-    ax.legend(frameon=False, fontsize=8.5, loc="upper center", ncol=2)
+    ax.set_ylim(0, 122)
+    ax.legend(frameon=False, fontsize=8.5, loc="upper center", ncol=3)
     style(ax, "Percentage of questions", "Retrieval grounding versus ungrounded generation (n=30)")
     save(fig, "fig5_2_rag_on_off.png")
 

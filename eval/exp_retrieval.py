@@ -37,24 +37,24 @@ LABELS = RESULTS / "retrieval_labels.csv"
 MAX_K = 10
 KS = (1, 3, 5, 10)
 
-# Queries with a known answer location in the NLP lecture corpus.
+# Queries with a known answer location in the public corpus (docs/).
 #
 # Each one targets a distinct section, so a relevant passage exists and is
 # findable. Queries whose answer is spread thinly across the whole corpus
 # would make precision@k measure the question rather than the retriever.
 QUERIES = [
-    "What is stemming?",
-    "What is lemmatization?",
-    "What is the Markov assumption?",
-    "How is TF-IDF calculated?",
-    "What is cosine similarity?",
-    "What is perplexity?",
-    "What is add-one smoothing?",
-    "What are stopwords?",
-    "What is the difference between types and tokens?",
-    "What is the parallelogram model for analogies?",
-    "What is the conditional independence assumption in Naive Bayes?",
-    "What is a confusion matrix?",
+    "What does the Viterbi algorithm compute?",
+    "What is Chomsky normal form in the CYK algorithm?",
+    "What are the CBOW and skip-gram models?",
+    "What is negative sampling?",
+    "How is tf-idf calculated?",
+    "What co-occurrence statistics does GloVe use?",
+    "What is masked language modelling in BERT?",
+    "How does fastText use character n-grams?",
+    "Why does the transformer use positional encoding?",
+    "What is word error rate?",
+    "What is named-entity recognition?",
+    "What is retrieval-augmented generation?",
 ]
 
 

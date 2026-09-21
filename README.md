@@ -16,19 +16,11 @@ request leaves it at any point.
 
 ## The result
 
-Over a 30-question set on a 3,215-chunk corpus:
-
-| Configuration | Unsupported answers to unanswerable questions | Correct answers |
-|---|---|---|
-| Retrieval **off** | 15 / 15 (100%) | 15 / 15 |
-| Retrieval **on** (k=10) | **0 / 15 (0%)** | 14 / 15 |
-
-Grounding did more than suppress answers. Asked who first implemented the parser behind
-the CKY algorithm, the ungrounded model invented three researchers and three dates; the
-grounded system returned *"John Cocke, 1960"* with the source passage attached.
-
-Three ablations qualify that headline, and two of them returned negative results that are
-reported as measured rather than quietly dropped — see Chapter 5 of the report.
+The system is evaluated on a 30-question set against the public corpus in `docs/`
+(15 answerable, 12 out-of-corpus, 3 related-but-unanswerable), with retrieval on and off,
+and on SQuAD 2.0 (n=500). The retrieval threshold (0.53) and k (10) were fixed on an
+earlier development corpus and not re-tuned, so both evaluations are out-of-sample.
+Results and ablations are in `results/` and Chapter 5 of the report.
 
 ## Architecture
 
@@ -80,15 +72,15 @@ pip install -r requirements.txt
 
 ollama pull llama3.1:8b
 
-# Add your own documents (.txt, .md, .pdf) to docs/ — see docs/README.md
+# docs/ already holds the evaluation corpus; add your own .txt/.md/.pdf alongside it
 python ingest.py               # builds both chunking collections
 
 uvicorn main:app --reload      # backend on :8000
 cd frontend && npm install && npm run dev   # frontend on :5173
 ```
 
-The corpus this project was evaluated against is **not distributed with the repository**;
-`docs/README.md` explains what to put there and why.
+`docs/` ships with the 22 openly licensed PDFs the evaluation uses, so `python ingest.py`
+works on a fresh clone. `docs/README.md` lists their sources and licence.
 
 ## Configuration
 
@@ -132,7 +124,6 @@ frontend/            React single-page interface
 eval/                experiment scripts and the 30-question set
 asr_eval/            self-contained speech-recognition evaluation
 results/             CSVs and figures behind every Chapter 5 claim
-report/              report source (docx build) and the built deliverable
 archive/             superseded prototype scripts, kept for provenance
 ```
 
@@ -140,8 +131,8 @@ archive/             superseded prototype scripts, kept for provenance
 
 Source code in this repository is the author's own work.
 
-The evaluation corpus is **not** included. It consisted of reading-list extracts from
-published textbooks — course textbook, course textbook, course textbook, course textbook — supplied through the module and used locally under fair dealing for private study
-and research. Redistributing them is not permitted, so they are excluded from this
-repository and from its history. Model weights (Llama 3.1, Whisper, Vosk,
+The PDFs in `docs/` are Wikipedia articles and sections of *Dive into Deep Learning*
+(d2l.ai), redistributed unmodified under CC BY-SA 4.0 — see `docs/README.md`. Parameters
+were developed against an earlier course-reading corpus that is not redistributable and is
+not included in this repository or its history. Model weights (Llama 3.1, Whisper, Vosk,
 all-MiniLM-L6-v2) are downloaded at setup from their own sources under their own licences.

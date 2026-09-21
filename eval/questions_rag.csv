@@ -1,20 +1,20 @@
 qid,category,expected,question,ground_truth_check
-A01,answerable,answer,What is the difference between an intrinsic and an extrinsic evaluation of a language model?,course text - verified present
-A02,answerable,answer,How does the Markov assumption simplify the task of language modelling?,course text - verified present
-A03,answerable,answer,What is the difference between word types and word tokens in a corpus?,course text / IR Ch2 - verified present
-A04,answerable,answer,What is the Naive Bayes assumption and how does it affect probability calculations?,course text - verified present
-A05,answerable,answer,In a confusion matrix how are precision and recall calculated?,course text - verified present in 2 files
-A07,answerable,answer,What are stopwords and why are they removed during text preprocessing?,course text - verified present
-A08,answerable,answer,Describe the parallelogram model used in word embeddings to solve analogies.,course text - verified present in 4 files
-A09,answerable,answer,What is perplexity and how does it relate to a language's branching factor?,course text - verified present
-A10,answerable,answer,What is the purpose of smoothing in n-gram models?,Laplace/add-one - verified present in 3 files
-A11,answerable,answer,What is the difference between stemming and lemmatization?,IR Ch2 - verified present in 2 files
-A13,answerable,answer,Who first implemented the dynamic programming parser behind the CKY algorithm?,course text - Cocke 1960 - verified present
-A14,answerable,answer,What perplexity did the trigram model achieve in the worked example?,course text - verified present
-A15,answerable,answer,How is TF-IDF weighting calculated?,verified present in 4 files - system answered this correctly
-A16,answerable,answer,Why is cosine similarity preferred over the raw dot product for comparing word embeddings?,verified present in 5 files - system wrongly refused
-A17,answerable,answer,What is positive pointwise mutual information and how is it computed?,verified present in 7 files - system wrongly refused
-B01,out_of_corpus,refuse,What is the capital of Brazil?,General knowledge - absent
+A01,answerable,answer,What does the Viterbi algorithm compute for a hidden Markov model?,most likely sequence of hidden states - Viterbi algorithm.pdf + Hidden Markov model.pdf
+A02,answerable,answer,What normal form must a grammar be in before the CYK algorithm can be applied?,Chomsky normal form - CYK algorithm.pdf
+A03,answerable,answer,Which researchers is the CYK algorithm named after?,Cocke / Younger / Kasami - CYK algorithm.pdf
+A04,answerable,answer,What are the two model architectures used by Word2Vec?,CBOW and skip-gram - Word2Vec - Wikipedia.pdf + word2vec.pdf
+A05,answerable,answer,Which two approximate training methods reduce the cost of the softmax in word2vec?,negative sampling + hierarchical softmax - approx-training.pdf + Word2Vec - Wikipedia.pdf
+A06,answerable,answer,How is tf-idf weighting calculated?,product of term frequency and inverse document frequency - tf–idf.pdf
+A07,answerable,answer,What corpus statistics does GloVe use to learn word vectors?,global word-word co-occurrence counts - glove.pdf
+A08,answerable,answer,What two tasks is BERT pretrained on?,masked language modelling + next sentence prediction - bert.pdf
+A09,answerable,answer,How does the fastText subword model represent a word?,sum of character n-gram vectors - subword-embedding.pdf
+A10,answerable,answer,Why does the transformer need positional encoding?,self-attention has no order information - transformer.pdf
+A11,answerable,answer,How is the accuracy of speech recognition systems usually measured?,word error rate - Speech recognition.pdf
+A12,answerable,answer,What dataset is used for sentiment analysis in the Dive into Deep Learning chapter?,IMDb movie reviews - sentiment-analysis-and-dataset.pdf
+A13,answerable,answer,When was GPT-4 released?,14 March 2023 - GPT-4.pdf
+A14,answerable,answer,What is retrieval-augmented generation?,retrieve documents then generate grounded answer - Retrieval-augmented generation.pdf
+A15,answerable,answer,What is perplexity and how is it used to evaluate a language model?,exp of average negative log-likelihood - language-model.pdf + Large language model.pdf
+B01,out_of_corpus,refuse,What is the capital of Brazil?,General knowledge - absent (Brazil appears once in an unrelated list)
 B02,out_of_corpus,refuse,Who won the 2018 FIFA World Cup?,General knowledge - absent
 B03,out_of_corpus,refuse,What is the boiling point of water in Fahrenheit?,General knowledge - absent
 B04,out_of_corpus,refuse,How tall is Mount Kilimanjaro?,General knowledge - absent
@@ -24,8 +24,8 @@ B07,out_of_corpus,refuse,Who wrote the novel Wuthering Heights?,General knowledg
 B08,out_of_corpus,refuse,What is the chemical symbol for tungsten?,General knowledge - absent
 B09,out_of_corpus,refuse,How many time zones does Russia have?,General knowledge - absent
 B10,out_of_corpus,refuse,What is the population of Singapore?,General knowledge - absent
-B11,out_of_corpus,refuse,Who is the chief executive of OpenAI?,Topic-adjacent control - absent
+B11,out_of_corpus,refuse,Who is the chief executive of Google?,Topic-adjacent control - Pichai absent
 B12,out_of_corpus,refuse,What is the world record for the men's 100 metre sprint?,General knowledge - absent
-C03,related_unanswerable,refuse,How many parameters does GPT-4 have?,"LLMs discussed; ""GPT-4"" + parameter count verified ABSENT"
-C04,related_unanswerable,refuse,Which Python library should I use to implement a CKY parser?,CKY taught but no library recommendation - verified absent
-C05,related_unanswerable,refuse,What learning rate should I use when training a deep learning language model?,"""learning rate"" verified ABSENT from the entire corpus"
+C01,related_unanswerable,refuse,Which Python library should I use to implement a CYK parser?,CYK covered; no library recommendation (NLTK absent)
+C02,related_unanswerable,refuse,What learning rate should I use when training a word2vec model?,word2vec covered; no learning-rate value in any word2vec source
+C03,related_unanswerable,refuse,What word error rate does OpenAI's Whisper model achieve on LibriSpeech?,speech recognition + WER covered; Whisper and LibriSpeech absent

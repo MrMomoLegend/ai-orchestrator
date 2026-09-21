@@ -83,13 +83,17 @@ desktop.ini
 *.key
 *.pem
 
-# --- Course reading-list PDFs ----------------------------------------------
-# Third-party copyright: published textbook extracts supplied through CM3060.
-# Used locally under fair dealing; not redistributable. Purged from history.
-# See docs/README.md for what belongs in that folder.
-docs/*.pdf
+# --- Document corpus -------------------------------------------------------
+# docs/ now holds only openly licensed (CC BY-SA) PDFs and is committed.
+# The earlier course-reading corpus is not redistributable and was purged.
 
 # Agent skills (npx skills) - local tooling, not project source
 .claude/
 .agents/
 skills-lock.json
+
+# Windows reserved-name artefact from a bad redirect
+nul
+
+# SUS participant packs (filled forms) stay local; scores are in sus/sus_scores.csv
+sus/*.pdf

@@ -35,7 +35,8 @@ from pathlib import Path
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from common import RESULTS, ask, check_backend, is_refusal, progress, save
+from common import (RESULTS, ask, check_backend, classify, is_refusal,
+                    progress, save)
 
 HERE = Path(__file__).resolve().parent
 DATA = HERE / "data"
@@ -132,8 +133,9 @@ def main():
     import ollama
     from chromadb.utils import embedding_functions
     sys.path.insert(0, str(HERE.parent))
-    from main import (DB_FOLDER, DISTANCE_THRESHOLD, EMBED_MODEL, MODEL_NAME,
-                      REFUSAL, TOP_K, USE_THRESHOLD, chunk_sentence)
+    from main import (DB_FOLDER, DISTANCE_THRESHOLD, EMBED_MODEL, LLM_SEED,
+                      LLM_TEMPERATURE, MODEL_NAME, REFUSAL, TOP_K,
+                      USE_THRESHOLD, chunk_sentence)
 
     client = chromadb.PersistentClient(path=DB_FOLDER)
     embed = embedding_functions.SentenceTransformerEmbeddingFunction(model_name=EMBED_MODEL)
@@ -163,20 +165,32 @@ def main():
         chunks = res["documents"][0]
         dists = [float(d) for d in res["distances"][0]]
 
+        top_distance = dists[0] if dists else None
+
         if USE_THRESHOLD and (not dists or dists[0] > DISTANCE_THRESHOLD):
-            pred, refused, reason = REFUSAL, True, "retrieval_distance"
+            pred, outcome, reason = REFUSAL, "refused", "retrieval_distance"
         else:
             prompt = (
                 "Answer the question using ONLY the context below. If the answer "
                 f"is not in the context, say '{REFUSAL}'"
                 f"\n\nContext:\n{chr(10).join(chunks)}\n\nQuestion: {item['question']}"
             )
+            # Ollama defaults to temperature 0.8. Without these options this
+            # script would sample stochastically, reintroducing exactly the
+            # replicate disagreement that the deterministic rerun removed.
             out = ollama.chat(
-                model=MODEL_NAME, messages=[{"role": "user", "content": prompt}]
+                model=MODEL_NAME,
+                messages=[{"role": "user", "content": prompt}],
+                options={"temperature": LLM_TEMPERATURE, "seed": LLM_SEED},
             )
             pred = out["message"]["content"].strip()
-            refused = is_refusal({"answer": pred})
-            reason = "model_judgement" if refused else None
+            # Three-way, not binary. The model routinely emits a refusal
+            # sentence and then answers anyway; folding that into either
+            # bucket loses the most interesting failure mode on this set.
+            outcome = classify({"answer": pred})
+            reason = "model_judgement" if outcome == "refused" else None
+
+        refused = outcome == "refused"
 
         if item["is_impossible"]:
             em = float(refused)
@@ -191,11 +205,17 @@ def main():
             "question": item["question"],
             "gold": " | ".join(item["answers"]),
             "prediction": pred.replace("\n", " ")[:300],
+            "outcome": outcome,
             "refused": refused,
+            "refusal_reason": reason,
+            "top_distance": round(top_distance, 4) if top_distance is not None else None,
             "em": em,
             "f1": round(f, 4),
         })
         progress(i, len(sample), item["question"][:34])
+
+        if i % 50 == 0:
+            save("squad_responses_partial.csv", pd.DataFrame(rows))
 
     try:
         client.delete_collection(TEMP)
@@ -217,6 +237,10 @@ def main():
             "exact_match": round(sub["em"].mean() * 100, 2),
             "f1": round(sub["f1"].mean() * 100, 2),
             "refusal_rate": round(sub["refused"].mean() * 100, 2),
+            "hedged_rate": round((sub["outcome"] == "hedged").mean() * 100, 2),
+            "answered_rate": round((sub["outcome"] == "answered").mean() * 100, 2),
+            "refused_by_retrieval": int((sub["refusal_reason"] == "retrieval_distance").sum()),
+            "refused_by_model": int((sub["refusal_reason"] == "model_judgement").sum()),
         })
     s = pd.DataFrame(summary)
     save("squad_summary.csv", s)
