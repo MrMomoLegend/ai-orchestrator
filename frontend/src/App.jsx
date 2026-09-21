@@ -300,7 +300,7 @@ function QuestionInput({ value, onChange, disabled, onSubmit }) {
         rows={3}
         value={value}
         disabled={disabled}
-        placeholder="e.g. What does the module description say about the final report?"
+        placeholder="e.g. What does the Viterbi algorithm compute in a hidden Markov model?"
         onChange={(e) => onChange(e.target.value)}
         onKeyDown={(e) => {
           if (e.key === "Enter" && !e.shiftKey) {

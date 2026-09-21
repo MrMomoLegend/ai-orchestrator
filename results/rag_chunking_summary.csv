@@ -1,0 +1,3 @@
+condition,n,hallucination_rate,clean_refusals,hedged_on_unanswerable,answered_on_unanswerable,false_refusals_on_answerable,hedged_on_answerable,answered_when_it_should,threshold_refusals,model_refusals,mean_s
+Fixed-size,30,0.0,15/15,0,0,2/15,0,13/15,12,5,24.3
+Sentence-aware,30,0.0,15/15,0,0,1/15,1,13/15,12,5,4.69

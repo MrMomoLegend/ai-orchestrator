@@ -269,7 +269,7 @@ def main():
 
     print(f"\nAll results in {RESULTS}")
     print("\nNEXT: open rag_rag_responses.csv and fill the answer_correct column")
-    print("for the 12 answerable questions (1 = correct, 0 = incorrect). Exact")
+    print("for the 15 answerable questions (1 = correct, 0 = incorrect). Exact")
     match_note = "Match and F1 come from SQuAD in 5.9; this column is 5.2's accuracy claim."
     print(match_note)
 
