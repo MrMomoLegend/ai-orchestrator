@@ -291,6 +291,18 @@ button:disabled { cursor: not-allowed; }
 .tag { font-family: var(--sans); font-size: 12.5px; font-weight: 600; padding: 3px 10px; border-radius: 999px; }
 .tag-grounded { background: var(--good-bg); color: var(--good); }
 .tag-memory { background: var(--warn-bg); color: var(--warn); }
+.tag-refused { background: var(--surface-2); color: var(--ink-2); }
+.gate-note {
+  margin: 14px 0 0;
+  padding: 12px 14px;
+  border-left: 3px solid var(--line-strong);
+  background: var(--surface);
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  color: var(--ink-2);
+  font-size: 14px;
+  max-width: 72ch;
+}
+.gate-note strong { font-family: var(--mono); font-size: 13px; font-weight: 600; }
 
 .heard {
   margin: 0 0 12px;

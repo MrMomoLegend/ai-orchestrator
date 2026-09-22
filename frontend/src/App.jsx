@@ -231,7 +231,7 @@ export default function App() {
           {result ? (
             <>
               <AnswerPanel result={result} />
-              {result.retrieved_chunks?.length > 0 && (
+              {result.retrieved_chunks?.length > 0 && !isGateRefusal(result) && (
                 <SourcePanel key={askId} result={result} />
               )}
             </>
@@ -562,6 +562,17 @@ function RagToggle({ value, onChange, disabled }) {
   );
 }
 
+/* A gate refusal still returns the nearest (distant) passages for logging,
+   but the answer was not drawn from them, so they are not shown as sources. */
+function isGateRefusal(result) {
+  return (
+    result?.refused === true &&
+    result?.refusal_reason === "retrieval_distance" &&
+    Array.isArray(result?.distances) &&
+    result.distances.length > 0
+  );
+}
+
 /* ====================================================================== */
 /* FR5 — the answer                                                        */
 /* ====================================================================== */
@@ -580,11 +591,26 @@ function AnswerPanel({ result }) {
         <>
           <p className="answer">{result.answer}</p>
           <p className="meta">
-            <span className={`tag ${result.use_rag ? "tag-grounded" : "tag-memory"}`}>
-              {result.use_rag ? "Grounded in your documents" : "From the model's own memory"}
-            </span>
-            {typeof result.generate_s === "number" && <span>{result.generate_s}s</span>}
+            {result.refused ? (
+              <span className="tag tag-refused">Declined: not in your documents</span>
+            ) : (
+              <span className={`tag ${result.use_rag ? "tag-grounded" : "tag-memory"}`}>
+                {result.use_rag ? "Grounded in your documents" : "From the model's own memory"}
+              </span>
+            )}
+            {typeof result.generate_s === "number" && result.generate_s > 0 && (
+              <span>{result.generate_s}s</span>
+            )}
           </p>
+          {isGateRefusal(result) && (
+            <p className="gate-note">
+              Refused before the language model was asked: the closest passage in
+              your documents is at distance{" "}
+              <strong>{result.distances[0].toFixed(3)}</strong>, beyond the refusal
+              threshold of <strong>{result.threshold ?? 0.53}</strong>. Nothing
+              retrieved was close enough to answer from.
+            </p>
+          )}
         </>
       ) : (
         <p className="hint">Waiting for the answer…</p>
