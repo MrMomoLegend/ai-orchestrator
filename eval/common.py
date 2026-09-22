@@ -76,7 +76,7 @@ def check_backend(require_chunks=True):
         print(f"    {API}/documents")
         print("    ls docs/")
         print()
-        print("Then re-ingest your real course materials:")
+        print("Then re-ingest the corpus in docs/:")
         print("    python ingest.py --reset")
         print()
         try:

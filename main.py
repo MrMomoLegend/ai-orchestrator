@@ -36,11 +36,12 @@ MODEL_NAME = os.getenv("LLM_MODEL", "llama3.1:8b")
 EMBED_MODEL = "all-MiniLM-L6-v2"
 DB_FOLDER = "chroma_db"
 
-# k=10 is the shipped default. Section 5.5 swept k = 1, 3, 5, 10 over the
-# 30-question set: raising k from 3 to 10 took correct answers from 8/15 to
-# 14/15 and false refusals from 5/15 to 1/15, with hallucination at zero at
-# every value tested, for roughly one second of additional median latency.
-# k=3 was inherited from the prototype without evidence; this value has it.
+# k=10 is the shipped default. k=3 was inherited from the prototype without
+# evidence; a sweep on the development corpus moved it to 10, and Section 5.6
+# re-tested it on the public evaluation corpus with k frozen: answered
+# questions rose 6 -> 11 -> 12 -> 13 of 15 at k = 1, 3, 5, 10, with no
+# unsupported answer at any k, for about 0.8 s of extra median latency
+# between k=3 and k=10 (Section 5.9).
 TOP_K = int(os.getenv("TOP_K", "10"))
 
 WHISPER_SIZE = os.getenv("WHISPER_SIZE", "base.en")
