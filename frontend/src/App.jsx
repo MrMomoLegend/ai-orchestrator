@@ -2,7 +2,7 @@
  * App.jsx — Locally-Deployed AI Orchestration System
  * Single-page React client for the FastAPI orchestration backend.
  *
- * Six components map directly onto the functional requirements:
+ * Components map directly onto the functional requirements:
  *   DocumentPanel  -> FR3  upload documents into the corpus
  *   QuestionInput  -> FR1  text input
  *   RecordButton   -> FR2  voice input via MediaRecorder
@@ -10,6 +10,11 @@
  *   AnswerPanel    -> FR5  grounded answer
  *   SourcePanel    -> FR6  retrieved passages, the hallucination-mitigation
  *                          story made visible
+ *   SystemPanel    ->      the configuration every answer is produced under
+ *
+ * Layout (revised after the usability study, §5.10): the question composer
+ * sits at the top of the main column so it is never below the fold; the
+ * document library and system settings live in a side column.
  *
  * No router, no state library. The application is one screen with one
  * request in flight at a time; anything more would be scaffolding without
@@ -44,6 +49,7 @@ export default function App() {
   const [backendUp, setBackendUp] = useState(null); // null = still checking
   const [docs, setDocs] = useState([]);
   const [chunkCount, setChunkCount] = useState(0);
+  const [health, setHealth] = useState(null);
 
   const [question, setQuestion] = useState("");
   const [useRag, setUseRag] = useState(true);
@@ -51,9 +57,14 @@ export default function App() {
   const [stage, setStage] = useState(null);
   const [elapsed, setElapsed] = useState(0);
   const [result, setResult] = useState(null);
+  const [askId, setAskId] = useState(0); // new id per answer resets the source panel
   const [error, setError] = useState(null);
 
+  // Shared with DocumentPanel so the composer's "+" opens the same picker.
+  const fileInputRef = useRef(null);
+
   const busy = stage !== null;
+  const offline = backendUp === false;
 
   /* ---------------- corpus state ---------------- */
   const refreshDocs = useCallback(async () => {
@@ -66,6 +77,12 @@ export default function App() {
       setBackendUp(true);
     } catch {
       setBackendUp(false);
+    }
+    try {
+      const res = await fetch(`${API}/health`);
+      if (res.ok) setHealth(await res.json());
+    } catch {
+      /* the documents call above already reports the outage */
     }
   }, []);
 
@@ -95,9 +112,9 @@ export default function App() {
     setResult(transcript ? { transcript } : null);
     setStage("retrieving");
 
-    // Retrieval completes in well under a second (measured: see §5.7), so
-    // this hand-off is nominal rather than observed. The elapsed counter
-    // above is the real measurement.
+    // Retrieval completes in about 10 ms (measured: see §5.9), so this
+    // hand-off is nominal rather than observed. The elapsed counter above is
+    // the real measurement.
     const toGenerating = setTimeout(() => setStage("generating"), 600);
 
     try {
@@ -109,6 +126,7 @@ export default function App() {
       if (!res.ok) throw await apiError(res);
       const data = await res.json();
       setResult({ ...data, transcript: transcript ?? data.transcript ?? null });
+      setAskId((n) => n + 1);
     } catch (err) {
       setError(
         err.message === "Failed to fetch"
@@ -129,15 +147,16 @@ export default function App() {
           <h1>Local AI Assistant</h1>
           <p className="sub">
             Answers grounded in your own documents. Everything runs on this
-            machine — nothing is sent to the internet.
+            machine; nothing is sent to the internet.
           </p>
         </div>
-        <span className={`pill ${backendUp === false ? "pill-bad" : "pill-good"}`}>
+        <span className={`pill ${offline ? "pill-bad" : "pill-good"}`}>
+          <span className="pill-dot" />
           {backendUp === null ? "connecting…" : backendUp ? "running locally" : "offline"}
         </span>
       </header>
 
-      {backendUp === false && (
+      {offline && (
         <Banner
           kind="error"
           title="Can't reach the assistant."
@@ -146,59 +165,99 @@ export default function App() {
         />
       )}
 
-      {backendUp && chunkCount === 0 && (
-        <Banner
-          kind="warn"
-          title="No documents loaded yet."
-          body="Add a document below, then ask a question about it."
-        />
-      )}
+      <div className="layout">
+        <main className="main">
+          <section className="composer" aria-label="Ask a question">
+            <QuestionInput
+              value={question}
+              onChange={setQuestion}
+              disabled={busy || offline}
+              onSubmit={() => askText(question)}
+            />
 
-      <DocumentPanel
-        docs={docs}
-        chunkCount={chunkCount}
-        disabled={busy || backendUp === false}
-        onStage={setStage}
-        onError={setError}
-        onUploaded={refreshDocs}
-      />
+            <div className="toolbar">
+              <button
+                className="icon-btn"
+                title="Add a document"
+                aria-label="Add a document"
+                disabled={busy || offline}
+                onClick={() => fileInputRef.current?.click()}
+              >
+                <PlusIcon />
+              </button>
 
-      <section className="card">
-        <h2>Ask a question</h2>
+              <div className="toolbar-right">
+                <RagToggle value={useRag} onChange={setUseRag} disabled={busy} />
+                <RecordButton
+                  disabled={busy || offline}
+                  onStage={setStage}
+                  onError={setError}
+                  onTranscript={(t) => {
+                    setQuestion(t);
+                    askText(t, t);
+                  }}
+                />
+                <button
+                  className="send-btn"
+                  title="Ask (Enter)"
+                  aria-label="Ask"
+                  disabled={busy || offline || !question.trim()}
+                  onClick={() => askText(question)}
+                >
+                  <ArrowIcon />
+                </button>
+              </div>
+            </div>
+          </section>
 
-        <QuestionInput
-          value={question}
-          onChange={setQuestion}
-          disabled={busy || backendUp === false}
-          onSubmit={() => askText(question)}
-        />
+          {busy && (
+            <div className="loading" role="status" aria-live="polite">
+              <span className="spinner" />
+              <span>{STAGE_LABEL[stage]}</span>
+              <span className="elapsed">{elapsed.toFixed(1)}s</span>
+            </div>
+          )}
 
-        <div className="row">
-          <RecordButton
-            disabled={busy || backendUp === false}
+          {error && <Banner kind="error" title={error.title} body={error.hint} />}
+
+          {backendUp && chunkCount === 0 && (
+            <Banner
+              kind="warn"
+              title="No documents loaded yet."
+              body="Add a document with the + button or the Documents panel, then ask a question about it."
+            />
+          )}
+
+          {result ? (
+            <>
+              <AnswerPanel result={result} />
+              {result.retrieved_chunks?.length > 0 && (
+                <SourcePanel key={askId} result={result} />
+              )}
+            </>
+          ) : (
+            !busy && (
+              <p className="empty">
+                Ask a question about your documents. Every answer lists the
+                passages it was drawn from, so you can check it.
+              </p>
+            )
+          )}
+        </main>
+
+        <aside className="side">
+          <DocumentPanel
+            docs={docs}
+            chunkCount={chunkCount}
+            disabled={busy || offline}
+            inputRef={fileInputRef}
             onStage={setStage}
             onError={setError}
-            onTranscript={(t) => {
-              setQuestion(t);
-              askText(t, t);
-            }}
+            onUploaded={refreshDocs}
           />
-          <RagToggle value={useRag} onChange={setUseRag} disabled={busy} />
-        </div>
-
-        {busy && (
-          <div className="loading" role="status" aria-live="polite">
-            <span className="spinner" />
-            <span>{STAGE_LABEL[stage]}</span>
-            <span className="elapsed">{elapsed.toFixed(1)}s</span>
-          </div>
-        )}
-
-        {error && <Banner kind="error" title={error.title} body={error.hint} />}
-      </section>
-
-      {result && <AnswerPanel result={result} />}
-      {result?.retrieved_chunks?.length > 0 && <SourcePanel result={result} />}
+          <SystemPanel health={health} />
+        </aside>
+      </div>
     </div>
   );
 }
@@ -206,10 +265,9 @@ export default function App() {
 /* ====================================================================== */
 /* FR3 — document upload                                                  */
 /* ====================================================================== */
-function DocumentPanel({ docs, chunkCount, disabled, onStage, onError, onUploaded }) {
+function DocumentPanel({ docs, chunkCount, disabled, inputRef, onStage, onError, onUploaded }) {
   const [dragging, setDragging] = useState(false);
   const [note, setNote] = useState(null);
-  const inputRef = useRef(null);
 
   async function send(file) {
     if (!file) return;
@@ -224,7 +282,7 @@ function DocumentPanel({ docs, chunkCount, disabled, onStage, onError, onUploade
       const res = await fetch(`${API}/upload`, { method: "POST", body: form });
       if (!res.ok) throw await apiError(res);
       const data = await res.json();
-      setNote(`Added “${data.filename}” — ${data.chunks_added} passages indexed.`);
+      setNote(`Added “${data.filename}”: ${data.chunks_added} passages indexed.`);
       onUploaded();
     } catch (err) {
       onError({
@@ -240,8 +298,19 @@ function DocumentPanel({ docs, chunkCount, disabled, onStage, onError, onUploade
   }
 
   return (
-    <section className="card">
-      <h2>Your documents</h2>
+    <section className="panel">
+      <div className="panel-head">
+        <h2>Documents</h2>
+        <button
+          className="icon-btn icon-btn-sm"
+          title="Add a document"
+          aria-label="Add a document"
+          disabled={disabled}
+          onClick={() => inputRef.current?.click()}
+        >
+          <PlusIcon />
+        </button>
+      </div>
 
       <div
         className={`drop ${dragging ? "drop-active" : ""} ${disabled ? "drop-off" : ""}`}
@@ -257,7 +326,7 @@ function DocumentPanel({ docs, chunkCount, disabled, onStage, onError, onUploade
         }}
         onClick={() => !disabled && inputRef.current?.click()}
       >
-        <strong>Drop a document here, or click to choose one</strong>
+        <strong>Drop a file here, or click to choose</strong>
         <span className="hint">.txt, .md or .pdf</span>
         <input
           ref={inputRef}
@@ -275,17 +344,52 @@ function DocumentPanel({ docs, chunkCount, disabled, onStage, onError, onUploade
 
       {docs.length > 0 && (
         <>
+          <p className="count">
+            {docs.length} document{docs.length === 1 ? "" : "s"} · {chunkCount} passages indexed
+          </p>
           <ul className="doclist">
             {docs.map((d) => (
-              <li key={d}>{d}</li>
+              <li key={d} title={d}>
+                <FileIcon />
+                <span>{d}</span>
+              </li>
             ))}
           </ul>
-          <p className="hint">
-            {docs.length} document{docs.length === 1 ? "" : "s"} · {chunkCount} passages
-            indexed
-          </p>
         </>
       )}
+    </section>
+  );
+}
+
+/* ====================================================================== */
+/* The configuration every answer is produced under (read from /health)   */
+/* ====================================================================== */
+function SystemPanel({ health }) {
+  if (!health) return null;
+  const rows = [
+    ["Language model", health.llm],
+    ["Speech model", health.whisper && `Whisper ${health.whisper}`],
+    ["Passages per answer", health.top_k],
+    [
+      "Refusal threshold",
+      health.threshold_enabled ? `distance > ${health.distance_threshold}` : "off",
+    ],
+    ["Decoding", `temperature ${health.temperature}, seed ${health.seed}`],
+  ].filter(([, v]) => v !== undefined && v !== null && v !== "");
+
+  return (
+    <section className="panel">
+      <div className="panel-head">
+        <h2>How answers are made</h2>
+      </div>
+      <dl className="specs">
+        {rows.map(([k, v]) => (
+          <div key={k}>
+            <dt>{k}</dt>
+            <dd>{String(v)}</dd>
+          </div>
+        ))}
+      </dl>
     </section>
   );
 }
@@ -295,24 +399,21 @@ function DocumentPanel({ docs, chunkCount, disabled, onStage, onError, onUploade
 /* ====================================================================== */
 function QuestionInput({ value, onChange, disabled, onSubmit }) {
   return (
-    <div className="ask">
-      <textarea
-        rows={3}
-        value={value}
-        disabled={disabled}
-        placeholder="e.g. What does the Viterbi algorithm compute in a hidden Markov model?"
-        onChange={(e) => onChange(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" && !e.shiftKey) {
-            e.preventDefault();
-            onSubmit();
-          }
-        }}
-      />
-      <button className="primary" disabled={disabled || !value.trim()} onClick={onSubmit}>
-        Ask
-      </button>
-    </div>
+    <textarea
+      className="question"
+      rows={3}
+      value={value}
+      disabled={disabled}
+      aria-label="Your question"
+      placeholder="Ask about your documents, e.g. What does the Viterbi algorithm compute in a hidden Markov model?"
+      onChange={(e) => onChange(e.target.value)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" && !e.shiftKey) {
+          e.preventDefault();
+          onSubmit();
+        }
+      }}
+    />
   );
 }
 
@@ -367,7 +468,7 @@ function RecordButton({ disabled, onStage, onError, onTranscript }) {
       if (blob.size < 1000) {
         onError({
           title: "That recording was too short.",
-          hint: "Hold the button while you speak, then press stop.",
+          hint: "Press the microphone, speak, then press stop.",
         });
         return;
       }
@@ -416,12 +517,20 @@ function RecordButton({ disabled, onStage, onError, onTranscript }) {
 
   return (
     <button
-      className={recording ? "record recording" : "record"}
+      className={recording ? "record recording" : "icon-btn record"}
       disabled={disabled}
+      title={recording ? "Stop and send" : "Ask by voice"}
+      aria-label={recording ? "Stop and send" : "Ask by voice"}
       onClick={recording ? stop : start}
     >
-      <span className="dot" />
-      {recording ? "Stop and send" : "Ask by voice"}
+      {recording ? (
+        <>
+          <span className="dot" />
+          Stop and send
+        </>
+      ) : (
+        <MicIcon />
+      )}
     </button>
   );
 }
@@ -431,7 +540,14 @@ function RecordButton({ disabled, onStage, onError, onTranscript }) {
 /* ====================================================================== */
 function RagToggle({ value, onChange, disabled }) {
   return (
-    <label className={`toggle ${disabled ? "toggle-off" : ""}`}>
+    <label
+      className={`toggle ${disabled ? "toggle-off" : ""}`}
+      title={
+        value
+          ? "Answers come only from your documents"
+          : "Answering from the model's own memory"
+      }
+    >
       <input
         type="checkbox"
         checked={value}
@@ -441,14 +557,7 @@ function RagToggle({ value, onChange, disabled }) {
       <span className="track">
         <span className="knob" />
       </span>
-      <span className="toggle-text">
-        <strong>Use my documents</strong>
-        <span className="hint">
-          {value
-            ? "Answers come only from your documents"
-            : "Answering from the model's own memory"}
-        </span>
-      </span>
+      <span className="toggle-text">{value ? "Use my documents" : "Model memory only"}</span>
     </label>
   );
 }
@@ -458,7 +567,7 @@ function RagToggle({ value, onChange, disabled }) {
 /* ====================================================================== */
 function AnswerPanel({ result }) {
   return (
-    <section className="card">
+    <section className="result">
       <h2>Answer</h2>
 
       {result.transcript && (
@@ -470,9 +579,11 @@ function AnswerPanel({ result }) {
       {result.answer ? (
         <>
           <p className="answer">{result.answer}</p>
-          <p className="hint">
-            {result.use_rag ? "Grounded in your documents" : "From the model's own memory"}
-            {typeof result.generate_s === "number" && ` · ${result.generate_s}s`}
+          <p className="meta">
+            <span className={`tag ${result.use_rag ? "tag-grounded" : "tag-memory"}`}>
+              {result.use_rag ? "Grounded in your documents" : "From the model's own memory"}
+            </span>
+            {typeof result.generate_s === "number" && <span>{result.generate_s}s</span>}
           </p>
         </>
       ) : (
@@ -488,29 +599,65 @@ function AnswerPanel({ result }) {
 function SourcePanel({ result }) {
   const { retrieved_chunks: chunks = [], sources = [], distances = [] } = result;
 
+  // Group passages by file, but keep each passage's retrieval rank (1 = closest
+  // match) as its number. Files are ordered by their best-ranked passage, so the
+  // closest evidence is still read first.
+  const groups = [];
+  const byName = new Map();
+  chunks.forEach((chunk, i) => {
+    const name = sources[i] || "unknown";
+    if (!byName.has(name)) {
+      const g = { name, passages: [] };
+      byName.set(name, g);
+      groups.push(g);
+    }
+    byName.get(name).passages.push({ rank: i + 1, chunk, distance: distances[i] });
+  });
+
   return (
-    <section className="card">
+    <section className="result">
       <h2>Where this came from</h2>
       <p className="hint">
-        These are the passages the assistant retrieved and was allowed to use.
-        If the answer is not supported by them, it is not grounded.
+        These are the passages the assistant retrieved and was allowed to use,
+        numbered by how closely they matched (1 = closest). Click a file name to
+        collapse or expand it. If the answer is not supported by them, it is not grounded.
       </p>
 
-      <ol className="sources">
-        {chunks.map((chunk, i) => (
-          <li key={i}>
-            <div className="source-head">
-              <span className="source-name">{sources[i] || "unknown"}</span>
-              {typeof distances[i] === "number" && (
-                <span className="source-score" title="Lower is a closer match">
-                  distance {distances[i].toFixed(3)}
-                </span>
-              )}
-            </div>
-            <p className="chunk">{chunk}</p>
-          </li>
+      <div className="source-groups">
+        {groups.map((g) => (
+          // Open when a new answer arrives; the user can collapse any file.
+          <details key={g.name} className="source-group" open>
+            <summary className="source-name">
+              <ChevronIcon />
+              <FileIcon />
+              <span className="source-file">{g.name}</span>
+              <span className="source-ranks" aria-label="Retrieval ranks">
+                {g.passages.map((p) => (
+                  <span key={p.rank} className="source-rank">{p.rank}</span>
+                ))}
+              </span>
+              <span className="source-count">
+                {g.passages.length} passage{g.passages.length === 1 ? "" : "s"}
+              </span>
+            </summary>
+            <ol className="sources">
+              {g.passages.map((p) => (
+                <li key={p.rank}>
+                  <div className="source-head">
+                    <span className="source-rank">{p.rank}</span>
+                    {typeof p.distance === "number" && (
+                      <span className="source-score" title="Lower is a closer match">
+                        distance {p.distance.toFixed(3)}
+                      </span>
+                    )}
+                  </div>
+                  <p className="chunk">{p.chunk}</p>
+                </li>
+              ))}
+            </ol>
+          </details>
         ))}
-      </ol>
+      </div>
     </section>
   );
 }
@@ -529,5 +676,62 @@ function Banner({ kind, title, body, action }) {
         </button>
       )}
     </div>
+  );
+}
+
+/* ---------------------------------------------------------------------- */
+/* Icons: inline SVG, no icon library (nothing loaded from the network).  */
+/* ---------------------------------------------------------------------- */
+const svg = {
+  width: 18,
+  height: 18,
+  viewBox: "0 0 24 24",
+  fill: "none",
+  stroke: "currentColor",
+  strokeWidth: 2,
+  strokeLinecap: "round",
+  strokeLinejoin: "round",
+  "aria-hidden": true,
+};
+
+function PlusIcon() {
+  return (
+    <svg {...svg}>
+      <path d="M12 5v14M5 12h14" />
+    </svg>
+  );
+}
+
+function MicIcon() {
+  return (
+    <svg {...svg}>
+      <rect x="9" y="3" width="6" height="11" rx="3" />
+      <path d="M5 11a7 7 0 0 0 14 0M12 18v3" />
+    </svg>
+  );
+}
+
+function ArrowIcon() {
+  return (
+    <svg {...svg}>
+      <path d="M12 19V5M5 12l7-7 7 7" />
+    </svg>
+  );
+}
+
+function ChevronIcon() {
+  return (
+    <svg {...svg} width={16} height={16} className="chevron">
+      <path d="M9 6l6 6-6 6" />
+    </svg>
+  );
+}
+
+function FileIcon() {
+  return (
+    <svg {...svg} width={15} height={15}>
+      <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" />
+      <path d="M14 3v5h5" />
+    </svg>
   );
 }
