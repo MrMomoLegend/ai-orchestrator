@@ -135,8 +135,8 @@ def classify(result):
     sentence and then answers anyway:
 
         "The provided documents do not contain this information. However,
-         according to the context, the perplexity of the trigram model is
-         given as 109."
+         based on the context, it appears that tf-idf weighting is
+         calculated as the product of two statistics ..."
 
     Scoring that as a refusal is wrong in the direction that flatters the
     system — the number leaked. It is also the more dangerous failure in

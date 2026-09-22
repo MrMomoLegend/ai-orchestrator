@@ -1,64 +1,253 @@
 question,k_requested,n_chunks,context_chars,retrieve_s,generate_s,total_s,wall_s,elapsed_since_start_s,error,model,block,phase,cold_start_reliable,resident
-What does the Viterbi algorithm compute?,10,10,4091,0.152,16.376,16.528,16.543,18.6,,llama3.1:8b,0,cold,True,llama3.1:8b
-What is Chomsky normal form?,10,10,4484,0.191,2.342,2.533,2.547,21.4,,llama3.1:8b,0,warmup,,llama3.1:8b
-Which researchers is the CYK algorithm named after?,10,10,4513,0.011,1.515,1.527,1.551,23.0,,llama3.1:8b,0,warmup,,llama3.1:8b
-What does the Viterbi algorithm compute?,10,10,4091,0.011,0.877,0.888,0.891,24.0,,llama3.1:8b,1,steady,,llama3.1:8b
-What is Chomsky normal form?,10,10,4484,0.009,1.754,1.763,1.777,25.8,,llama3.1:8b,1,steady,,llama3.1:8b
-Which researchers is the CYK algorithm named after?,10,10,4513,0.01,0.939,0.95,0.973,26.8,,llama3.1:8b,1,steady,,llama3.1:8b
-What are the two Word2Vec architectures?,10,10,4580,0.014,1.323,1.336,1.352,28.1,,llama3.1:8b,1,steady,,llama3.1:8b
-What is negative sampling?,10,10,4340,0.012,2.172,2.184,2.186,30.3,,llama3.1:8b,1,steady,,llama3.1:8b
-What is hierarchical softmax?,10,10,4464,0.009,2.606,2.615,2.617,32.9,,llama3.1:8b,1,steady,,llama3.1:8b
-How is tf-idf calculated?,10,10,4507,0.012,3.119,3.131,3.133,36.1,,llama3.1:8b,1,steady,,llama3.1:8b
-What does GloVe learn from?,10,10,4239,0.017,1.07,1.087,1.101,37.2,,llama3.1:8b,1,steady,,llama3.1:8b
-What is masked language modelling in BERT?,10,10,4010,0.012,2.185,2.196,2.222,39.4,,llama3.1:8b,1,steady,,llama3.1:8b
-How does fastText represent words?,10,10,4578,0.01,1.851,1.861,1.876,41.3,,llama3.1:8b,1,steady,,llama3.1:8b
-Why does the transformer need positional encoding?,10,10,4144,0.012,0.961,0.973,0.997,42.3,,llama3.1:8b,1,steady,,llama3.1:8b
-What is multi-head attention?,10,10,4433,0.014,0.986,1.0,1.015,43.3,,llama3.1:8b,1,steady,,llama3.1:8b
-How is speech recognition accuracy measured?,10,10,4573,0.016,1.998,2.015,2.03,45.3,,llama3.1:8b,1,steady,,llama3.1:8b
-What is a hidden Markov model?,10,10,4124,0.012,1.465,1.477,1.502,46.8,,llama3.1:8b,1,steady,,llama3.1:8b
-What is part-of-speech tagging?,10,10,4170,0.012,1.617,1.629,1.649,48.5,,llama3.1:8b,1,steady,,llama3.1:8b
-What is named-entity recognition?,10,10,4567,0.009,1.836,1.846,1.849,50.3,,llama3.1:8b,1,steady,,llama3.1:8b
-What is an n-gram?,10,10,4663,0.011,2.311,2.322,2.34,52.7,,llama3.1:8b,1,steady,,llama3.1:8b
-When was GPT-4 released?,10,10,4496,0.011,1.838,1.849,1.861,54.5,,llama3.1:8b,1,steady,,llama3.1:8b
-What is retrieval-augmented generation?,10,10,4518,0.013,2.878,2.891,2.915,57.4,,llama3.1:8b,1,steady,,llama3.1:8b
-What is hallucination in large language models?,10,10,4631,0.013,2.217,2.23,2.233,59.7,,llama3.1:8b,1,steady,,llama3.1:8b
-What does the Viterbi algorithm compute?,10,10,4091,0.012,0.958,0.97,0.974,60.7,,llama3.1:8b,2,steady,,llama3.1:8b
-What is Chomsky normal form?,10,10,4484,0.011,1.79,1.8,1.803,62.5,,llama3.1:8b,2,steady,,llama3.1:8b
-Which researchers is the CYK algorithm named after?,10,10,4513,0.009,0.933,0.942,0.957,63.5,,llama3.1:8b,2,steady,,llama3.1:8b
-What are the two Word2Vec architectures?,10,10,4580,0.01,0.931,0.941,0.965,64.4,,llama3.1:8b,2,steady,,llama3.1:8b
-What is negative sampling?,10,10,4340,0.008,1.701,1.709,1.711,66.2,,llama3.1:8b,2,steady,,llama3.1:8b
-What is hierarchical softmax?,10,10,4464,0.009,2.066,2.075,2.096,68.3,,llama3.1:8b,2,steady,,llama3.1:8b
-How is tf-idf calculated?,10,10,4507,0.009,2.682,2.692,2.694,70.9,,llama3.1:8b,2,steady,,llama3.1:8b
-What does GloVe learn from?,10,10,4239,0.009,0.621,0.63,0.649,71.6,,llama3.1:8b,2,steady,,llama3.1:8b
-What is masked language modelling in BERT?,10,10,4010,0.008,1.837,1.845,1.871,73.5,,llama3.1:8b,2,steady,,llama3.1:8b
-How does fastText represent words?,10,10,4578,0.008,1.359,1.367,1.37,74.8,,llama3.1:8b,2,steady,,llama3.1:8b
-Why does the transformer need positional encoding?,10,10,4144,0.01,0.627,0.637,0.653,75.5,,llama3.1:8b,2,steady,,llama3.1:8b
-What is multi-head attention?,10,10,4433,0.01,0.657,0.667,0.669,76.2,,llama3.1:8b,2,steady,,llama3.1:8b
-How is speech recognition accuracy measured?,10,10,4573,0.007,1.509,1.517,1.519,77.7,,llama3.1:8b,2,steady,,llama3.1:8b
-What is a hidden Markov model?,10,10,4124,0.008,0.999,1.007,1.009,78.7,,llama3.1:8b,2,steady,,llama3.1:8b
-What is part-of-speech tagging?,10,10,4170,0.011,1.212,1.223,1.226,79.9,,llama3.1:8b,2,steady,,llama3.1:8b
-What is named-entity recognition?,10,10,4567,0.007,1.198,1.205,1.227,81.1,,llama3.1:8b,2,steady,,llama3.1:8b
-What is an n-gram?,10,10,4663,0.007,1.66,1.667,1.693,82.8,,llama3.1:8b,2,steady,,llama3.1:8b
-When was GPT-4 released?,10,10,4496,0.011,1.022,1.033,1.036,83.9,,llama3.1:8b,2,steady,,llama3.1:8b
-What is retrieval-augmented generation?,10,10,4518,0.01,2.393,2.403,2.406,86.3,,llama3.1:8b,2,steady,,llama3.1:8b
-What is hallucination in large language models?,10,10,4631,0.011,1.638,1.648,1.668,87.9,,llama3.1:8b,2,steady,,llama3.1:8b
-What does the Viterbi algorithm compute?,10,10,4091,0.01,0.959,0.969,0.984,89.0,,llama3.1:8b,3,steady,,llama3.1:8b
-What is Chomsky normal form?,10,10,4484,0.011,1.831,1.842,1.845,90.8,,llama3.1:8b,3,steady,,llama3.1:8b
-Which researchers is the CYK algorithm named after?,10,10,4513,0.008,0.975,0.983,0.997,91.8,,llama3.1:8b,3,steady,,llama3.1:8b
-What are the two Word2Vec architectures?,10,10,4580,0.012,0.941,0.953,0.968,92.8,,llama3.1:8b,3,steady,,llama3.1:8b
-What is negative sampling?,10,10,4340,0.01,1.75,1.76,1.785,94.6,,llama3.1:8b,3,steady,,llama3.1:8b
-What is hierarchical softmax?,10,10,4464,0.009,2.132,2.14,2.167,96.7,,llama3.1:8b,3,steady,,llama3.1:8b
-How is tf-idf calculated?,10,10,4507,0.01,2.649,2.659,2.683,99.4,,llama3.1:8b,3,steady,,llama3.1:8b
-What does GloVe learn from?,10,10,4239,0.008,0.608,0.616,0.643,100.1,,llama3.1:8b,3,steady,,llama3.1:8b
-What is masked language modelling in BERT?,10,10,4010,0.012,1.788,1.799,1.821,101.9,,llama3.1:8b,3,steady,,llama3.1:8b
-How does fastText represent words?,10,10,4578,0.01,1.407,1.418,1.421,103.3,,llama3.1:8b,3,steady,,llama3.1:8b
-Why does the transformer need positional encoding?,10,10,4144,0.01,0.596,0.606,0.609,103.9,,llama3.1:8b,3,steady,,llama3.1:8b
-What is multi-head attention?,10,10,4433,0.009,0.619,0.628,0.65,104.6,,llama3.1:8b,3,steady,,llama3.1:8b
-How is speech recognition accuracy measured?,10,10,4573,0.01,1.538,1.549,1.574,106.1,,llama3.1:8b,3,steady,,llama3.1:8b
-What is a hidden Markov model?,10,10,4124,0.012,1.019,1.031,1.052,107.2,,llama3.1:8b,3,steady,,llama3.1:8b
-What is part-of-speech tagging?,10,10,4170,0.012,1.226,1.237,1.24,108.4,,llama3.1:8b,3,steady,,llama3.1:8b
-What is named-entity recognition?,10,10,4567,0.011,1.304,1.315,1.318,109.7,,llama3.1:8b,3,steady,,llama3.1:8b
-What is an n-gram?,10,10,4663,0.008,1.721,1.729,1.732,111.5,,llama3.1:8b,3,steady,,llama3.1:8b
-When was GPT-4 released?,10,10,4496,0.01,0.997,1.007,1.02,112.5,,llama3.1:8b,3,steady,,llama3.1:8b
-What is retrieval-augmented generation?,10,10,4518,0.017,2.383,2.4,2.425,114.9,,llama3.1:8b,3,steady,,llama3.1:8b
-What is hallucination in large language models?,10,10,4631,0.011,1.667,1.679,1.682,116.6,,llama3.1:8b,3,steady,,llama3.1:8b
+What does the Viterbi algorithm compute?,1,1,55,0.081,10.007,10.088,10.091,13.3,,llama3.1:8b,0,cold,True,llama3.1:8b
+What is Chomsky normal form?,1,1,457,0.01,0.901,0.911,0.934,14.3,,llama3.1:8b,0,warmup,,llama3.1:8b
+Which researchers is the CYK algorithm named after?,1,1,486,0.008,0.861,0.869,0.896,15.3,,llama3.1:8b,0,warmup,,llama3.1:8b
+What does the Viterbi algorithm compute?,1,1,55,0.008,0.544,0.552,0.576,16.0,,llama3.1:8b,1,steady,,llama3.1:8b
+What is Chomsky normal form?,1,1,457,0.008,0.89,0.898,0.924,16.9,,llama3.1:8b,1,steady,,llama3.1:8b
+Which researchers is the CYK algorithm named after?,1,1,486,0.009,0.848,0.857,0.882,17.8,,llama3.1:8b,1,steady,,llama3.1:8b
+What are the two Word2Vec architectures?,1,1,424,0.009,0.593,0.603,0.605,18.4,,llama3.1:8b,1,steady,,llama3.1:8b
+What is negative sampling?,1,1,477,0.008,0.62,0.628,0.655,19.0,,llama3.1:8b,1,steady,,llama3.1:8b
+What is hierarchical softmax?,1,1,486,0.012,0.964,0.976,0.99,20.0,,llama3.1:8b,1,steady,,llama3.1:8b
+How is tf-idf calculated?,1,1,464,0.011,1.678,1.689,1.707,21.7,,llama3.1:8b,1,steady,,llama3.1:8b
+What does GloVe learn from?,1,1,479,0.009,0.52,0.529,0.549,22.3,,llama3.1:8b,1,steady,,llama3.1:8b
+What is masked language modelling in BERT?,1,1,358,0.011,0.888,0.898,0.914,23.2,,llama3.1:8b,1,steady,,llama3.1:8b
+How does fastText represent words?,1,1,477,0.008,0.578,0.586,0.604,23.8,,llama3.1:8b,1,steady,,llama3.1:8b
+Why does the transformer need positional encoding?,1,1,389,0.009,0.546,0.555,0.58,24.4,,llama3.1:8b,1,steady,,llama3.1:8b
+What is multi-head attention?,1,1,474,0.01,0.501,0.511,0.53,24.9,,llama3.1:8b,1,steady,,llama3.1:8b
+How is speech recognition accuracy measured?,1,1,482,0.011,0.804,0.815,0.833,25.7,,llama3.1:8b,1,steady,,llama3.1:8b
+What is a hidden Markov model?,1,1,470,0.008,0.903,0.911,0.936,26.7,,llama3.1:8b,1,steady,,llama3.1:8b
+What is part-of-speech tagging?,1,1,434,0.011,1.201,1.212,1.215,27.9,,llama3.1:8b,1,steady,,llama3.1:8b
+What is named-entity recognition?,1,1,479,0.011,0.835,0.846,0.864,28.8,,llama3.1:8b,1,steady,,llama3.1:8b
+What is an n-gram?,1,1,489,0.009,0.607,0.616,0.642,29.4,,llama3.1:8b,1,steady,,llama3.1:8b
+When was GPT-4 released?,1,1,496,0.01,0.538,0.548,0.568,30.0,,llama3.1:8b,1,steady,,llama3.1:8b
+What is retrieval-augmented generation?,1,1,455,0.007,2.757,2.764,2.766,32.7,,llama3.1:8b,1,steady,,llama3.1:8b
+What is hallucination in large language models?,1,1,422,0.008,0.526,0.534,0.537,33.3,,llama3.1:8b,1,steady,,llama3.1:8b
+What does the Viterbi algorithm compute?,1,1,55,0.008,0.473,0.481,0.494,33.8,,llama3.1:8b,2,steady,,llama3.1:8b
+What is Chomsky normal form?,1,1,457,0.007,0.817,0.824,0.826,34.6,,llama3.1:8b,2,steady,,llama3.1:8b
+Which researchers is the CYK algorithm named after?,1,1,486,0.01,0.768,0.778,0.791,35.4,,llama3.1:8b,2,steady,,llama3.1:8b
+What are the two Word2Vec architectures?,1,1,424,0.013,0.475,0.488,0.501,35.9,,llama3.1:8b,2,steady,,llama3.1:8b
+What is negative sampling?,1,1,477,0.01,0.521,0.532,0.534,36.5,,llama3.1:8b,2,steady,,llama3.1:8b
+What is hierarchical softmax?,1,1,486,0.01,0.916,0.926,0.928,37.4,,llama3.1:8b,2,steady,,llama3.1:8b
+How is tf-idf calculated?,1,1,464,0.008,1.705,1.713,1.716,39.1,,llama3.1:8b,2,steady,,llama3.1:8b
+What does GloVe learn from?,1,1,479,0.009,0.483,0.491,0.494,39.6,,llama3.1:8b,2,steady,,llama3.1:8b
+What is masked language modelling in BERT?,1,1,358,0.011,0.866,0.877,0.879,40.5,,llama3.1:8b,2,steady,,llama3.1:8b
+How does fastText represent words?,1,1,477,0.008,0.481,0.489,0.492,41.0,,llama3.1:8b,2,steady,,llama3.1:8b
+Why does the transformer need positional encoding?,1,1,389,0.01,0.487,0.498,0.5,41.5,,llama3.1:8b,2,steady,,llama3.1:8b
+What is multi-head attention?,1,1,474,0.008,0.49,0.497,0.5,42.0,,llama3.1:8b,2,steady,,llama3.1:8b
+How is speech recognition accuracy measured?,1,1,482,0.008,0.772,0.78,0.795,42.8,,llama3.1:8b,2,steady,,llama3.1:8b
+What is a hidden Markov model?,1,1,470,0.009,0.881,0.889,0.916,43.7,,llama3.1:8b,2,steady,,llama3.1:8b
+What is part-of-speech tagging?,1,1,434,0.009,1.246,1.254,1.257,44.9,,llama3.1:8b,2,steady,,llama3.1:8b
+What is named-entity recognition?,1,1,479,0.009,0.834,0.843,0.845,45.8,,llama3.1:8b,2,steady,,llama3.1:8b
+What is an n-gram?,1,1,489,0.009,0.615,0.624,0.65,46.4,,llama3.1:8b,2,steady,,llama3.1:8b
+When was GPT-4 released?,1,1,496,0.008,0.506,0.514,0.529,47.0,,llama3.1:8b,2,steady,,llama3.1:8b
+What is retrieval-augmented generation?,1,1,455,0.011,2.102,2.113,2.115,49.1,,llama3.1:8b,2,steady,,llama3.1:8b
+What is hallucination in large language models?,1,1,422,0.008,0.492,0.5,0.522,49.6,,llama3.1:8b,2,steady,,llama3.1:8b
+What does the Viterbi algorithm compute?,1,1,55,0.007,0.504,0.512,0.534,50.2,,llama3.1:8b,3,steady,,llama3.1:8b
+What is Chomsky normal form?,1,1,457,0.009,0.835,0.844,0.847,51.0,,llama3.1:8b,3,steady,,llama3.1:8b
+Which researchers is the CYK algorithm named after?,1,1,486,0.012,0.808,0.82,0.844,51.9,,llama3.1:8b,3,steady,,llama3.1:8b
+What are the two Word2Vec architectures?,1,1,424,0.007,0.5,0.507,0.525,52.4,,llama3.1:8b,3,steady,,llama3.1:8b
+What is negative sampling?,1,1,477,0.007,0.57,0.577,0.58,53.0,,llama3.1:8b,3,steady,,llama3.1:8b
+What is hierarchical softmax?,1,1,486,0.01,1.021,1.032,1.035,54.0,,llama3.1:8b,3,steady,,llama3.1:8b
+How is tf-idf calculated?,1,1,464,0.011,2.137,2.148,2.171,56.2,,llama3.1:8b,3,steady,,llama3.1:8b
+What does GloVe learn from?,1,1,479,0.01,0.594,0.604,0.62,56.8,,llama3.1:8b,3,steady,,llama3.1:8b
+What is masked language modelling in BERT?,1,1,358,0.012,0.948,0.96,0.978,57.8,,llama3.1:8b,3,steady,,llama3.1:8b
+How does fastText represent words?,1,1,477,0.009,0.589,0.598,0.601,58.4,,llama3.1:8b,3,steady,,llama3.1:8b
+Why does the transformer need positional encoding?,1,1,389,0.011,0.612,0.624,0.645,59.0,,llama3.1:8b,3,steady,,llama3.1:8b
+What is multi-head attention?,1,1,474,0.009,0.556,0.565,0.58,59.6,,llama3.1:8b,3,steady,,llama3.1:8b
+How is speech recognition accuracy measured?,1,1,482,0.011,0.868,0.879,0.882,60.5,,llama3.1:8b,3,steady,,llama3.1:8b
+What is a hidden Markov model?,1,1,470,0.01,1.006,1.017,1.033,61.5,,llama3.1:8b,3,steady,,llama3.1:8b
+What is part-of-speech tagging?,1,1,434,0.011,1.542,1.553,1.556,63.1,,llama3.1:8b,3,steady,,llama3.1:8b
+What is named-entity recognition?,1,1,479,0.008,0.879,0.887,0.903,64.0,,llama3.1:8b,3,steady,,llama3.1:8b
+What is an n-gram?,1,1,489,0.011,0.605,0.616,0.634,64.6,,llama3.1:8b,3,steady,,llama3.1:8b
+When was GPT-4 released?,1,1,496,0.008,0.501,0.51,0.512,65.1,,llama3.1:8b,3,steady,,llama3.1:8b
+What is retrieval-augmented generation?,1,1,455,0.009,2.509,2.518,2.521,67.7,,llama3.1:8b,3,steady,,llama3.1:8b
+What is hallucination in large language models?,1,1,422,0.011,0.496,0.508,0.533,68.2,,llama3.1:8b,3,steady,,llama3.1:8b
+What does the Viterbi algorithm compute?,3,3,917,0.008,7.83,7.838,7.841,79.3,,llama3.1:8b,0,cold,True,llama3.1:8b
+What is Chomsky normal form?,3,3,1340,0.01,1.314,1.325,1.35,80.7,,llama3.1:8b,0,warmup,,llama3.1:8b
+Which researchers is the CYK algorithm named after?,3,3,1411,0.008,0.916,0.924,0.938,81.7,,llama3.1:8b,0,warmup,,llama3.1:8b
+What does the Viterbi algorithm compute?,3,3,917,0.008,0.763,0.771,0.789,82.5,,llama3.1:8b,1,steady,,llama3.1:8b
+What is Chomsky normal form?,3,3,1340,0.01,1.128,1.138,1.14,83.7,,llama3.1:8b,1,steady,,llama3.1:8b
+Which researchers is the CYK algorithm named after?,3,3,1411,0.012,0.865,0.877,0.88,84.6,,llama3.1:8b,1,steady,,llama3.1:8b
+What are the two Word2Vec architectures?,3,3,1331,0.01,0.636,0.646,0.67,85.2,,llama3.1:8b,1,steady,,llama3.1:8b
+What is negative sampling?,3,3,1414,0.009,0.922,0.93,0.933,86.2,,llama3.1:8b,1,steady,,llama3.1:8b
+What is hierarchical softmax?,3,3,1384,0.011,2.07,2.081,2.084,88.2,,llama3.1:8b,1,steady,,llama3.1:8b
+How is tf-idf calculated?,3,3,1246,0.01,1.192,1.201,1.229,89.5,,llama3.1:8b,1,steady,,llama3.1:8b
+What does GloVe learn from?,3,3,1386,0.009,0.676,0.685,0.711,90.2,,llama3.1:8b,1,steady,,llama3.1:8b
+What is masked language modelling in BERT?,3,3,1243,0.01,1.585,1.596,1.61,91.8,,llama3.1:8b,1,steady,,llama3.1:8b
+How does fastText represent words?,3,3,1339,0.008,1.342,1.35,1.372,93.2,,llama3.1:8b,1,steady,,llama3.1:8b
+Why does the transformer need positional encoding?,3,3,1313,0.009,0.645,0.653,0.656,93.8,,llama3.1:8b,1,steady,,llama3.1:8b
+What is multi-head attention?,3,3,1360,0.011,0.635,0.646,0.668,94.5,,llama3.1:8b,1,steady,,llama3.1:8b
+How is speech recognition accuracy measured?,3,3,1367,0.009,1.207,1.216,1.219,95.7,,llama3.1:8b,1,steady,,llama3.1:8b
+What is a hidden Markov model?,3,3,1416,0.008,1.121,1.129,1.151,96.9,,llama3.1:8b,1,steady,,llama3.1:8b
+What is part-of-speech tagging?,3,3,1326,0.008,2.26,2.269,2.291,99.1,,llama3.1:8b,1,steady,,llama3.1:8b
+What is named-entity recognition?,3,3,1329,0.008,1.145,1.153,1.156,100.3,,llama3.1:8b,1,steady,,llama3.1:8b
+What is an n-gram?,3,3,1386,0.01,2.104,2.114,2.117,102.4,,llama3.1:8b,1,steady,,llama3.1:8b
+When was GPT-4 released?,3,3,1491,0.008,0.883,0.891,0.915,103.3,,llama3.1:8b,1,steady,,llama3.1:8b
+What is retrieval-augmented generation?,3,3,1390,0.009,1.578,1.587,1.615,105.0,,llama3.1:8b,1,steady,,llama3.1:8b
+What is hallucination in large language models?,3,3,1353,0.009,2.187,2.196,2.199,107.2,,llama3.1:8b,1,steady,,llama3.1:8b
+What does the Viterbi algorithm compute?,3,3,917,0.009,0.738,0.747,0.75,107.9,,llama3.1:8b,2,steady,,llama3.1:8b
+What is Chomsky normal form?,3,3,1340,0.009,1.567,1.576,1.579,109.5,,llama3.1:8b,2,steady,,llama3.1:8b
+Which researchers is the CYK algorithm named after?,3,3,1411,0.013,0.822,0.834,0.86,110.4,,llama3.1:8b,2,steady,,llama3.1:8b
+What are the two Word2Vec architectures?,3,3,1331,0.009,0.54,0.549,0.552,110.9,,llama3.1:8b,2,steady,,llama3.1:8b
+What is negative sampling?,3,3,1414,0.013,0.807,0.82,0.833,111.8,,llama3.1:8b,2,steady,,llama3.1:8b
+What is hierarchical softmax?,3,3,1384,0.012,2.13,2.141,2.163,113.9,,llama3.1:8b,2,steady,,llama3.1:8b
+How is tf-idf calculated?,3,3,1246,0.011,1.15,1.161,1.184,115.1,,llama3.1:8b,2,steady,,llama3.1:8b
+What does GloVe learn from?,3,3,1386,0.009,0.622,0.631,0.655,115.8,,llama3.1:8b,2,steady,,llama3.1:8b
+What is masked language modelling in BERT?,3,3,1243,0.013,1.575,1.588,1.606,117.4,,llama3.1:8b,2,steady,,llama3.1:8b
+How does fastText represent words?,3,3,1339,0.011,1.046,1.057,1.08,118.5,,llama3.1:8b,2,steady,,llama3.1:8b
+Why does the transformer need positional encoding?,3,3,1313,0.01,0.557,0.567,0.596,119.1,,llama3.1:8b,2,steady,,llama3.1:8b
+What is multi-head attention?,3,3,1360,0.01,0.574,0.584,0.587,119.6,,llama3.1:8b,2,steady,,llama3.1:8b
+How is speech recognition accuracy measured?,3,3,1367,0.018,1.145,1.164,1.189,120.8,,llama3.1:8b,2,steady,,llama3.1:8b
+What is a hidden Markov model?,3,3,1416,0.008,1.079,1.087,1.09,121.9,,llama3.1:8b,2,steady,,llama3.1:8b
+What is part-of-speech tagging?,3,3,1326,0.012,2.301,2.313,2.336,124.3,,llama3.1:8b,2,steady,,llama3.1:8b
+What is named-entity recognition?,3,3,1329,0.009,0.953,0.962,0.989,125.3,,llama3.1:8b,2,steady,,llama3.1:8b
+What is an n-gram?,3,3,1386,0.009,1.951,1.96,1.988,127.2,,llama3.1:8b,2,steady,,llama3.1:8b
+When was GPT-4 released?,3,3,1491,0.013,0.759,0.772,0.793,128.0,,llama3.1:8b,2,steady,,llama3.1:8b
+What is retrieval-augmented generation?,3,3,1390,0.013,1.117,1.13,1.15,129.2,,llama3.1:8b,2,steady,,llama3.1:8b
+What is hallucination in large language models?,3,3,1353,0.012,2.424,2.436,2.455,131.6,,llama3.1:8b,2,steady,,llama3.1:8b
+What does the Viterbi algorithm compute?,3,3,917,0.011,0.796,0.807,0.822,132.5,,llama3.1:8b,3,steady,,llama3.1:8b
+What is Chomsky normal form?,3,3,1340,0.01,1.72,1.73,1.733,134.2,,llama3.1:8b,3,steady,,llama3.1:8b
+Which researchers is the CYK algorithm named after?,3,3,1411,0.01,0.914,0.924,0.94,135.2,,llama3.1:8b,3,steady,,llama3.1:8b
+What are the two Word2Vec architectures?,3,3,1331,0.012,0.515,0.526,0.553,135.7,,llama3.1:8b,3,steady,,llama3.1:8b
+What is negative sampling?,3,3,1414,0.01,0.904,0.915,0.917,136.7,,llama3.1:8b,3,steady,,llama3.1:8b
+What is hierarchical softmax?,3,3,1384,0.019,2.215,2.234,2.237,138.9,,llama3.1:8b,3,steady,,llama3.1:8b
+How is tf-idf calculated?,3,3,1246,0.011,1.067,1.078,1.092,140.0,,llama3.1:8b,3,steady,,llama3.1:8b
+What does GloVe learn from?,3,3,1386,0.011,0.546,0.556,0.584,140.6,,llama3.1:8b,3,steady,,llama3.1:8b
+What is masked language modelling in BERT?,3,3,1243,0.009,1.832,1.84,1.844,142.4,,llama3.1:8b,3,steady,,llama3.1:8b
+How does fastText represent words?,3,3,1339,0.011,1.097,1.107,1.128,143.5,,llama3.1:8b,3,steady,,llama3.1:8b
+Why does the transformer need positional encoding?,3,3,1313,0.014,0.614,0.628,0.656,144.2,,llama3.1:8b,3,steady,,llama3.1:8b
+What is multi-head attention?,3,3,1360,0.011,0.534,0.545,0.548,144.7,,llama3.1:8b,3,steady,,llama3.1:8b
+How is speech recognition accuracy measured?,3,3,1367,0.009,1.44,1.448,1.452,146.2,,llama3.1:8b,3,steady,,llama3.1:8b
+What is a hidden Markov model?,3,3,1416,0.01,1.021,1.032,1.057,147.3,,llama3.1:8b,3,steady,,llama3.1:8b
+What is part-of-speech tagging?,3,3,1326,0.011,2.43,2.442,2.455,149.7,,llama3.1:8b,3,steady,,llama3.1:8b
+What is named-entity recognition?,3,3,1329,0.012,1.008,1.02,1.037,150.7,,llama3.1:8b,3,steady,,llama3.1:8b
+What is an n-gram?,3,3,1386,0.013,2.164,2.177,2.193,152.9,,llama3.1:8b,3,steady,,llama3.1:8b
+When was GPT-4 released?,3,3,1491,0.011,0.683,0.694,0.715,153.7,,llama3.1:8b,3,steady,,llama3.1:8b
+What is retrieval-augmented generation?,3,3,1390,0.015,1.212,1.227,1.248,154.9,,llama3.1:8b,3,steady,,llama3.1:8b
+What is hallucination in large language models?,3,3,1353,0.01,2.706,2.716,2.731,157.6,,llama3.1:8b,3,steady,,llama3.1:8b
+What does the Viterbi algorithm compute?,5,5,1791,0.01,6.014,6.024,6.029,167.0,,llama3.1:8b,0,cold,True,llama3.1:8b
+What is Chomsky normal form?,5,5,2325,0.012,1.917,1.929,1.943,168.9,,llama3.1:8b,0,warmup,,llama3.1:8b
+Which researchers is the CYK algorithm named after?,5,5,2349,0.011,1.305,1.317,1.32,170.3,,llama3.1:8b,0,warmup,,llama3.1:8b
+What does the Viterbi algorithm compute?,5,5,1791,0.011,0.774,0.785,0.789,171.2,,llama3.1:8b,1,steady,,llama3.1:8b
+What is Chomsky normal form?,5,5,2325,0.01,1.697,1.707,1.735,172.9,,llama3.1:8b,1,steady,,llama3.1:8b
+Which researchers is the CYK algorithm named after?,5,5,2349,0.01,0.927,0.937,0.959,173.9,,llama3.1:8b,1,steady,,llama3.1:8b
+What are the two Word2Vec architectures?,5,5,2286,0.013,1.214,1.227,1.243,175.1,,llama3.1:8b,1,steady,,llama3.1:8b
+What is negative sampling?,5,5,2349,0.011,0.898,0.909,0.913,176.1,,llama3.1:8b,1,steady,,llama3.1:8b
+What is hierarchical softmax?,5,5,2215,0.011,2.046,2.058,2.083,178.1,,llama3.1:8b,1,steady,,llama3.1:8b
+How is tf-idf calculated?,5,5,2189,0.009,3.217,3.226,3.253,181.4,,llama3.1:8b,1,steady,,llama3.1:8b
+What does GloVe learn from?,5,5,2343,0.008,0.913,0.921,0.925,182.3,,llama3.1:8b,1,steady,,llama3.1:8b
+What is masked language modelling in BERT?,5,5,2214,0.012,1.825,1.837,1.85,184.2,,llama3.1:8b,1,steady,,llama3.1:8b
+How does fastText represent words?,5,5,2256,0.011,2.104,2.114,2.134,186.3,,llama3.1:8b,1,steady,,llama3.1:8b
+Why does the transformer need positional encoding?,5,5,2045,0.01,0.726,0.736,0.764,187.1,,llama3.1:8b,1,steady,,llama3.1:8b
+What is multi-head attention?,5,5,2216,0.011,0.852,0.863,0.865,187.9,,llama3.1:8b,1,steady,,llama3.1:8b
+How is speech recognition accuracy measured?,5,5,2305,0.012,2.794,2.806,2.824,190.8,,llama3.1:8b,1,steady,,llama3.1:8b
+What is a hidden Markov model?,5,5,2005,0.009,1.782,1.791,1.797,192.6,,llama3.1:8b,1,steady,,llama3.1:8b
+What is part-of-speech tagging?,5,5,2163,0.008,1.867,1.875,1.878,194.4,,llama3.1:8b,1,steady,,llama3.1:8b
+What is named-entity recognition?,5,5,2287,0.016,1.676,1.692,1.716,196.1,,llama3.1:8b,1,steady,,llama3.1:8b
+What is an n-gram?,5,5,2306,0.012,2.67,2.682,2.685,198.8,,llama3.1:8b,1,steady,,llama3.1:8b
+When was GPT-4 released?,5,5,2257,0.009,1.226,1.235,1.238,200.1,,llama3.1:8b,1,steady,,llama3.1:8b
+What is retrieval-augmented generation?,5,5,2315,0.008,1.893,1.902,1.929,202.0,,llama3.1:8b,1,steady,,llama3.1:8b
+What is hallucination in large language models?,5,5,2272,0.011,4.261,4.272,4.275,206.3,,llama3.1:8b,1,steady,,llama3.1:8b
+What does the Viterbi algorithm compute?,5,5,1791,0.008,0.887,0.895,0.917,207.2,,llama3.1:8b,2,steady,,llama3.1:8b
+What is Chomsky normal form?,5,5,2325,0.011,1.982,1.993,1.996,209.2,,llama3.1:8b,2,steady,,llama3.1:8b
+Which researchers is the CYK algorithm named after?,5,5,2349,0.012,0.859,0.871,0.891,210.1,,llama3.1:8b,2,steady,,llama3.1:8b
+What are the two Word2Vec architectures?,5,5,2286,0.011,0.906,0.917,0.937,211.1,,llama3.1:8b,2,steady,,llama3.1:8b
+What is negative sampling?,5,5,2349,0.011,0.545,0.556,0.573,211.6,,llama3.1:8b,2,steady,,llama3.1:8b
+What is hierarchical softmax?,5,5,2215,0.011,1.839,1.85,1.869,213.5,,llama3.1:8b,2,steady,,llama3.1:8b
+How is tf-idf calculated?,5,5,2189,0.01,3.153,3.163,3.185,216.7,,llama3.1:8b,2,steady,,llama3.1:8b
+What does GloVe learn from?,5,5,2343,0.007,0.575,0.582,0.585,217.3,,llama3.1:8b,2,steady,,llama3.1:8b
+What is masked language modelling in BERT?,5,5,2214,0.009,1.225,1.234,1.258,218.5,,llama3.1:8b,2,steady,,llama3.1:8b
+How does fastText represent words?,5,5,2256,0.01,1.777,1.787,1.81,220.3,,llama3.1:8b,2,steady,,llama3.1:8b
+Why does the transformer need positional encoding?,5,5,2045,0.008,0.563,0.571,0.574,220.9,,llama3.1:8b,2,steady,,llama3.1:8b
+What is multi-head attention?,5,5,2216,0.008,0.547,0.555,0.57,221.5,,llama3.1:8b,2,steady,,llama3.1:8b
+How is speech recognition accuracy measured?,5,5,2305,0.009,2.301,2.31,2.313,223.8,,llama3.1:8b,2,steady,,llama3.1:8b
+What is a hidden Markov model?,5,5,2005,0.009,1.041,1.05,1.053,224.9,,llama3.1:8b,2,steady,,llama3.1:8b
+What is part-of-speech tagging?,5,5,2163,0.008,1.347,1.355,1.377,226.2,,llama3.1:8b,2,steady,,llama3.1:8b
+What is named-entity recognition?,5,5,2287,0.009,0.998,1.007,1.01,227.2,,llama3.1:8b,2,steady,,llama3.1:8b
+What is an n-gram?,5,5,2306,0.009,2.303,2.312,2.315,229.6,,llama3.1:8b,2,steady,,llama3.1:8b
+When was GPT-4 released?,5,5,2257,0.009,0.578,0.587,0.589,230.1,,llama3.1:8b,2,steady,,llama3.1:8b
+What is retrieval-augmented generation?,5,5,2315,0.01,1.457,1.467,1.47,231.6,,llama3.1:8b,2,steady,,llama3.1:8b
+What is hallucination in large language models?,5,5,2272,0.011,3.816,3.827,3.844,235.5,,llama3.1:8b,2,steady,,llama3.1:8b
+What does the Viterbi algorithm compute?,5,5,1791,0.009,0.768,0.776,0.803,236.3,,llama3.1:8b,3,steady,,llama3.1:8b
+What is Chomsky normal form?,5,5,2325,0.009,2.135,2.144,2.147,238.5,,llama3.1:8b,3,steady,,llama3.1:8b
+Which researchers is the CYK algorithm named after?,5,5,2349,0.008,0.941,0.949,0.975,239.4,,llama3.1:8b,3,steady,,llama3.1:8b
+What are the two Word2Vec architectures?,5,5,2286,0.009,0.858,0.867,0.87,240.3,,llama3.1:8b,3,steady,,llama3.1:8b
+What is negative sampling?,5,5,2349,0.01,0.578,0.589,0.603,240.9,,llama3.1:8b,3,steady,,llama3.1:8b
+What is hierarchical softmax?,5,5,2215,0.009,1.754,1.763,1.781,242.7,,llama3.1:8b,3,steady,,llama3.1:8b
+How is tf-idf calculated?,5,5,2189,0.009,3.098,3.107,3.109,245.8,,llama3.1:8b,3,steady,,llama3.1:8b
+What does GloVe learn from?,5,5,2343,0.01,0.598,0.608,0.611,246.4,,llama3.1:8b,3,steady,,llama3.1:8b
+What is masked language modelling in BERT?,5,5,2214,0.01,1.131,1.141,1.159,247.6,,llama3.1:8b,3,steady,,llama3.1:8b
+How does fastText represent words?,5,5,2256,0.012,1.788,1.8,1.82,249.4,,llama3.1:8b,3,steady,,llama3.1:8b
+Why does the transformer need positional encoding?,5,5,2045,0.008,0.587,0.595,0.607,250.0,,llama3.1:8b,3,steady,,llama3.1:8b
+What is multi-head attention?,5,5,2216,0.01,0.543,0.553,0.556,250.6,,llama3.1:8b,3,steady,,llama3.1:8b
+How is speech recognition accuracy measured?,5,5,2305,0.009,2.175,2.185,2.202,252.8,,llama3.1:8b,3,steady,,llama3.1:8b
+What is a hidden Markov model?,5,5,2005,0.009,1.08,1.089,1.092,253.8,,llama3.1:8b,3,steady,,llama3.1:8b
+What is part-of-speech tagging?,5,5,2163,0.008,1.524,1.532,1.535,255.4,,llama3.1:8b,3,steady,,llama3.1:8b
+What is named-entity recognition?,5,5,2287,0.008,1.007,1.015,1.03,256.4,,llama3.1:8b,3,steady,,llama3.1:8b
+What is an n-gram?,5,5,2306,0.009,2.364,2.373,2.376,258.8,,llama3.1:8b,3,steady,,llama3.1:8b
+When was GPT-4 released?,5,5,2257,0.009,0.602,0.612,0.615,259.4,,llama3.1:8b,3,steady,,llama3.1:8b
+What is retrieval-augmented generation?,5,5,2315,0.013,1.154,1.167,1.181,260.6,,llama3.1:8b,3,steady,,llama3.1:8b
+What is hallucination in large language models?,5,5,2272,0.012,4.02,4.032,4.035,264.6,,llama3.1:8b,3,steady,,llama3.1:8b
+What does the Viterbi algorithm compute?,10,10,4091,0.012,6.978,6.99,7.016,274.9,,llama3.1:8b,0,cold,True,llama3.1:8b
+What is Chomsky normal form?,10,10,4484,0.01,2.728,2.738,2.753,277.7,,llama3.1:8b,0,warmup,,llama3.1:8b
+Which researchers is the CYK algorithm named after?,10,10,4513,0.013,1.821,1.834,1.848,279.6,,llama3.1:8b,0,warmup,,llama3.1:8b
+What does the Viterbi algorithm compute?,10,10,4091,0.008,0.816,0.824,0.841,280.5,,llama3.1:8b,1,steady,,llama3.1:8b
+What is Chomsky normal form?,10,10,4484,0.015,2.142,2.158,2.175,282.7,,llama3.1:8b,1,steady,,llama3.1:8b
+Which researchers is the CYK algorithm named after?,10,10,4513,0.011,0.964,0.975,0.977,283.7,,llama3.1:8b,1,steady,,llama3.1:8b
+What are the two Word2Vec architectures?,10,10,4580,0.011,1.886,1.897,1.92,285.6,,llama3.1:8b,1,steady,,llama3.1:8b
+What is negative sampling?,10,10,4302,0.008,1.898,1.906,1.909,287.5,,llama3.1:8b,1,steady,,llama3.1:8b
+What is hierarchical softmax?,10,10,4464,0.009,3.483,3.492,3.516,291.0,,llama3.1:8b,1,steady,,llama3.1:8b
+How is tf-idf calculated?,10,10,4507,0.009,4.264,4.274,4.3,295.3,,llama3.1:8b,1,steady,,llama3.1:8b
+What does GloVe learn from?,10,10,4239,0.01,1.366,1.376,1.404,296.7,,llama3.1:8b,1,steady,,llama3.1:8b
+What is masked language modelling in BERT?,10,10,4010,0.009,3.013,3.022,3.026,299.7,,llama3.1:8b,1,steady,,llama3.1:8b
+How does fastText represent words?,10,10,4578,0.01,2.525,2.535,2.563,302.3,,llama3.1:8b,1,steady,,llama3.1:8b
+Why does the transformer need positional encoding?,10,10,4144,0.008,1.072,1.081,1.083,303.4,,llama3.1:8b,1,steady,,llama3.1:8b
+What is multi-head attention?,10,10,4433,0.008,1.391,1.399,1.401,304.8,,llama3.1:8b,1,steady,,llama3.1:8b
+How is speech recognition accuracy measured?,10,10,4573,0.011,2.734,2.746,2.748,307.5,,llama3.1:8b,1,steady,,llama3.1:8b
+What is a hidden Markov model?,10,10,4124,0.012,2.135,2.147,2.162,309.7,,llama3.1:8b,1,steady,,llama3.1:8b
+What is part-of-speech tagging?,10,10,4170,0.011,2.352,2.363,2.378,312.1,,llama3.1:8b,1,steady,,llama3.1:8b
+What is named-entity recognition?,10,10,4567,0.011,2.403,2.414,2.429,314.5,,llama3.1:8b,1,steady,,llama3.1:8b
+What is an n-gram?,10,10,4663,0.009,3.182,3.192,3.194,317.7,,llama3.1:8b,1,steady,,llama3.1:8b
+When was GPT-4 released?,10,10,4496,0.009,2.476,2.486,2.5,320.2,,llama3.1:8b,1,steady,,llama3.1:8b
+What is retrieval-augmented generation?,10,10,4518,0.01,4.126,4.137,4.162,324.4,,llama3.1:8b,1,steady,,llama3.1:8b
+What is hallucination in large language models?,10,10,4631,0.013,3.104,3.117,3.135,327.5,,llama3.1:8b,1,steady,,llama3.1:8b
+What does the Viterbi algorithm compute?,10,10,4091,0.012,0.866,0.877,0.881,328.4,,llama3.1:8b,2,steady,,llama3.1:8b
+What is Chomsky normal form?,10,10,4484,0.013,2.341,2.355,2.368,330.8,,llama3.1:8b,2,steady,,llama3.1:8b
+Which researchers is the CYK algorithm named after?,10,10,4513,0.008,1.052,1.06,1.075,331.9,,llama3.1:8b,2,steady,,llama3.1:8b
+What are the two Word2Vec architectures?,10,10,4580,0.011,1.003,1.013,1.036,332.9,,llama3.1:8b,2,steady,,llama3.1:8b
+What is negative sampling?,10,10,4302,0.01,1.013,1.023,1.05,334.0,,llama3.1:8b,2,steady,,llama3.1:8b
+What is hierarchical softmax?,10,10,4464,0.012,3.057,3.07,3.091,337.0,,llama3.1:8b,2,steady,,llama3.1:8b
+How is tf-idf calculated?,10,10,4507,0.011,3.627,3.638,3.654,340.7,,llama3.1:8b,2,steady,,llama3.1:8b
+What does GloVe learn from?,10,10,4239,0.011,0.665,0.676,0.679,341.4,,llama3.1:8b,2,steady,,llama3.1:8b
+What is masked language modelling in BERT?,10,10,4010,0.013,2.364,2.377,2.391,343.8,,llama3.1:8b,2,steady,,llama3.1:8b
+How does fastText represent words?,10,10,4578,0.01,1.866,1.876,1.898,345.7,,llama3.1:8b,2,steady,,llama3.1:8b
+Why does the transformer need positional encoding?,10,10,4144,0.012,0.643,0.655,0.658,346.3,,llama3.1:8b,2,steady,,llama3.1:8b
+What is multi-head attention?,10,10,4433,0.011,0.621,0.632,0.647,347.0,,llama3.1:8b,2,steady,,llama3.1:8b
+How is speech recognition accuracy measured?,10,10,4573,0.015,2.155,2.17,2.188,349.2,,llama3.1:8b,2,steady,,llama3.1:8b
+What is a hidden Markov model?,10,10,4124,0.01,1.09,1.1,1.128,350.3,,llama3.1:8b,2,steady,,llama3.1:8b
+What is part-of-speech tagging?,10,10,4170,0.012,1.634,1.646,1.649,351.9,,llama3.1:8b,2,steady,,llama3.1:8b
+What is named-entity recognition?,10,10,4567,0.011,1.352,1.363,1.38,353.3,,llama3.1:8b,2,steady,,llama3.1:8b
+What is an n-gram?,10,10,4663,0.015,2.475,2.491,2.515,355.8,,llama3.1:8b,2,steady,,llama3.1:8b
+When was GPT-4 released?,10,10,4496,0.012,1.02,1.032,1.046,356.9,,llama3.1:8b,2,steady,,llama3.1:8b
+What is retrieval-augmented generation?,10,10,4518,0.011,3.256,3.266,3.286,360.2,,llama3.1:8b,2,steady,,llama3.1:8b
+What is hallucination in large language models?,10,10,4631,0.008,2.266,2.275,2.278,362.5,,llama3.1:8b,2,steady,,llama3.1:8b
+What does the Viterbi algorithm compute?,10,10,4091,0.007,0.872,0.879,0.906,363.4,,llama3.1:8b,3,steady,,llama3.1:8b
+What is Chomsky normal form?,10,10,4484,0.01,2.541,2.551,2.554,366.0,,llama3.1:8b,3,steady,,llama3.1:8b
+Which researchers is the CYK algorithm named after?,10,10,4513,0.008,0.992,1.001,1.003,367.0,,llama3.1:8b,3,steady,,llama3.1:8b
+What are the two Word2Vec architectures?,10,10,4580,0.011,1.055,1.066,1.088,368.1,,llama3.1:8b,3,steady,,llama3.1:8b
+What is negative sampling?,10,10,4302,0.009,1.086,1.096,1.098,369.2,,llama3.1:8b,3,steady,,llama3.1:8b
+What is hierarchical softmax?,10,10,4464,0.011,3.009,3.02,3.036,372.2,,llama3.1:8b,3,steady,,llama3.1:8b
+How is tf-idf calculated?,10,10,4507,0.008,3.786,3.795,3.808,376.0,,llama3.1:8b,3,steady,,llama3.1:8b
+What does GloVe learn from?,10,10,4239,0.009,0.608,0.617,0.62,376.6,,llama3.1:8b,3,steady,,llama3.1:8b
+What is masked language modelling in BERT?,10,10,4010,0.011,2.497,2.507,2.526,379.1,,llama3.1:8b,3,steady,,llama3.1:8b
+How does fastText represent words?,10,10,4578,0.008,1.667,1.675,1.692,380.8,,llama3.1:8b,3,steady,,llama3.1:8b
+Why does the transformer need positional encoding?,10,10,4144,0.008,0.625,0.633,0.658,381.5,,llama3.1:8b,3,steady,,llama3.1:8b
+What is multi-head attention?,10,10,4433,0.015,0.589,0.604,0.625,382.1,,llama3.1:8b,3,steady,,llama3.1:8b
+How is speech recognition accuracy measured?,10,10,4573,0.013,2.043,2.057,2.076,384.2,,llama3.1:8b,3,steady,,llama3.1:8b
+What is a hidden Markov model?,10,10,4124,0.01,1.018,1.027,1.031,385.2,,llama3.1:8b,3,steady,,llama3.1:8b
+What is part-of-speech tagging?,10,10,4170,0.013,1.375,1.388,1.404,386.6,,llama3.1:8b,3,steady,,llama3.1:8b
+What is named-entity recognition?,10,10,4567,0.008,1.687,1.695,1.698,388.3,,llama3.1:8b,3,steady,,llama3.1:8b
+What is an n-gram?,10,10,4663,0.009,2.22,2.229,2.248,390.6,,llama3.1:8b,3,steady,,llama3.1:8b
+When was GPT-4 released?,10,10,4496,0.009,0.95,0.959,0.962,391.5,,llama3.1:8b,3,steady,,llama3.1:8b
+What is retrieval-augmented generation?,10,10,4518,0.009,3.318,3.327,3.348,394.9,,llama3.1:8b,3,steady,,llama3.1:8b
+What is hallucination in large language models?,10,10,4631,0.01,2.218,2.228,2.23,397.1,,llama3.1:8b,3,steady,,llama3.1:8b

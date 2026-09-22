@@ -13,10 +13,10 @@ outcome agreed exactly across all three. The median latencies were
 **40.64 s, 3.11 s and 3.25 s** — a thirteen-fold spread on a pipeline that
 was, by its own outputs, doing precisely the same work.
 
-Latency on a CPU-only 16 GB laptop is therefore not a property of the
+Latency on a single laptop is therefore not a property of the
 configuration alone. It depends on machine state: whether the model is
-resident in memory, how much sustained load preceded the measurement, and
-where the CPU sits on its thermal curve. A single pass over a question list
+resident in memory, whether its weights are already in the OS file cache,
+and how much sustained load preceded the measurement. A single pass over a question list
 measures one arbitrary point on that surface and reports it as a fact.
 
 Four things follow, and this script implements all four.
