@@ -1,5 +1,5 @@
 """
-exp_retrieval.py — Section 5.7, retrieval precision@k.
+exp_retrieval.py — Section 5.8, retrieval precision@k.
 
 Measures the retrieval step on its own, with no language model involved.
 This matters because Section 2.4 establishes that answer quality in a
@@ -13,7 +13,7 @@ top 10 retrieved chunks. Mark each 1 (relevant) or 0 (not), then rerun
 without --label to score.
 
 The labelling is done by one person — the author — who also wrote the
-queries. That is a real limitation and Section 5.7 should name it rather
+queries. That is a real limitation and Section 5.8 should name it rather
 than hope nobody asks.
 
 Usage
@@ -133,7 +133,7 @@ def score():
     print(out.to_string(index=False))
     print("\nPrecision falling as k rises is expected and not a problem in")
     print("itself — what matters is whether k=3 captures the relevant passage")
-    print("often enough. Read this against the top-k sweep in Section 5.5:")
+    print("often enough. Read this against the top-k sweep in Section 5.6:")
     print("precision here, answer quality there.")
 
 

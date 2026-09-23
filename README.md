@@ -89,31 +89,37 @@ All defaults are set in `main.py` and overridable by environment variable.
 | Variable | Default | Notes |
 |---|---|---|
 | `LLM_MODEL` | `llama3.1:8b` | |
-| `TOP_K` | `10` | Set by the Section 5.5 sweep, not inherited |
-| `DISTANCE_THRESHOLD` | `0.53` | Cosine. Midpoint of the separating margin |
+| `TOP_K` | `10` | Set on the development corpus; re-tested frozen in Section 5.6 |
+| `DISTANCE_THRESHOLD` | `0.53` | Cosine. Midpoint of the development-corpus separating margin (Section 4.5) |
 | `USE_THRESHOLD` | `1` | |
 | `COLLECTION` | `sentence` | `sentence` or `fixed` — the chunking ablation |
 | `WHISPER_SIZE` | `base.en` | |
 
 ## Reproducing the evaluation
 
-Every number in Chapter 5 is produced by a script and none by hand.
+Every number in Chapter 5 is produced by a script and none by hand. The backend must be
+running (`uvicorn main:app`) with the corpus ingested (`python ingest.py --reset`).
 
 ```bash
-python eval/exp_rag.py --experiment rag        # 5.2  RAG on/off
-python eval/exp_rag.py --experiment threshold  # 5.3  threshold ablation
-python eval/exp_rag.py --experiment chunking   # 5.4  chunking ablation
-python eval/exp_rag.py --experiment topk       # 5.5  top-k sweep
-python asr_eval/evaluate_asr.py                # 5.6  Whisper vs Vosk
-python eval/make_figures_v2.py                 # all Chapter 5 figures
+python eval/exp_rag.py --sweep                 # Appendix D.4  threshold sweep (no LLM calls)
+python eval/exp_rag.py --experiment rag        # 5.3  RAG on/off
+python eval/exp_rag.py --experiment threshold  # 5.4  threshold ablation
+python eval/exp_rag.py --experiment chunking   # 5.5  chunking ablation
+python eval/exp_rag.py --experiment topk       # 5.6  top-k sweep
+python asr_eval/evaluate_asr.py                # 5.7  Whisper vs Vosk
+python eval/exp_retrieval.py                   # 5.8  precision@k, scored from the committed labels
+python eval/exp_latency.py --k 1,3,5,10        # 5.9  latency: run alone, nothing else on the GPU
+python eval/exp_squad.py --n 500               # 5.2  SQuAD 2.0 (seed 42)
+python eval/make_figures_v3.py                 # Figures 5.1-5.5
+pytest                                         # 65 unit tests, ~3 s, no Ollama needed
 ```
 
-Results land in `results/` as CSV. The `rescored_*.csv` files are the ones the report
-uses; `results/raw_prescore/` holds the pre-correction versions, kept because Section 4.8
-documents a ground-truth relabelling and the audit trail matters.
-
-Sections 5.7–5.10 (`exp_retrieval.py`, `exp_latency.py`, `exp_squad.py`, and the usability
-study) are written and scheduled for the week 19–22 improvement phase.
+Results land in `results/` as CSV. **Every script overwrites its own CSVs**, so copy
+`results/` before a rerun, and never rerun `exp_retrieval.py --label` (it rebuilds the
+labelling worksheet). `results/raw_prescore/` holds the pre-labelling copies;
+`results/old_corpus/`, `k3_archive/` and `k10_stochastic/` are development-corpus runs; the
+last two are the evidence for the decoding-variance finding in Section 5.11. `make_figures.py` and
+`make_figures_v2.py` are superseded (development corpus).
 
 ## Layout
 

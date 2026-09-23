@@ -148,8 +148,8 @@ def fig_threshold():
 
     gate = list(s.threshold_refusals.astype(int))
     model = list(s.model_refusals.astype(int))
-    b1 = ax2.bar(x, gate, 0.5, color=GREEN, label="Refused by gate (~10 ms)")
-    b2 = ax2.bar(x, model, 0.5, bottom=gate, color=LIGHT, label="Refused by model (~1.5 s)")
+    b1 = ax2.bar(x, gate, 0.5, color=GREEN, label="Declined by gate (~10 ms)")
+    b2 = ax2.bar(x, model, 0.5, bottom=gate, color=LIGHT, label="Declined by model (~1.9 s)")
     for i in range(len(conds)):
         if gate[i]:
             ax2.text(i, gate[i] / 2, str(gate[i]), ha="center", va="center", color="white", fontsize=9)
@@ -158,7 +158,7 @@ def fig_threshold():
     ax2.set_xticklabels(conds)
     ax2.set_ylim(0, 22)
     ax2.legend(frameon=False, fontsize=8, loc="upper center")
-    style(ax2, "Refusals", "Where refusals happen")
+    style(ax2, "Declined responses", "Where declining happens")
     fig.suptitle("Retrieval-confidence threshold on against off", fontsize=11)
     save(fig, "fig5_3_threshold_ablation.png")
     return s

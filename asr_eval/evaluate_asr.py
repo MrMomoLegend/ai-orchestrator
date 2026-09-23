@@ -1,7 +1,7 @@
 """
 evaluate_asr.py — Whisper vs Vosk word error rate on the project's own audio.
 
-Produces every number and figure needed for Section 5.6 of the report.
+Produces every number and figure needed for Section 5.7 of the report.
 Rerun it any time the audio, the Whisper model size, or the beam width
 changes; nothing here is done by hand.
 

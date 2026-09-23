@@ -40,7 +40,7 @@ def test_health_reports_the_shipped_configuration(client, collection_at, monkeyp
 
 def test_health_shows_whisper_unloaded_until_first_use(client, collection_at, monkeypatch):
     """
-    Lazy Whisper loading (Section 4.3) is a deliberate trade: the text path
+    Lazy Whisper loading (Section 4.4) is a deliberate trade: the text path
     never pays the 10-20 s model load, and the cost reappears as a cold start
     on the first spoken question. That decision is only defensible if it is
     observable, so /health reports residency rather than hiding it.
@@ -141,7 +141,7 @@ def test_rag_disabled_sends_the_bare_question_and_reports_no_sources(
     client, chat_spy, collection_at
 ):
     """
-    The ungrounded condition of Section 5.2. The model must receive the
+    The ungrounded condition of Section 5.3. The model must receive the
     question with no context wrapper at all -- if any instruction leaked into
     the prompt, the 15/15 fabrication result would be measuring a weakened
     version of the baseline rather than the baseline.
@@ -217,7 +217,7 @@ def test_placeholder_zero_top_k_falls_back_to_the_configured_default(
 
 
 def test_explicit_top_k_is_passed_through_to_retrieval(client, chat_spy, collection_at):
-    """The Section 5.5 sweep is a request parameter; k must arrive unchanged."""
+    """The Section 5.6 sweep is a request parameter; k must arrive unchanged."""
     fake = collection_at([0.31] * 3)
 
     client.post("/ask", json={"question": "What is perplexity?", "top_k": 3})

@@ -202,7 +202,7 @@ def collections_by_key(monkeypatch):
 
     `collection_at` returns one collection for every key, which is right for
     the retrieval tests. Upload is different: it must write into *both*
-    collections, or the Section 5.4 chunking ablation quietly stops being a
+    collections, or the Section 5.5 chunking ablation quietly stops being a
     like-for-like comparison for anything added through the interface. That
     can only be asserted if the two are distinguishable.
     """

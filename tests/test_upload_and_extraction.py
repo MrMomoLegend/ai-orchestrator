@@ -3,7 +3,7 @@ Document ingestion (FR3) and the error paths around it.
 
 Upload is the one endpoint that mutates the corpus, so its failure modes
 matter more than its happy path: a document that ingests into only one
-collection quietly invalidates the Section 5.4 comparison for everything
+collection quietly invalidates the Section 5.5 comparison for everything
 added afterwards, and a temporary file that survives a rejected upload is a
 leak nothing in the interface would reveal.
 """
@@ -20,7 +20,7 @@ import main
 # --------------------------------------------------------------------------
 def test_upload_ingests_into_both_chunking_collections(client, collections_by_key):
     """
-    Section 5.4 compares fixed-size against sentence-aware chunking on the
+    Section 5.5 compares fixed-size against sentence-aware chunking on the
     same documents. That is only a like-for-like comparison while both
     collections hold the same corpus -- so an upload through the interface
     has to write into both, not just the one being served.

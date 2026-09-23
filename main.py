@@ -70,7 +70,7 @@ WHISPER_BEAM = 5
 LLM_TEMPERATURE = float(os.getenv("LLM_TEMPERATURE", "0"))
 LLM_SEED = int(os.getenv("LLM_SEED", "42"))
 
-# Two collections, same documents, different chunking. Section 5.4 compares
+# Two collections, same documents, different chunking. Section 5.5 compares
 # them. "sentence" is the shipped default; "fixed" is the prototype's
 # behaviour, kept so the improvement can be measured rather than asserted.
 COLLECTIONS = {"sentence": "documents_sentence", "fixed": "documents_fixed"}
@@ -173,7 +173,7 @@ async def save_upload(upload: UploadFile) -> str:
 
 
 # --------------------------------------------------------------------------
-# Chunking — the Section 5.4 ablation
+# Chunking — the Section 5.5 ablation
 # --------------------------------------------------------------------------
 def chunk_fixed(text: str) -> List[str]:
     """
@@ -181,7 +181,7 @@ def chunk_fixed(text: str) -> List[str]:
 
     This is what split a sentence mid-clause at
     ", while the written examination contributes 20%."
-    Retained so Section 5.4 has a real baseline rather than a remembered one.
+    Retained so Section 5.5 has a real baseline rather than a remembered one.
     """
     text = re.sub(r"\s+", " ", text).strip()
     if not text:
@@ -227,7 +227,7 @@ def chunk_sentence(text: str) -> List[str]:
     if not _FALLBACK_WARNED:
         print("[chunking] langchain-text-splitters not installed; using the "
               "built-in fallback. It follows the same separator hierarchy but "
-              "does NOT add overlap. Install it before running the Section 5.4 "
+              "does NOT add overlap. Install it before running the Section 5.5 "
               "ablation:  pip install langchain-text-splitters")
         globals()["_FALLBACK_WARNED"] = True
     return _recursive_split(text, ["\n\n", "\n", ". ", " "])
@@ -322,7 +322,7 @@ def looks_like_refusal(answer: str) -> bool:
     """
     Did the language model decline to answer?
 
-    Needed for scoring the threshold-off condition in Section 5.3, where
+    Needed for scoring the threshold-off condition in Section 5.4, where
     refusal is the model's judgement rather than an explicit control-flow
     branch and therefore has to be detected from the text.
     """
@@ -573,7 +573,7 @@ async def ask_audio(audio: UploadFile = File(...), use_rag: bool = Form(True)):
     The transcript is returned alongside the answer. This is a transparency
     feature, not debug output: it is what lets the user tell a transcription
     failure apart from a retrieval failure — a distinction that matters most
-    on technical vocabulary, where Section 5.6 measured the highest word
+    on technical vocabulary, where Section 5.7 measured the highest word
     error rate.
     """
     path = await save_upload(audio)

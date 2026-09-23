@@ -15,7 +15,7 @@ twice, in two separate runs, and the two runs disagreed:
            disagreement on one of the three related-but-unanswerable
            questions
 
-Two of fifteen. Most of the effects reported in Sections 5.3 and 5.4 are
+Two of fifteen. Most of the effects reported in Sections 5.4 and 5.5 are
 of that size or smaller, so under stochastic decoding they were not
 separable from run-to-run variance.
 
@@ -54,7 +54,7 @@ def test_grounded_generation_requests_deterministic_decoding(collection_at, chat
 
 def test_ungrounded_generation_requests_deterministic_decoding(collection_at, chat_spy):
     """
-    The RAG-off arm of Section 5.2 takes a different branch through
+    The RAG-off arm of Section 5.3 takes a different branch through
     `answer_question`. It reaches the same single call site, and this test
     is what keeps it that way.
     """
@@ -68,7 +68,7 @@ def test_refused_requests_make_no_generation_call_at_all(collection_at, chat_spy
     """
     Determinism on the refusal path is structural rather than statistical:
     a threshold refusal returns a fixed string without consulting the model,
-    so it cannot vary between runs. Stated here so the claim in Section 5.3
+    so it cannot vary between runs. Stated here so the claim in Section 5.4
     that refusal became *deterministic and inspectable* has a test behind it
     rather than only an argument.
     """

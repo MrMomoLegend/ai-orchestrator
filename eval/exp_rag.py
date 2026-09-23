@@ -118,7 +118,7 @@ def sweep(df, collection="sentence"):
     # a whole interval of thresholds that classify both perfectly, and the
     # midpoint of that interval is the maximum-margin choice. That is a
     # structural justification rather than a fitted one, and it is a far
-    # stronger answer in Section 5.3 and in the exam.
+    # stronger answer in Section 5.4 and in the exam.
     a_max = dist[dist.category == "answerable"]["nearest_distance"].max()
     b_min = dist[dist.category == "out_of_corpus"]["nearest_distance"].min()
     print()
@@ -156,7 +156,7 @@ def sweep(df, collection="sentence"):
     print(f"\nSet it in main.py:  DISTANCE_THRESHOLD = {best.threshold:.2f}")
     print("Then read threshold_distances.csv and check WHICH questions sit near")
     print("the boundary. A threshold chosen from a single summary number is a")
-    print("threshold you cannot defend in Section 5.3.")
+    print("threshold you cannot defend in Section 5.4.")
     return g
 
 

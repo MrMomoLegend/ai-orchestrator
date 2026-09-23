@@ -1,7 +1,7 @@
 """
 The speech path: /transcribe and /ask/audio.
 
-Section 5.6 measured 19.7% word error rate overall and 37.8% on technical
+Section 5.7 measured 19.7% word error rate overall and 37.8% on technical
 vocabulary -- the words that carry the retrieval signal. That result is the
 reason the transcript is returned to the user rather than consumed silently,
 and the reason the voice flow is two requests rather than one. Both of those
@@ -37,7 +37,7 @@ def test_transcribe_uses_the_decoding_settings_the_report_measured(client, whisp
     The decisions log commits to base.en / int8 / beam 5 in both main.py and
     evaluate_asr.py, so that the measured word error rate describes the
     system that ships rather than a differently-tuned one. If the endpoint
-    ever drifted from the evaluation script, Section 5.6 would be reporting
+    ever drifted from the evaluation script, Section 5.7 would be reporting
     somebody else's numbers.
     """
     spy = whisper_spy()
@@ -66,7 +66,7 @@ def test_transcribe_deletes_the_temporary_file(client, whisper_spy):
 def test_transcribe_preserves_the_upload_extension(client, whisper_spy):
     """
     faster-whisper dispatches on the container format, which it reads from
-    the filename. The Section 5.6 clips are .m4a; a temp file that silently
+    the filename. The Section 5.7 clips are .m4a; a temp file that silently
     became .wav would fail to decode for reasons nothing in the traceback
     would explain.
     """

@@ -1,5 +1,5 @@
 """
-exp_squad.py — Section 5.9, SQuAD 2.0 Exact Match and F1.
+exp_squad.py — Section 5.2, SQuAD 2.0 Exact Match and F1.
 
 SQuAD 2.0 is the citable benchmark. Its unanswerable subset is the part that
 speaks to this project's thesis: those questions have a plausible-looking
@@ -250,7 +250,7 @@ def main():
     print("=" * 52)
     print(s.to_string(index=False))
     print("\nReport the unanswerable subset separately — it is the part that")
-    print("speaks to the thesis. Note in Section 5.9 that SQuAD paragraphs are")
+    print("speaks to the thesis. Note in Section 5.2 that SQuAD paragraphs are")
     print("short and clean relative to real course PDFs, so these figures are")
     print("an upper bound on performance over the project's own corpus.")
 

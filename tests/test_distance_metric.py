@@ -161,7 +161,7 @@ def test_collections_created_on_demand_request_cosine(monkeypatch):
 
 def test_ingest_builds_both_collections_from_mains_configuration():
     """
-    Section 5.4 is only a fair ablation if both collections were built from
+    Section 5.5 is only a fair ablation if both collections were built from
     the same source pass with the same embedding model, differing solely in
     the chunker. `ingest.py` imports its configuration from `main.py` for
     exactly this reason; this guards against the two drifting apart.

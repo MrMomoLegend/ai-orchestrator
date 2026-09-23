@@ -1,11 +1,11 @@
 """
-Tests for the retrieval-confidence threshold (Section 4.5 / Section 5.3).
+Tests for the retrieval-confidence threshold (Section 4.5 / Section 5.4).
 
 Why this branch is worth testing rather than eyeballing: when it is wrong
 it does not raise. A threshold that never fires produces fluent answers,
 and a threshold that always fires produces polite refusals. Both look like
 a working system from the outside, and both invalidate every number in
-Section 5.3. The only externally visible signal is *whether the language
+Section 5.4. The only externally visible signal is *whether the language
 model was consulted at all*, which is what most of these tests assert.
 """
 
@@ -19,7 +19,7 @@ import main
 # ---------------------------------------------------------------------------
 def test_shipped_threshold_is_the_value_reported_in_chapter_5():
     """
-    0.53 is the midpoint of the separating margin found in Section 5.2
+    0.53 is the midpoint of the separating margin found in Section 4.5
     (answerable max 0.4799, out-of-corpus min 0.5915). If this drifts, every
     refusal figure in the report describes a system that is no longer the
     one in the repository.
@@ -31,7 +31,7 @@ def test_shipped_threshold_is_the_value_reported_in_chapter_5():
 
 
 def test_shipped_top_k_is_ten():
-    """Section 5.5 selected k=10 over the inherited k=3. Guard against drift."""
+    """Section 5.6 selected k=10 over the inherited k=3. Guard against drift."""
     assert main.TOP_K == 10
 
 
@@ -74,7 +74,7 @@ def test_boundary_exactly_at_the_threshold_does_not_refuse(collection_at, chat_s
     """
     The comparison is strictly greater-than, so a distance equal to the
     threshold is inside it. Stated explicitly because an off-by-one here
-    would shift borderline questions between buckets in Section 5.3
+    would shift borderline questions between buckets in Section 5.4
     without producing any error.
     """
     collection_at([0.53])
@@ -125,7 +125,7 @@ def test_disabling_the_threshold_reaches_the_model_even_when_retrieval_is_poor(
     collection_at, chat_spy
 ):
     """
-    This is the 'threshold off' arm of the Section 5.3 ablation. It must be
+    This is the 'threshold off' arm of the Section 5.4 ablation. It must be
     the *same* code path with one parameter changed, or the ablation is
     comparing two implementations rather than one variable.
     """
@@ -140,7 +140,7 @@ def test_disabling_the_threshold_reaches_the_model_even_when_retrieval_is_poor(
 
 def test_a_threshold_refusal_costs_no_generation_time(collection_at, chat_spy):
     """
-    Section 5.3's defensible benefit is cost, not accuracy: a refused query
+    Section 5.4's defensible benefit is cost, not accuracy: a refused query
     returns in ~0.029 s instead of ~1.8 s because generation never happens.
     """
     collection_at([0.88])
@@ -197,7 +197,7 @@ def test_threshold_of_zero_is_honoured_rather_than_ignored(collection_at, chat_s
 def test_model_judgement_refusal_is_labelled_distinctly(collection_at, monkeypatch):
     """
     With the threshold off, refusal can only be detected from the answer
-    text. Section 5.3 counts the two mechanisms separately, so they must be
+    text. Section 5.4 counts the two mechanisms separately, so they must be
     distinguishable in the response.
     """
     collection_at([0.95])
@@ -217,7 +217,7 @@ def test_model_judgement_refusal_is_labelled_distinctly(collection_at, monkeypat
 
 def test_ungrounded_requests_never_retrieve(collection_at, chat_spy):
     """
-    The 'RAG off' arm of Section 5.2. It must send the bare question — if
+    The 'RAG off' arm of Section 5.3. It must send the bare question — if
     any context leaked into the prompt, the 15/15 hallucination result
     would be measuring a weaker contrast than it claims.
     """

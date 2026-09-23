@@ -6,7 +6,7 @@ Creates TWO collections from the same source files:
     documents_sentence   sentence-aware chunking   (the shipped default)
     documents_fixed      fixed-size chunking       (the prototype's strategy)
 
-Both are needed for the chunking ablation in Section 5.4. Building them from
+Both are needed for the chunking ablation in Section 5.5. Building them from
 one pass over the same files guarantees the only difference between them is
 the chunking.
 

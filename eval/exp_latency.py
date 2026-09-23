@@ -1,5 +1,5 @@
 """
-exp_latency.py — Section 5.8, end-to-end latency.
+exp_latency.py — Section 5.9, end-to-end latency.
 
 The preliminary report set a sub-10-second non-functional requirement and
 measured ~15 s steady state on the prototype. This is where that NFR is met
@@ -7,7 +7,7 @@ or revised with measured justification.
 
 Why this script is not a simple timing loop
 -------------------------------------------
-Running the Section 5.2-5.5 ablations under deterministic decoding produced
+Running the Section 5.3-5.6 ablations under deterministic decoding produced
 three separate runs of one identical configuration. Every correctness
 outcome agreed exactly across all three. The median latencies were
 **40.64 s, 3.11 s and 3.25 s** — a thirteen-fold spread on a pipeline that
@@ -34,8 +34,8 @@ Four things follow, and this script implements all four.
 3.  **Retrieved context size is recorded per request.** Generation time on
     CPU is dominated by prompt processing, so context length is the
     explanatory variable behind the k=3 versus k=10 gap. Recording it turns
-    Section 5.8 from a table of durations into a statement about what drives
-    them, and lets `--k` produce the latency-versus-k curve that Section 5.5
+    Section 5.9 from a table of durations into a statement about what drives
+    them, and lets `--k` produce the latency-versus-k curve that Section 5.9
     needs in order to state the true cost of raising k.
 
 4.  **The threshold is disabled throughout.** A refused query returns in
@@ -444,7 +444,7 @@ def main():
         print("causes, in order: the model was evicted and reloaded mid-run; thermal")
         print("throttling under sustained CPU load; another process competing for")
         print("memory. Re-run with --cooldown 30 and nothing else running before")
-        print("quoting any of these numbers in Section 5.8.")
+        print("quoting any of these numbers in Section 5.9.")
     else:
         print(f"\nAll conditions stable across blocks (drift ratio <= {DRIFT_LIMIT}).")
 
