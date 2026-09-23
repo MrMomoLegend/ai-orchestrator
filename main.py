@@ -15,11 +15,11 @@ Run with:   uvicorn main:app --reload
 Docs at:    http://127.0.0.1:8000/docs
 """
 
+import hashlib
 import os
 import re
 import time
 import tempfile
-import uuid
 from typing import Any, Dict, List, Optional
 
 import chromadb
@@ -284,6 +284,30 @@ def _recursive_split(text: str, seps: List[str]) -> List[str]:
 CHUNKERS = {"sentence": chunk_sentence, "fixed": chunk_fixed}
 
 
+def replace_document(collection, key: str, filename: str, chunks: List[str]) -> int:
+    """
+    Store `chunks` as the only copy of `filename` in `collection`.
+
+    Ingestion is idempotent: any chunks previously stored under the same
+    file name are deleted first, and the new ones get deterministic ids
+    derived from the name, so uploading a file twice (or re-running
+    ingest.py without --reset) replaces it instead of duplicating it.
+    Duplicated chunks would fill the top-k with copies of one passage.
+
+    Returns how many old chunks were replaced (0 for a new document).
+    """
+    old = collection.get(where={"source": filename}, include=["metadatas"])["ids"]
+    if old:
+        collection.delete(ids=old)
+    prefix = hashlib.sha1(filename.encode("utf-8")).hexdigest()[:12]
+    collection.add(
+        documents=chunks,
+        metadatas=[{"source": filename} for _ in chunks],
+        ids=[f"{prefix}-{key}-{i}" for i in range(len(chunks))],
+    )
+    return len(old)
+
+
 # --------------------------------------------------------------------------
 # Document text extraction
 # --------------------------------------------------------------------------
@@ -521,27 +545,24 @@ async def upload(document: UploadFile = File(...)):
     finally:
         os.remove(path)
 
-    batch = uuid.uuid4().hex[:8]
-    added = {}
-    for key, chunker in CHUNKERS.items():
-        chunks = chunker(text)
-        if not chunks:
-            continue
-        get_collection(key).add(
-            documents=chunks,
-            metadatas=[{"source": filename} for _ in chunks],
-            ids=[f"{batch}-{key}-{i}" for i in range(len(chunks))],
-        )
-        added[key] = len(chunks)
-
-    if not added:
+    # Chunk first, so an empty document is rejected before anything
+    # already stored under its name is deleted.
+    chunked = {key: chunker(text) for key, chunker in CHUNKERS.items()}
+    chunked = {key: chunks for key, chunks in chunked.items() if chunks}
+    if not chunked:
         raise HTTPException(422, "That document appears to be empty.")
+
+    added, replaced = {}, {}
+    for key, chunks in chunked.items():
+        replaced[key] = replace_document(get_collection(key), key, filename, chunks)
+        added[key] = len(chunks)
 
     return {
         "filename": filename,
         "characters": len(text),
         "chunks_added": added.get(DEFAULT_COLLECTION, 0),
         "chunks_added_by_strategy": added,
+        "chunks_replaced": replaced.get(DEFAULT_COLLECTION, 0),
         "chunks_in_corpus": get_collection().count(),
     }
 

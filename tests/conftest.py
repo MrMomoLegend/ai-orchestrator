@@ -47,6 +47,7 @@ class FakeCollection:
         n = len(self.distances)
         self.documents = list(documents) if documents else [f"chunk {i}" for i in range(n)]
         self.sources = list(sources) if sources else ["doc.txt"] * n
+        self.ids = [f"seed-{i}" for i in range(n)]
         self.calls = []
         self.added = []
 
@@ -63,10 +64,26 @@ class FakeCollection:
         self.added.append({"documents": list(documents), "ids": list(ids)})
         self.documents.extend(documents)
         self.sources.extend(m.get("source", "unknown") for m in metadatas)
+        self.ids.extend(ids)
 
-    def get(self, include=None):
-        """Only /documents calls this, and only for metadatas."""
-        return {"metadatas": [{"source": s} for s in self.sources]}
+    def get(self, where=None, include=None):
+        """/documents lists every source; upload looks up one file's chunks."""
+        keep = [
+            i for i, s in enumerate(self.sources)
+            if where is None or s == where.get("source")
+        ]
+        return {
+            "ids": [self.ids[i] for i in keep],
+            "metadatas": [{"source": self.sources[i]} for i in keep],
+        }
+
+    def delete(self, ids):
+        """Upload deletes a file's old chunks before storing the new ones."""
+        drop = set(ids)
+        keep = [i for i, x in enumerate(self.ids) if x not in drop]
+        self.ids = [self.ids[i] for i in keep]
+        self.documents = [self.documents[i] for i in keep]
+        self.sources = [self.sources[i] for i in keep]
 
     def count(self):
         return len(self.documents)

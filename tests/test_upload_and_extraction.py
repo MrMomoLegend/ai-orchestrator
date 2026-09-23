@@ -70,6 +70,30 @@ def test_uploaded_chunk_ids_are_unique_per_strategy(client, collections_by_key):
     assert not set(sentence_ids) & set(fixed_ids)
 
 
+def test_reuploading_a_document_replaces_rather_than_duplicates(client, collections_by_key):
+    """
+    Uploading the same file twice must leave exactly one copy of it.
+    Duplicated chunks retrieve together, so they crowd the top-k with copies
+    of one passage and silently shrink what the model is shown. A different
+    file must still be added alongside it, not treated as a replacement.
+    """
+    text = ("Viterbi decoding finds the most likely state sequence. " * 40).encode()
+
+    def upload(name):
+        return client.post("/upload", files={"document": (name, text, "text/plain")}).json()
+
+    first = upload("hmm.txt")
+    second = upload("hmm.txt")
+
+    assert first["chunks_replaced"] == 0
+    assert second["chunks_replaced"] == first["chunks_added"] > 0
+    assert collections_by_key["sentence"].count() == first["chunks_added"]
+    assert collections_by_key["fixed"].count() == first["chunks_added_by_strategy"]["fixed"]
+
+    upload("other.txt")
+    assert collections_by_key["sentence"].count() == 2 * first["chunks_added"]
+
+
 # --------------------------------------------------------------------------
 # Error paths
 # --------------------------------------------------------------------------

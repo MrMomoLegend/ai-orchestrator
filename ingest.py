@@ -21,19 +21,21 @@ Usage
     python ingest.py                  # ingest ./docs
     python ingest.py --docs mydocs    # ingest a different folder
     python ingest.py --reset          # wipe and rebuild from scratch
+
+Re-running without --reset is safe: a file already in the collection is
+replaced, not duplicated (main.replace_document).
 """
 
 import argparse
 import os
 import sys
-import uuid
 from pathlib import Path
 
 import chromadb
 from chromadb.utils import embedding_functions
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from main import CHUNKERS, COLLECTIONS, DB_FOLDER, EMBED_MODEL, extract_text  # noqa: E402
+from main import CHUNKERS, COLLECTIONS, DB_FOLDER, EMBED_MODEL, extract_text, replace_document  # noqa: E402
 
 SUPPORTED = {".txt", ".md", ".markdown", ".pdf"}
 
@@ -81,14 +83,10 @@ def main():
             if not chunks:
                 print(f"  [{key}] {path.name}: no text extracted, skipped")
                 continue
-            batch = uuid.uuid4().hex[:8]
-            collection.add(
-                documents=chunks,
-                metadatas=[{"source": path.name} for _ in chunks],
-                ids=[f"{batch}-{i}" for i in range(len(chunks))],
-            )
+            replaced = replace_document(collection, key, path.name, chunks)
             total += len(chunks)
-            print(f"  [{key}] {path.name}: {len(chunks)} chunks")
+            note = f" (replaced {replaced})" if replaced else ""
+            print(f"  [{key}] {path.name}: {len(chunks)} chunks{note}")
 
         print(f"[{key}] collection '{name}' now holds {collection.count()} chunks\n")
 
