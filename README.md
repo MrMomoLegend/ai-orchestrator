@@ -60,7 +60,9 @@ logic, no streaming, no caching — made so the model integration is inspectable
 
 ## Setup
 
-Requires Python 3.11+, Node 18+, and [Ollama](https://ollama.com).
+Requires Python 3.12+ (the pinned `numpy==2.5.0` has no 3.11 wheel), Node 18+, and
+[Ollama](https://ollama.com). The first `python ingest.py` or `pytest` run downloads the
+all-MiniLM-L6-v2 embedding model from Hugging Face, so it needs internet once.
 
 ```bash
 git clone https://github.com/MrMomoLegend/ai-orchestrator.git
@@ -111,8 +113,12 @@ python eval/exp_retrieval.py                   # 5.8  precision@k, scored from t
 python eval/exp_latency.py --k 1,3,5,10        # 5.9  latency: run alone, nothing else on the GPU
 python eval/exp_squad.py --n 500               # 5.2  SQuAD 2.0 (seed 42)
 python eval/make_figures_v3.py                 # Figures 5.1-5.5
-pytest                                         # 65 unit tests, ~3 s, no Ollama needed
+pytest                                         # 66 unit tests, ~3 s, no Ollama needed
+pytest --cov=main --cov=ingest --cov-branch    # the same, with branch coverage (Section 4.7)
 ```
+
+On a fresh clone `pytest` reports 64 passed and 2 skipped: the live-collection
+distance-metric check needs `chroma_db/`, so run `python ingest.py` first to get all 66.
 
 Results land in `results/` as CSV. **Every script overwrites its own CSVs**, so copy
 `results/` before a rerun, and never rerun `exp_retrieval.py --label` (it rebuilds the
