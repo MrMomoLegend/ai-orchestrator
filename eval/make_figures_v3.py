@@ -50,6 +50,12 @@ def is_true(v):
     return str(v).strip().lower() in ("true", "1", "1.0")
 
 
+def cap_axis(ax, top, step):
+    """Ticks stop at the largest possible value (100% or n=15); headroom above is for labels only."""
+    ax.set_yticks(np.arange(0, top + step / 2, step))
+    ax.spines["left"].set_bounds(0, top)
+
+
 def labelled(b, ax, texts):
     for rect, t in zip(b, texts):
         ax.annotate(t, (rect.get_x() + rect.get_width() / 2, rect.get_height()),
@@ -85,6 +91,7 @@ def fig_rag():
     ax.set_xticks(x)
     ax.set_xticklabels(conds)
     ax.set_ylim(0, 125)
+    cap_axis(ax, 100, 20)
     ax.legend(frameon=False, fontsize=8.5, loc="upper center", ncol=3)
     style(ax, "Percentage of questions", "Retrieval grounding against ungrounded generation (n=30)")
     save(fig, "fig5_1_rag_on_off.png")
@@ -143,6 +150,7 @@ def fig_threshold():
     ax1.set_xticks(x)
     ax1.set_xticklabels(conds)
     ax1.set_ylim(0, 18.5)
+    cap_axis(ax1, 15, 3)
     ax1.legend(frameon=False, fontsize=8, loc="upper center", ncol=3)
     style(ax1, "Questions (of 15 per category)", "Outcomes")
 
@@ -157,6 +165,7 @@ def fig_threshold():
     ax2.set_xticks(x)
     ax2.set_xticklabels(conds)
     ax2.set_ylim(0, 22)
+    ax2.set_yticks(np.arange(0, 21, 5))
     ax2.legend(frameon=False, fontsize=8, loc="upper center")
     style(ax2, "Declined responses", "Where declining happens")
     fig.suptitle("Retrieval-confidence threshold on against off", fontsize=11)
@@ -181,6 +190,7 @@ def fig_chunking():
     ax.set_xticks(x)
     ax.set_xticklabels(conds)
     ax.set_ylim(0, 18.5)
+    cap_axis(ax, 15, 3)
     ax.legend(frameon=False, fontsize=8.5, ncol=4, loc="upper center")
     style(ax, "Questions (of 15 per category)", "Fixed-size against sentence-aware chunking")
     save(fig, "fig5_4_chunking_ablation.png")
@@ -208,6 +218,7 @@ def fig_topk():
     ax.set_xlim(0.4, 11.2)
     ax.set_xlabel("k (passages retrieved)")
     ax.set_ylim(-1, 17)
+    cap_axis(ax, 15, 3)
     ax.legend(frameon=False, fontsize=8.5, loc="center right")
     style(ax, "Questions (of 15 per category)", "Effect of k on answer coverage and refusal behaviour")
     save(fig, "fig5_5_topk_sweep.png")
