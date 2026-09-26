@@ -7,7 +7,7 @@ changes; nothing here is done by hand.
 
 Audio format
 ------------
-Record however is convenient — .m4a from a phone or Windows Voice Recorder,
+Record however is convenient: .m4a from a phone or Windows Voice Recorder,
 .wav, .mp3, .ogg, .flac, .webm. The script converts every clip once to
 16 kHz mono 16-bit PCM WAV in audio_16k/ and feeds *both* engines that same
 converted file.

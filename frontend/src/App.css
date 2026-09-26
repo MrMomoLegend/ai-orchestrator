@@ -208,7 +208,7 @@ button:disabled { cursor: not-allowed; }
 .record .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--bad); animation: pulse 1.2s ease-in-out infinite; }
 @keyframes pulse { 50% { opacity: 0.35; } }
 
-/* RAG toggle — compact, sits where a model picker would */
+/* RAG toggle: compact, sits where a model picker would */
 .toggle {
   display: inline-flex;
   align-items: center;

@@ -80,7 +80,7 @@ Thumbs.db
 desktop.ini
 
 # --- Secrets ---------------------------------------------------------------
-# Nothing in this project eeds a key (it makes no external API calls), but
+# Nothing in this project needs a key (it makes no external API calls), but
 # this guards against a stray .env if that ever changes.
 .env
 .env.*

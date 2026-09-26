@@ -51,7 +51,7 @@ WHISPER_BEAM = 5
 #
 # Ollama's default temperature is 0.8. Every ablation in Chapter 5 is a
 # comparison between two configurations, and under stochastic decoding it is
-# also a comparison between ttwo samples, which makes a small effect and a
+# also a comparison between two samples, which makes a small effect and a
 # large one indistinguishable from a single run each.
 #
 # This was not a hypothetical. The threshold and chunking experiments each
@@ -536,7 +536,7 @@ async def upload(document: UploadFile = File(...)):
     Add a document to the corpus (FR3).
 
     Ingests into BOTH collections so the chunking ablation stays valid for
-    anything uploaded through the interface, not just the seed corpus.result
+    anything uploaded through the interface, not just the seed corpus.
     """
     filename = document.filename or "untitled"
     path = await save_upload(document)

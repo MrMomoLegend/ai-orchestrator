@@ -1,5 +1,5 @@
 """
-escore.py: re-apply corrected ground-truth labels to responses already collected.
+rescore.py: re-apply corrected ground-truth labels to responses already collected.
 
 Why this exists
 ---------------

@@ -11,7 +11,7 @@ ax.set_xlim(0,110); ax.set_ylim(0,68); ax.axis('off')
 
 # local boundary
 ax.add_patch(Rectangle((3,2),104,58, fill=False, ls=(0,(6,4)), lw=2.0, ec='#B03030'))
-ax.text(5.5,60.6,'LOCAL MACHINE :  no external API calls', ha='left', va='bottom',
+ax.text(5.5,60.6,'LOCAL MACHINE: no external API calls', ha='left', va='bottom',
         fontsize=10.5, color='#B03030', fontweight='bold')
 
 def box(x,y,w,h,title,sub='',fc='white',ec=ACC,tc=ACC,fs=10.5):
