@@ -4,7 +4,7 @@ FastAPI orchestration backend.
 
 Day 4 (Fri 14 Aug): the two limitations identified in the preliminary
 report are fixed, and both are switchable per request so the ablations in
-Sections 5.3 and 5.4 measure one code path rather than two forks.
+Sections 5.4 and 5.5 measure one code path rather than two forks.
 
   1. Refusal now triggers on retrieval confidence, before the LLM is called,
      rather than relying on the model to notice the context is insufficient.
@@ -38,7 +38,7 @@ DB_FOLDER = "chroma_db"
 
 # k=10 is the shipped default. k=3 was inherited from the prototype without
 # evidence; a sweep on the development corpus moved it to 10, and Section 5.6
-# re-tested it on the public evaluation corpus with k frozen: answered
+# re-tested it on the public evaluation corpus without re-tuning: answered
 # questions rose 6 -> 11 -> 12 -> 13 of 15 at k = 1, 3, 5, 10, with no
 # unsupported answer at any k, for about 0.8 s of extra median latency
 # between k=3 and k=10 (Section 5.9).
@@ -382,9 +382,9 @@ def answer_question(
     than a different implementation.
     """
     t0 = time.time()
-    # Treat 0 and "" as "not supplied". top_k=0 retrieves nothing and
+    # Treat top_k=0 and collection="" as "not supplied": top_k=0 retrieves
     # threshold=0 refuses everything, so a client that sends placeholder
-    # zeroes would silently get a broken result rather than an error.
+    # the threshold sweep (Section 4.5) can read distances without generating.
     top_k = TOP_K if not top_k else top_k
     use_threshold = USE_THRESHOLD if use_threshold is None else use_threshold
     threshold = DISTANCE_THRESHOLD if threshold is None else threshold
