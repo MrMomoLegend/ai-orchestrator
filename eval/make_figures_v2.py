@@ -1,5 +1,5 @@
 """
-make_figures_v2.py — Chapter 5 figures from the rescored (corrected-label) results.
+make_figures_v2.py: Chapter 5 figures from the rescored (corrected-label) results.
 
 Run after rescore.py. Every figure is regenerated from the CSVs, so a change
 to the data always propagates to the report.
@@ -61,7 +61,7 @@ def fig_rag():
     # which reported coverage as though it were accuracy.
     cover = [frac(v) for v in df["answered_when_it_should"]]
     # Correctness is scored over the responses each configuration actually
-    # produced, not over all 15 answerable questions — a refused question
+    # produced, not over all 15 answerable questions, because a refused question
     # yields no answer to judge. The denominators therefore differ between
     # conditions, and the caption must say so.
     acc = []
@@ -183,4 +183,4 @@ if __name__ == "__main__":
                 "Fixed-size versus sentence-aware chunking",
                 "fig5_4_chunking_ablation.png")
     fig_topk()
-    print(f"\nDone — {FIGS}")
+    print(f"\nDone: {FIGS}")

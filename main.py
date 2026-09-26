@@ -1,5 +1,5 @@
 """
-main.py — Locally-Deployed AI Orchestration System
+main.py: Locally-Deployed AI Orchestration System
 FastAPI orchestration backend.
 
 Day 4 (Fri 14 Aug): the two limitations identified in the preliminary
@@ -51,7 +51,7 @@ WHISPER_BEAM = 5
 #
 # Ollama's default temperature is 0.8. Every ablation in Chapter 5 is a
 # comparison between two configurations, and under stochastic decoding it is
-# also a comparison between two samples — which makes a small effect and a
+# also a comparison between ttwo samples, which makes a small effect and a
 # large one indistinguishable from a single run each.
 #
 # This was not a hypothetical. The threshold and chunking experiments each
@@ -93,7 +93,7 @@ CHUNK_OVERLAP = 50
 # --------------------------------------------------------------------------
 # App
 # --------------------------------------------------------------------------
-app = FastAPI(title="AI Orchestrator — Local RAG + Speech")
+app = FastAPI(title="AI Orchestrator: Local RAG + Speech")
 
 app.add_middleware(
     CORSMiddleware,
@@ -134,7 +134,7 @@ def get_collection(key: str = None):
 
 
 # --------------------------------------------------------------------------
-# Whisper — loaded lazily
+# Whisper (loaded lazily)
 # --------------------------------------------------------------------------
 _whisper_model = None
 
@@ -173,7 +173,7 @@ async def save_upload(upload: UploadFile) -> str:
 
 
 # --------------------------------------------------------------------------
-# Chunking — the Section 5.5 ablation
+# Chunking: the Section 5.5 ablation
 # --------------------------------------------------------------------------
 def chunk_fixed(text: str) -> List[str]:
     """
@@ -480,7 +480,7 @@ class Query(BaseModel):
     collection: Optional[str] = None
 
     # Without this, Swagger's "Try it out" pre-fills every optional field with
-    # a placeholder — collection: "string", top_k: 0, threshold: 0 — which is
+    # a placeholder (collection: "string", top_k: 0, threshold: 0), which is
     # rejected as an unknown collection and looks like a bug in the endpoint.
     model_config = {
         "json_schema_extra": {
@@ -536,7 +536,7 @@ async def upload(document: UploadFile = File(...)):
     Add a document to the corpus (FR3).
 
     Ingests into BOTH collections so the chunking ablation stays valid for
-    anything uploaded through the interface, not just the seed corpus.
+    anything uploaded through the interface, not just the seed corpus.result
     """
     filename = document.filename or "untitled"
     path = await save_upload(document)
@@ -593,7 +593,7 @@ async def ask_audio(audio: UploadFile = File(...), use_rag: bool = Form(True)):
 
     The transcript is returned alongside the answer. This is a transparency
     feature, not debug output: it is what lets the user tell a transcription
-    failure apart from a retrieval failure — a distinction that matters most
+    failure apart from a retrieval failure, a distinction that matters most
     on technical vocabulary, where Section 5.7 measured the highest word
     error rate.
     """

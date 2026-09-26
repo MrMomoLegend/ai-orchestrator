@@ -1,5 +1,5 @@
 """
-exp_retrieval.py — Section 5.8, retrieval precision@k.
+exp_retrieval.py: Section 5.8, retrieval precision@k.
 
 Measures the retrieval step on its own, with no language model involved.
 This matters because Section 2.4 establishes that answer quality in a
@@ -12,7 +12,7 @@ Run once with --label to generate a worksheet listing, for each query, the
 top 10 retrieved chunks. Mark each 1 (relevant) or 0 (not), then rerun
 without --label to score.
 
-The labelling is done by one person — the author — who also wrote the
+The labelling is done by one person (the author), who also wrote the
 queries. That is a real limitation and Section 5.8 should name it rather
 than hope nobody asks.
 
@@ -60,7 +60,7 @@ QUERIES = [
 
 def retrieve(query, k=MAX_K):
     """
-    Retrieval only — threshold=0.0 forces a refusal before the LLM is called,
+    Retrieval only: threshold=0.0 forces a refusal before the LLM is called,
     so the API returns the retrieved chunks and distances in milliseconds.
     """
     r = requests.post(f"{API}/ask", json={
@@ -92,7 +92,7 @@ def build_worksheet():
     print(f"\nNow open {LABELS} and put 1 or 0 in the 'relevant' column")
     print("for every row, then rerun this script without --label.")
     print("\nJudge relevance as: could this passage alone support an answer")
-    print("to the query? Apply the same rule to every row — drifting standards")
+    print("to the query? Apply the same rule to every row; drifting standards")
     print("between the top and bottom of the file is the main risk here.")
 
 
@@ -132,7 +132,7 @@ def score():
     print("=" * 52)
     print(out.to_string(index=False))
     print("\nPrecision falling as k rises is expected and not a problem in")
-    print("itself — what matters is whether k=3 captures the relevant passage")
+    print("itself; what matters is whether k=3 captures the relevant passage")
     print("often enough. Read this against the top-k sweep in Section 5.6:")
     print("precision here, answer quality there.")
 

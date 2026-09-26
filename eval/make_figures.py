@@ -1,5 +1,5 @@
 """
-make_figures.py — every Chapter 5 figure, from the results CSVs.
+make_figures.py: every Chapter 5 figure, from the results CSVs.
 
 Rerun this after any experiment reruns. No figure in the report should be
 built by hand: when a number changes, the figure has to change with it, and
@@ -224,7 +224,7 @@ def main():
     fig_squad()
     fig_sus()
     print(f"\nAll figures in {FIGS}")
-    print("Paste them straight into Chapter 5 — they are 300 dpi.")
+    print("Paste them straight into Chapter 5; they are 300 dpi.")
 
 
 if __name__ == "__main__":

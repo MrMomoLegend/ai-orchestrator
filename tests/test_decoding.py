@@ -6,7 +6,7 @@ strongest methodological point in the evaluation and it was found by
 accident rather than by design.
 
 The threshold experiment and the chunking experiment each contain a
-condition with identical parameters — RAG on, threshold on, sentence
+condition with identical parameters: RAG on, threshold on, sentence
 collection, default k. The same configuration was therefore measured
 twice, in two separate runs, and the two runs disagreed:
 
@@ -19,7 +19,7 @@ Two of fifteen. Most of the effects reported in Sections 5.4 and 5.5 are
 of that size or smaller, so under stochastic decoding they were not
 separable from run-to-run variance.
 
-Nothing here asserts that llama3.1 is bit-for-bit reproducible — that is
+Nothing here asserts that llama3.1 is bit-for-bit reproducible; that is
 a property of the runtime, not of this code. What these tests pin is that
 the system *asks* for deterministic decoding on every generation path. A
 call site that silently omits the options would reintroduce the variance

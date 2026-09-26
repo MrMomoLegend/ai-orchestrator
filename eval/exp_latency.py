@@ -1,5 +1,5 @@
 """
-exp_latency.py — Section 5.9, end-to-end latency.
+exp_latency.py: Section 5.9, end-to-end latency.
 
 The preliminary report set a sub-10-second non-functional requirement and
 measured ~15 s steady state on the prototype. This is where that NFR is met
@@ -10,7 +10,7 @@ Why this script is not a simple timing loop
 Running the Section 5.3-5.6 ablations under deterministic decoding produced
 three separate runs of one identical configuration. Every correctness
 outcome agreed exactly across all three. The median latencies were
-**40.64 s, 3.11 s and 3.25 s** — a thirteen-fold spread on a pipeline that
+**40.64 s, 3.11 s and 3.25 s**, a thirteen-fold spread on a pipeline that
 was, by its own outputs, doing precisely the same work.
 
 Latency on a single laptop is therefore not a property of the
@@ -153,7 +153,7 @@ def unload_models(wait_s=20):
         if state == "none":
             return True
         if state == "unknown":
-            return False        # no CLI — cannot verify, so do not claim it
+            return False        # no CLI: cannot verify, so do not claim it
         time.sleep(1)
     return False
 
@@ -163,7 +163,7 @@ def set_model(model):
     Point the backend at a different model.
 
     LLM_MODEL is read at import, so the backend must be restarted between
-    models. The script cannot do that for you — it prompts, which is honest
+    models. The script cannot do that for you; it prompts, which is honest
     about what it controls.
     """
     health = requests.get(f"{API}/health", timeout=10).json()
@@ -175,7 +175,7 @@ def set_model(model):
     input("  Press Enter once it has restarted... ")
     health = requests.get(f"{API}/health", timeout=10).json()
     if health["llm"] != model:
-        print(f"  Backend still reports {health['llm']} — skipping {model}.")
+        print(f"  Backend still reports {health['llm']}; skipping {model}.")
         return False
     return True
 
@@ -213,7 +213,7 @@ def run_model(model, questions, ks, repeats, warmup, cooldown):
         # ---- cold start: one measured request against an unloaded model ----
         cold_ok = unload_models()
         if not cold_ok:
-            print("  (could not unload — cold-start figure is unreliable)")
+            print("  (could not unload, so the cold-start figure is unreliable)")
         time.sleep(2)
 
         cold = measure(questions[0], k, t_start)
@@ -310,7 +310,7 @@ def _ols(xs, ys):
 
 def context_fit(df):
     """
-    Relate generation time to retrieved context length — the mechanism behind
+    Relate generation time to retrieved context length, the mechanism behind
     the k comparison. On CPU, prompt processing is roughly linear in context,
     so raising k should cost in proportion to the characters it adds.
 
@@ -372,7 +372,7 @@ def main():
     models = []
     for m in requested:
         if have and m not in have:
-            print(f"  skipping {m} — not installed (ollama pull {m})")
+            print(f"  skipping {m}: not installed (ollama pull {m})")
             continue
         models.append(m)
     if not models:
@@ -419,7 +419,7 @@ def main():
 
     per_condition, per_request = context_fit(df)
     if per_condition:
-        print(f"\nGeneration time vs retrieved context — per condition "
+        print(f"\nGeneration time vs retrieved context, per condition "
               f"(n={per_condition['n']} k values, medians):")
         print(f"  {per_condition['slope_s_per_1000_chars']} s per 1000 characters, "
               f"intercept {per_condition['intercept_s']} s, "
@@ -435,7 +435,7 @@ def main():
     unstable = s[~s["stable"].astype(bool)]
     if len(unstable):
         print("\n" + "!" * 76)
-        print("DRIFT DETECTED — the pooled figures above are not a steady state.")
+        print("DRIFT DETECTED: the pooled figures above are not a steady state.")
         print("!" * 76)
         for _, r in unstable.iterrows():
             print(f"  {r['model']} k={r['k']}: block medians {r['block_medians']} "
@@ -448,7 +448,7 @@ def main():
     else:
         print(f"\nAll conditions stable across blocks (drift ratio <= {DRIFT_LIMIT}).")
 
-    print("\nReport cold start and steady state separately — they are different user")
+    print("\nReport cold start and steady state separately; they are different user")
     print("experiences. If the median misses the NFR, revise the NFR with these")
     print("figures and state the quality trade-off of any model you switch to.")
 

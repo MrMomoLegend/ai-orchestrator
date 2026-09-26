@@ -11,7 +11,7 @@ ax.set_xlim(0,110); ax.set_ylim(0,68); ax.axis('off')
 
 # local boundary
 ax.add_patch(Rectangle((3,2),104,58, fill=False, ls=(0,(6,4)), lw=2.0, ec='#B03030'))
-ax.text(5.5,60.6,'LOCAL MACHINE  —  no external API calls', ha='left', va='bottom',
+ax.text(5.5,60.6,'LOCAL MACHINE :  no external API calls', ha='left', va='bottom',
         fontsize=10.5, color='#B03030', fontweight='bold')
 
 def box(x,y,w,h,title,sub='',fc='white',ec=ACC,tc=ACC,fs=10.5):
@@ -83,9 +83,9 @@ tasks=[
  ('Llama 3.1 + RAG prototype; PPR (W10)',9,10,9,10),
  ('Whisper integration; end-to-end voice',11,12,17,17),
  ('React frontend; integration polish',13,15,17,17),
- ('Evaluation harness + experiments 5.2–5.6',16,17,17,18),
+ ('Evaluation harness + experiments 5.2-5.6',16,17,17,18),
  ('Draft report',17,18,17,18),
- ('Experiments 5.7–5.10; pytest suite',16,17,18,19),
+ ('Experiments 5.7-5.10; pytest suite',16,17,18,19),
  ('Improvements; exam prep',19,22,19,22),
  ('Final report, code, demo video',23,24,23,24),
 ]
@@ -106,9 +106,9 @@ for wk,lab in [(10,'PPR'),(18,'Draft'),(21,'Exam'),(24,'Final')]:
     ax.axvline(wk, color='#E0A030', ls=(0,(5,3)), lw=1.3)
     ax.text(wk, len(tasks)+0.85, lab, ha='center', fontsize=8.4, color='#7A4E00', fontweight='bold')
 h=[plt.Rectangle((0,0),1,1,color='#C9D2E4'), plt.Rectangle((0,0),1,1,color=ACC), plt.Rectangle((0,0),1,1,color='#C58A2E')]
-ax.legend(h,['Planned','Actual — on or ahead of plan','Actual — slipped'], loc='lower left',
+ax.legend(h,['Planned','Actual (on or ahead of plan)','Actual (slipped)'], loc='lower left',
           bbox_to_anchor=(0,-0.30), ncol=3, frameon=False, fontsize=8.8)
-ax.set_title('Project schedule: planned against actual (weeks 6–24)', fontsize=11.5, color=ACC, fontweight='bold', pad=22)
+ax.set_title('Project schedule: planned against actual (weeks 6-24)', fontsize=11.5, color=ACC, fontweight='bold', pad=22)
 plt.tight_layout()
 plt.savefig('figures/fig2_gantt.png', dpi=300, bbox_inches='tight', facecolor='white')
 print('gantt ok')

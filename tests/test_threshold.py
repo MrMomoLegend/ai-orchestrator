@@ -217,7 +217,7 @@ def test_model_judgement_refusal_is_labelled_distinctly(collection_at, monkeypat
 
 def test_ungrounded_requests_never_retrieve(collection_at, chat_spy):
     """
-    The 'RAG off' arm of Section 5.3. It must send the bare question — if
+    The 'RAG off' arm of Section 5.3. It must send the bare question. If
     any context leaked into the prompt, the 15/15 hallucination result
     would be measuring a weaker contrast than it claims.
     """

@@ -1,5 +1,5 @@
 """
-ingest.py — build the vector store from a folder of documents.
+ingest.py: build the vector store from a folder of documents.
 
 Creates TWO collections from the same source files:
 

@@ -5,7 +5,7 @@ Two principles hold across every test here:
 
 1. **No language model is called.** `ollama.chat` is replaced by a spy in
    every test that reaches the generation step. This is not only about
-   speed — several tests assert that the model was *not* consulted, which
+   speed: several tests assert that the model was *not* consulted, which
    is only meaningful if calls are observable.
 
 2. **No real vector store is queried.** The threshold tests stub the
@@ -135,7 +135,7 @@ def collection_at(monkeypatch):
 
 
 # ==========================================================================
-# Part 2 — HTTP layer, speech, and error paths
+# Part 2: HTTP layer, speech, and error paths
 # ==========================================================================
 #
 # Part 1 tested the orchestration function directly. These fixtures add the
@@ -145,7 +145,7 @@ def collection_at(monkeypatch):
 # a 400 rather than a 500, that the temporary file behind an upload is
 # always removed, and that a spoken question returns its transcript.
 #
-# The same two principles still hold — no language model is called, and no
+# The same two principles still hold: no language model is called, and no
 # real vector store is queried.
 
 from fastapi.testclient import TestClient  # noqa: E402

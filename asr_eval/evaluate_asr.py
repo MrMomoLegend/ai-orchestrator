@@ -1,5 +1,5 @@
 """
-evaluate_asr.py — Whisper vs Vosk word error rate on the project's own audio.
+evaluate_asr.py: Whisper vs Vosk word error rate on the project's own audio.
 
 Produces every number and figure needed for Section 5.7 of the report.
 Rerun it any time the audio, the Whisper model size, or the beam width
@@ -87,7 +87,7 @@ GROUP_LABELS = {
 # --------------------------------------------------------------------------
 def normalise(text: str) -> str:
     s = unicodedata.normalize("NFKC", str(text)).lower()
-    s = s.replace("’", "'").replace("‘", "'")
+    s = s.replace("\u2019", "'").replace("\u2018", "'")
     s = re.sub(r"[^a-z0-9' ]+", " ", s)
     return re.sub(r"\s+", " ", s).strip()
 
@@ -101,7 +101,7 @@ def resolve_clip(clip_id: str, filename: str):
 
     Tries the exact filename from references.csv first, then any file in
     audio/ whose stem matches the clip_id. That means you can record .m4a
-    and drop the files in without editing the CSV — the naming is what
+    and drop the files in without editing the CSV; the naming is what
     matters, not the extension.
     """
     exact = AUDIO_DIR / str(filename)
@@ -140,7 +140,7 @@ def convert_with_pyav(src: Path, dst: Path) -> None:
     Decode and resample with PyAV.
 
     PyAV ships as a dependency of faster-whisper, so if Whisper runs on this
-    machine, this works — no ffmpeg install, no PATH surgery on Windows.
+    machine, this works with no ffmpeg install and no PATH surgery on Windows.
     """
     import av
     import numpy as np
@@ -313,7 +313,7 @@ def main():
             continue
         secs = wav_seconds(wav)
         if secs < 0.5:
-            failed.append(f"{src.name}: only {secs:.2f}s of audio — silent or clipped?")
+            failed.append(f"{src.name}: only {secs:.2f}s of audio. Silent or clipped?")
             continue
         prepared[clip_id] = wav
         tag = "" if src is wav else f"  <- {src.suffix}"

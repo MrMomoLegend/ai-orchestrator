@@ -13,7 +13,7 @@ import main
 
 
 # --------------------------------------------------------------------------
-# /health — the configuration the system advertises about itself
+# /health: the configuration the system advertises about itself
 # --------------------------------------------------------------------------
 def test_health_reports_the_shipped_configuration(client, collection_at, monkeypatch):
     """
@@ -69,7 +69,7 @@ def test_health_survives_an_unreachable_vector_store(client, monkeypatch):
 
 
 # --------------------------------------------------------------------------
-# /ask — rejection before work is done
+# /ask: rejection before work is done
 # --------------------------------------------------------------------------
 def test_empty_question_is_rejected_before_retrieval(client, chat_spy, collection_at):
     """An empty question must cost nothing: no retrieval, no generation."""
@@ -106,7 +106,7 @@ def test_missing_question_field_is_a_validation_error(client, chat_spy):
 
 
 # --------------------------------------------------------------------------
-# /ask — the response contract
+# /ask: the response contract
 # --------------------------------------------------------------------------
 EXPECTED_KEYS = {
     "question", "use_rag", "answer", "refused", "refusal_reason",

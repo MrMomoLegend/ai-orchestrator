@@ -1,5 +1,5 @@
 """
-exp_squad.py — Section 5.2, SQuAD 2.0 Exact Match and F1.
+exp_squad.py: Section 5.2, SQuAD 2.0 Exact Match and F1.
 
 SQuAD 2.0 is the citable benchmark. Its unanswerable subset is the part that
 speaks to this project's thesis: those questions have a plausible-looking
@@ -160,7 +160,7 @@ def main():
 
         # The temporary collection is not one of the two named collections the
         # API exposes, so this reproduces answer_question()'s logic against it
-        # directly — same prompt, same top-k, same threshold as the live system.
+        # directly, with the same prompt, top-k and threshold as the live system.
         res = coll.query(query_texts=[item["question"]], n_results=TOP_K)
         chunks = res["documents"][0]
         dists = [float(d) for d in res["distances"][0]]
@@ -249,7 +249,7 @@ def main():
     print("SQuAD 2.0 RESULTS")
     print("=" * 52)
     print(s.to_string(index=False))
-    print("\nReport the unanswerable subset separately — it is the part that")
+    print("\nReport the unanswerable subset separately; it is the part that")
     print("speaks to the thesis. Note in Section 5.2 that SQuAD paragraphs are")
     print("short and clean relative to real course PDFs, so these figures are")
     print("an upper bound on performance over the project's own corpus.")

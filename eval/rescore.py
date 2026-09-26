@@ -1,5 +1,5 @@
 """
-rescore.py — re-apply corrected ground-truth labels to responses already collected.
+escore.py: re-apply corrected ground-truth labels to responses already collected.
 
 Why this exists
 ---------------
@@ -11,7 +11,7 @@ PDFs actually contain. Labelling from filenames was the mistake; every label is
 now verified by full-text search over the extracted corpus.
 
 Correcting a label is not correcting a result. The model's answers are unchanged
-and are not re-generated — only the ground truth they are scored against moves.
+and are not re-generated; only the ground truth they are scored against moves.
 That is why this rescores from the saved responses instead of re-running an hour
 of generation, and it is the honest way round: re-running after seeing the scores
 would invite the question of what else was tuned.
@@ -38,9 +38,9 @@ EXPERIMENTS = ["rag", "threshold", "chunking", "topk"]
 # Mapping them rather than dropping them means the corrected scoring uses
 # every answer that was actually generated, and nothing is quietly lost.
 ALIASES = {
-    "C01": "A15",   # TF-IDF          — present in 4 files
-    "C02": "A16",   # cosine similarity — present in 5 files
-    "C06": "A17",   # PPMI            — present in 7 files
+    "C01": "A15",   # TF-IDF          present in 4 files
+    "C02": "A16",   # cosine similarity present in 5 files
+    "C06": "A17",   # PPMI            present in 7 files
 }
 
 

@@ -1,5 +1,5 @@
 """
-exp_rag.py — experiments 5.2 to 5.5, all driven from one 30-question set.
+exp_rag.py: experiments 5.2 to 5.5, all driven from one 30-question set.
 
     5.2  RAG on vs RAG off          the headline result
     5.3  threshold on vs off        does the Day 4 fix work?
@@ -57,7 +57,7 @@ def load_questions():
 
 
 # --------------------------------------------------------------------------
-# Threshold tuning — no LLM calls needed
+# Threshold tuning (no LLM calls needed)
 #
 # The threshold decision depends only on the distance to the nearest chunk.
 # Sending threshold=0.0 forces an immediate refusal, so the API returns the
@@ -83,7 +83,7 @@ def sweep(df, collection="sentence"):
     print(dist.groupby("category")["nearest_distance"]
           .describe()[["count", "min", "mean", "max"]].round(3).to_string())
 
-    print("\nThreshold sweep — what each cut-off would do:")
+    print("\nThreshold sweep (what each cut-off would do):")
     print(f"{'thresh':>7} {'refuse@answerable':>18} {'refuse@out':>11} "
           f"{'refuse@related':>15} {'balanced acc':>13}")
 
@@ -139,7 +139,7 @@ def sweep(df, collection="sentence"):
         print(f"OVERLAP: answerable reaches {a_max:.3f} but out-of-corpus starts "
               f"at {b_min:.3f}.")
         print("  No threshold separates them cleanly. Look at which specific")
-        print("  questions overlap — usually one badly-phrased question, not a")
+        print("  questions overlap: usually one badly-phrased question, not a")
         print("  property of the corpus.")
 
     c = dist[dist.category == "related_unanswerable"]["nearest_distance"]
@@ -150,7 +150,7 @@ def sweep(df, collection="sentence"):
         print("distance measures topical relatedness, not whether the answer is")
         print("present. Those questions retrieve the right section, which simply")
         print("does not contain the fact. The prompt instruction remains the")
-        print("second line of defence for them — the threshold and the prompt are")
+        print("second line of defence for them; the threshold and the prompt are")
         print("complementary layers, not alternatives.")
 
     print(f"\nSet it in main.py:  DISTANCE_THRESHOLD = {best.threshold:.2f}")
@@ -185,10 +185,10 @@ def run_condition(df, label, overrides):
             "total_s": r.get("total_s"),
             # Correct behaviour: refuse cleanly when it should, answer when it
             # should. A hedged answer to an unanswerable question is NOT correct
-            # behaviour — the content leaked regardless of the disclaimer.
+            # behaviour: the content leaked regardless of the disclaimer.
             "behaved_correctly": refused == (q.expected == "refuse"),
             # For answerable questions the answer's factual correctness still
-            # needs a human. Filled in by hand — see the Day 4 guide.
+            # needs a human. Filled in by hand (see the Day 4 guide).
             "answer_correct": "" if q.expected == "answer" else "n/a",
             "error": r.get("error", ""),
         })
@@ -246,7 +246,7 @@ def run_experiment(df, name):
         print("unanswerable questions the system answered anyway. Lower is better.")
     if name == "threshold":
         print("\nRead BOTH columns. A threshold that removes hallucinations by")
-        print("refusing everything has not worked — check false_refusals too.")
+        print("refusing everything has not worked; check false_refusals too.")
     return summary
 
 

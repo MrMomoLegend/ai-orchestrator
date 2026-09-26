@@ -4,7 +4,7 @@ BSc Computer Science final project (CM3070), University of London.
 **Author:** Mokith Maheshkumar · 230655577 · **Supervisor:** Dr Andrew Yoong
 
 A private, offline AI assistant that orchestrates three pre-trained models across three
-data modalities and answers questions from your own documents — or declines to answer
+data modalities and answers questions from your own documents, or declines to answer
 when they do not contain the answer. Every component runs on the local machine. No
 request leaves it at any point.
 
@@ -44,8 +44,8 @@ Results and ablations are in `results/` and Chapter 5 of the report.
 ```
 
 Orchestration is written directly in FastAPI rather than delegated to LangChain, so every
-stage of the pipeline is visible in one function. That is a deliberate trade — no retry
-logic, no streaming, no caching — made so the model integration is inspectable.
+stage of the pipeline is visible in one function. That is a deliberate trade (no retry
+logic, no streaming, no caching), made so the model integration is inspectable.
 
 ## Endpoints
 
@@ -94,7 +94,7 @@ All defaults are set in `main.py` and overridable by environment variable.
 | `TOP_K` | `10` | Set on the development corpus; re-tested frozen in Section 5.6 |
 | `DISTANCE_THRESHOLD` | `0.53` | Cosine. Midpoint of the development-corpus separating margin (Section 4.5) |
 | `USE_THRESHOLD` | `1` | |
-| `COLLECTION` | `sentence` | `sentence` or `fixed` — the chunking ablation |
+| `COLLECTION` | `sentence` | `sentence` or `fixed` (the chunking ablation) |
 | `WHISPER_SIZE` | `base.en` | |
 
 ## Reproducing the evaluation
@@ -131,7 +131,7 @@ last two are the evidence for the decoding-variance finding in Section 5.11. `ma
 
 ```
 main.py              orchestration backend, all six endpoints, threshold logic
-ingest.py            extraction, chunking, embedding — builds both collections
+ingest.py            extraction, chunking, embedding; builds both collections
 frontend/            React single-page interface
 eval/                experiment scripts and the 30-question set
 asr_eval/            self-contained speech-recognition evaluation
@@ -144,7 +144,7 @@ archive/             superseded prototype scripts, kept for provenance
 Source code in this repository is the author's own work.
 
 The PDFs in `docs/` are Wikipedia articles and sections of *Dive into Deep Learning*
-(d2l.ai), redistributed unmodified under CC BY-SA 4.0 — see `docs/README.md`. Parameters
+(d2l.ai), redistributed unmodified under CC BY-SA 4.0 (see `docs/README.md`). Parameters
 were developed against an earlier course-reading corpus that is not redistributable and is
 not included in this repository or its history. Model weights (Llama 3.1, Whisper, Vosk,
 all-MiniLM-L6-v2) are downloaded at setup from their own sources under their own licences.

@@ -1,5 +1,5 @@
 """
-common.py — shared helpers for every Chapter 5 experiment.
+common.py: shared helpers for every Chapter 5 experiment.
 
 One HTTP client, one refusal detector, one results writer, so that every
 experiment measures the same running system through the same door. Nothing
@@ -53,7 +53,7 @@ def check_backend(require_chunks=True):
             f"{API}\nStart it with:  uvicorn main:app --reload"
         )
 
-    print(f"Backend OK — {health['llm']}, collections: {health.get('collections')}")
+    print(f"Backend OK: {health['llm']}, collections: {health.get('collections')}")
 
     if not require_chunks:
         return health
@@ -139,7 +139,7 @@ def classify(result):
          calculated as the product of two statistics ..."
 
     Scoring that as a refusal is wrong in the direction that flatters the
-    system — the number leaked. It is also the more dangerous failure in
+    system: the number leaked. It is also the more dangerous failure in
     practice, because the disclaimer reads as caution while the content is
     unsupported. Reporting it as a third outcome is both more honest and
     more interesting than folding it into either bucket.

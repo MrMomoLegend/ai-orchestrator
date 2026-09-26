@@ -1,4 +1,4 @@
-/* index.css — global reset only. All styling lives in App.css.
+/* index.css: global reset only. All styling lives in App.css.
    The Vite starter styles that used to be here switched to near-white
    headings when the operating system was in dark mode; they are removed. */
 html { color-scheme: light; }

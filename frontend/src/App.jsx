@@ -1,5 +1,5 @@
 /*
- * App.jsx — Locally-Deployed AI Orchestration System
+ * App.jsx: Locally-Deployed AI Orchestration System
  * Single-page React client for the FastAPI orchestration backend.
  *
  * Components map directly onto the functional requirements:
@@ -27,10 +27,10 @@ import "./App.css";
 const API = "http://127.0.0.1:8000";
 
 const STAGE_LABEL = {
-  uploading: "Adding your document…",
-  transcribing: "Transcribing what you said…",
-  retrieving: "Searching your documents…",
-  generating: "Generating an answer…",
+  uploading: "Adding your document...",
+  transcribing: "Transcribing what you said...",
+  retrieving: "Searching your documents...",
+  generating: "Generating an answer...",
 };
 
 /* Read FastAPI's error detail rather than showing "500". */
@@ -152,7 +152,7 @@ export default function App() {
         </div>
         <span className={`pill ${offline ? "pill-bad" : "pill-good"}`}>
           <span className="pill-dot" />
-          {backendUp === null ? "connecting…" : backendUp ? "running locally" : "offline"}
+          {backendUp === null ? "connecting..." : backendUp ? "running locally" : "offline"}
         </span>
       </header>
 
@@ -263,7 +263,7 @@ export default function App() {
 }
 
 /* ====================================================================== */
-/* FR3 — document upload                                                  */
+/* FR3: document upload                                                  */
 /* ====================================================================== */
 function DocumentPanel({ docs, chunkCount, disabled, inputRef, onStage, onError, onUploaded }) {
   const [dragging, setDragging] = useState(false);
@@ -282,7 +282,7 @@ function DocumentPanel({ docs, chunkCount, disabled, inputRef, onStage, onError,
       const res = await fetch(`${API}/upload`, { method: "POST", body: form });
       if (!res.ok) throw await apiError(res);
       const data = await res.json();
-      setNote(`Added “${data.filename}”: ${data.chunks_added} passages indexed.`);
+      setNote(`Added "${data.filename}": ${data.chunks_added} passages indexed.`);
       onUploaded();
     } catch (err) {
       onError({
@@ -395,7 +395,7 @@ function SystemPanel({ health }) {
 }
 
 /* ====================================================================== */
-/* FR1 — text input                                                        */
+/* FR1: text input                                                        */
 /* ====================================================================== */
 function QuestionInput({ value, onChange, disabled, onSubmit }) {
   return (
@@ -418,7 +418,7 @@ function QuestionInput({ value, onChange, disabled, onSubmit }) {
 }
 
 /* ====================================================================== */
-/* FR2 — voice input                                                       */
+/* FR2: voice input                                                       */
 /*                                                                         */
 /* Transcription and answering are two separate requests on purpose. The    */
 /* client genuinely knows when transcription has finished, so it can show   */
@@ -536,7 +536,7 @@ function RecordButton({ disabled, onStage, onError, onTranscript }) {
 }
 
 /* ====================================================================== */
-/* RAG toggle — drives the evaluation and the demonstration                */
+/* RAG toggle: drives the evaluation and the demonstration                */
 /* ====================================================================== */
 function RagToggle({ value, onChange, disabled }) {
   return (
@@ -574,7 +574,7 @@ function isGateRefusal(result) {
 }
 
 /* ====================================================================== */
-/* FR5 — the answer                                                        */
+/* FR5: the answer                                                        */
 /* ====================================================================== */
 function AnswerPanel({ result }) {
   return (
@@ -583,7 +583,7 @@ function AnswerPanel({ result }) {
 
       {result.transcript && (
         <p className="heard">
-          <span className="heard-label">Heard</span>“{result.transcript}”
+          <span className="heard-label">Heard</span>"{result.transcript}"
         </p>
       )}
 
@@ -613,14 +613,14 @@ function AnswerPanel({ result }) {
           )}
         </>
       ) : (
-        <p className="hint">Waiting for the answer…</p>
+        <p className="hint">Waiting for the answer...</p>
       )}
     </section>
   );
 }
 
 /* ====================================================================== */
-/* FR6 — source passages                                                   */
+/* FR6: source passages                                                   */
 /* ====================================================================== */
 function SourcePanel({ result }) {
   const { retrieved_chunks: chunks = [], sources = [], distances = [] } = result;

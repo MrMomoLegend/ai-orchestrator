@@ -2,7 +2,7 @@
 Tests for the distance metric (HANDOVER.md §8, first entry).
 
 ChromaDB defaults to **squared L2**, not cosine. Nothing warns you. The
-numbers that come back are plausible, monotonic and correctly ordered —
+numbers that come back are plausible, monotonic and correctly ordered;
 they are simply on a different scale, and a threshold of 0.53 tuned
 against cosine distances means something else entirely against squared L2.
 
@@ -12,7 +12,7 @@ For unit-length vectors the two are related by
 
 so the failure mode is a silent doubling. Every test below is built around
 a pair of orthogonal vectors, where cosine distance is 1.0 and squared L2
-is 2.0 — far enough apart that no rounding can disguise which metric ran.
+is 2.0, far enough apart that no rounding can disguise which metric ran.
 
 These tests use explicit embeddings rather than the sentence-transformer
 model, so they are deterministic, offline, and test Chroma's behaviour
@@ -25,7 +25,7 @@ from pathlib import Path
 import chromadb
 import pytest
 
-import ingest  # noqa: F401  — imported to assert it is wired to main's config
+import ingest  # noqa: F401  (imported to assert it is wired to main's config)
 import main
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -75,7 +75,7 @@ def test_cosine_space_puts_orthogonal_vectors_at_distance_one():
 
 def test_chroma_defaults_to_squared_l2_not_cosine():
     """
-    Not a test of our code — a test of the assumption our code exists to
+    Not a test of our code; a test of the assumption our code exists to
     defend against. If Chroma ever changed its default to cosine, this test
     would fail and the explicit metadata in `ingest.py` could be documented
     as belt-and-braces rather than load-bearing. Until then it stays
@@ -84,7 +84,7 @@ def test_chroma_defaults_to_squared_l2_not_cosine():
     d = _distances(_build(None))
 
     assert d[1] == pytest.approx(SQUARED_L2_APART, abs=1e-3), (
-        "Chroma's default distance is no longer squared L2 — re-read "
+        "Chroma's default distance is no longer squared L2; re-read "
         "HANDOVER.md §8 before trusting this suite's premise."
     )
     assert d[1] != pytest.approx(COSINE_APART, abs=1e-2)
@@ -106,7 +106,7 @@ def test_threshold_would_misclassify_under_the_wrong_metric():
     """
     The concrete consequence, stated as a test rather than a comment.
 
-    Under cosine, an orthogonal chunk sits at 1.0 — comfortably outside the
+    Under cosine, an orthogonal chunk sits at 1.0, comfortably outside the
     0.53 threshold, so the system refuses either way. The danger is the
     other direction: a *relevant* chunk at cosine distance 0.35 is well
     inside the threshold and answerable, but the same chunk under squared
@@ -115,7 +115,7 @@ def test_threshold_would_misclassify_under_the_wrong_metric():
     """
     coll = _build({"hnsw:space": "cosine"})
 
-    # cos_sim 0.65 with NEAR, 0.0 with FAR — the remainder is placed on the
+    # cos_sim 0.65 with NEAR, 0.0 with FAR; the remainder is placed on the
     # third axis so the two documents are not in competition. Putting it on
     # FAR's axis instead would make FAR the nearer chunk and quietly measure
     # the wrong document.
@@ -129,7 +129,7 @@ def test_threshold_would_misclassify_under_the_wrong_metric():
         f"under the {main.DISTANCE_THRESHOLD} threshold"
     )
     assert nearest * 2 > main.DISTANCE_THRESHOLD, (
-        "the same chunk under squared L2 would be refused — which is the "
+        "the same chunk under squared L2 would be refused, which is the "
         "silent failure this test exists to catch"
     )
 
@@ -138,7 +138,7 @@ def test_collections_created_on_demand_request_cosine(monkeypatch):
     """
     `main.get_collection` creates a collection when one is missing, so a
     fresh clone works before `ingest.py` has run. That creation path must
-    set cosine too — otherwise the metric depends on whether the collection
+    set cosine too; otherwise the metric depends on whether the collection
     happened to exist, which is the least debuggable kind of difference.
     """
     seen = {}
@@ -173,7 +173,7 @@ def test_ingest_builds_both_collections_from_mains_configuration():
 
 @pytest.mark.skipif(
     not (ROOT / "chroma_db").is_dir(),
-    reason="no local chroma_db — run `python ingest.py` first",
+    reason="no local chroma_db; run `python ingest.py` first",
 )
 @pytest.mark.parametrize("key", ["sentence", "fixed"])
 def test_the_live_collections_on_disk_are_cosine(key):
